@@ -13,6 +13,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - SSD with MobileNet1.0
     - YoloV3 with Darknet53
     - YoloV3 with MobileNet1.0
+    
+- B) TorchVision Finetune: credits https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
+    - Faster-RCNN with MobileNet2.0
       
 <br />
 <br />
@@ -20,7 +23,11 @@ A one-stop repository for low-code easily-installable object detection pipelines
 
 ## Installation
 - A) GluonCV Finetune
-      - Check - Monk_Object_Detection/1_gluoncv_finetune/installation/
+      - Check - Monk_Object_Detection/1_gluoncv_finetune/
+
+- B) TorchVision Finetune
+      - Check - Monk_Object_Detection/2_pytorch_finetune/
+      
 
 <br />
 <br />
