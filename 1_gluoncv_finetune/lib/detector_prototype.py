@@ -67,8 +67,11 @@ class Detector():
                     class_names.append(label);
                     bbox.append([x1, y1, x2, y2]);
                     ids.append(classes.index(label));
+
+                if(not os.path.isfile(self.system_dict["root"] + self.system_dict["img_dir"] + img_name)):
+                	continue;
                 
-                img = cv2.imread(self.system_dict["root"] + self.system_dict["img_dir"] + img_name);        
+                img = cv2.imread(self.system_dict["root"] + self.system_dict["img_dir"] + img_name); 
                 all_boxes = np.array(bbox);
                 all_ids = np.array(ids);
                 line = self.write_line(img_name, img.shape, all_boxes, all_ids, i)
