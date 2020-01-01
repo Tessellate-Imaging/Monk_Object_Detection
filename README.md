@@ -23,10 +23,10 @@ A one-stop repository for low-code easily-installable object detection pipelines
 
 ## Installation
 - A) GluonCV Finetune
-      - Check - Monk_Object_Detection/1_gluoncv_finetune/
+    - Check - Monk_Object_Detection/1_gluoncv_finetune/
 
 - B) TorchVision Finetune
-      - Check - Monk_Object_Detection/2_pytorch_finetune/
+    - Check - Monk_Object_Detection/2_pytorch_finetune/
       
 
 <br />
