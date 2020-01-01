@@ -30,6 +30,7 @@ For example for cuda 9.0
 <br />
 <br />
 ## Pipeline
+
 - Load Dataset
 
 `gtf.Dataset(root_dir, img_dir, anno_file, batch_size=batch_size);`
@@ -52,6 +53,7 @@ For example for cuda 9.0
 <br />
 <br />
 ## TODO
+
 - [x] Add SSD support
 - [x] Add YoloV3 support
 - [ ] Add support for Coco-Type Annotated Datasets
