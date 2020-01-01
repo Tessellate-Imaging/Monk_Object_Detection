@@ -8,6 +8,7 @@ jupyter
 notebook
 pandas
 matplotlib
+xmltodict
 
 mxnet-cu90
 gluoncv
