@@ -30,7 +30,9 @@ For example for cuda 9.0
 ## TODO
 - [x] Add SSD support
 - [x] Add YoloV3 support
-- [x] Add Faster-RCNN support
+- [ ] Add support for Coco-Type Annotated Datasets
+- [ ] Add support for VOC-Type Annotated Dataset
+- [ ] Add Faster-RCNN support
 - [ ] Test on Kaggle and Colab 
 - [ ] Add validation feature & data pipeline
 - [ ] Add Optimizer selection feature
