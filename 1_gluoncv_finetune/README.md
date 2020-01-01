@@ -29,6 +29,7 @@ For example for cuda 9.0
 <br />
 <br />
 <br />
+
 ## Pipeline
 
 - Load Dataset
@@ -52,6 +53,7 @@ For example for cuda 9.0
 <br />
 <br />
 <br />
+
 ## TODO
 
 - [x] Add SSD support
