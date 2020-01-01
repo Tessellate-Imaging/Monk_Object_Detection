@@ -1,5 +1,5 @@
 ## Project Details
-Pipeline based on GluonCV Fintuing project - https://gluon-cv.mxnet.io/build/examples_detection/index.html
+Pipeline based on GluonCV Fintuning project - https://gluon-cv.mxnet.io/build/examples_detection/index.html
 
 <br />
 <br />
@@ -59,9 +59,9 @@ For example for cuda 9.0
 - [x] Add SSD support
 - [x] Add YoloV3 support
 - [ ] Add support for Coco-Type Annotated Datasets
-- [ ] Add support for VOC-Type Annotated Dataset
+- [x] Add support for VOC-Type Annotated Dataset
 - [ ] Add Faster-RCNN support
-- [ ] Test on Kaggle and Colab 
+- [x] Test on Kaggle and Colab 
 - [ ] Add validation feature & data pipeline
 - [ ] Add Optimizer selection feature
 - [ ] Enable Learning-Rate Scheduler Support
