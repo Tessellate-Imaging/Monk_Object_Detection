@@ -1,0 +1,16 @@
+numpy
+scipy
+tqdm
+pillow
+opencv-python
+cython
+jupyter
+notebook
+pandas
+matplotlib
+
+mxnet-cu90
+gluoncv
+
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+
