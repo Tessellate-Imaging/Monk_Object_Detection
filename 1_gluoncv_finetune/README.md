@@ -26,7 +26,31 @@ For example for cuda 9.0
 `cat requirements_cuda9.0.txt | xargs -n 1 -L 1 pip install`
 
 
+<br />
+<br />
+<br />
+## Pipeline
+- Load Dataset
 
+`gtf.Dataset(root_dir, img_dir, anno_file, batch_size=batch_size);`
+
+- Load Model
+
+`gtf.Model(model_name, use_pretrained=pretrained, use_gpu=gpu);`
+
+- Set Hyper-parameter
+
+`gtf.Set_Learning_Rate(0.001);`
+
+- Train
+
+`gtf.Train(epochs, params_file);`
+
+
+
+<br />
+<br />
+<br />
 ## TODO
 - [x] Add SSD support
 - [x] Add YoloV3 support
