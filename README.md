@@ -4,6 +4,11 @@ A one-stop repository for low-code easily-installable object detection pipelines
 <br />
 <br />
 
+![Alt Text](Demo.gif)
+
+<br />
+<br />
+
 ## Pipelines presented as jupyter notebooks - see example_notebooks
 
 - A) GluonCV Finetune: credits https://gluon-cv.mxnet.io/build/examples_detection/index.html
