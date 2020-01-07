@@ -1,0 +1,10 @@
+opencv-python
+scipy
+mxnet-cu90
+cython
+
+opencv-python 
+matplotlib 
+pycocotools 
+tqdm
+dicttoxml

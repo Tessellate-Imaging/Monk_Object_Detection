@@ -1,0 +1,2 @@
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1NuoYeQVyZ4Cd-RDGE5IPTNx8E9GuKUGa' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1NuoYeQVyZ4Cd-RDGE5IPTNx8E9GuKUGa" -O pretrained/resnet-50-0000.params && rm -rf /tmp/cookies.txt
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1uOoU8KrIKenRH8CqPrkJd8KTGqmIxHDp' -O pretrained/resnet-50-symbol.json
