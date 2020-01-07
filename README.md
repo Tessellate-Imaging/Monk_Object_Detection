@@ -21,6 +21,11 @@ A one-stop repository for low-code easily-installable object detection pipelines
     
 - B) TorchVision Finetune: credits https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
     - Faster-RCNN with MobileNet2.0
+    
+- C) MX-RCNN: credits https://github.com/ijkguo/mx-rcnn
+    - Faster-RCNN with VGG16
+    - Faster-RCNN with Resnet50
+    - Faster-RCNN with Resnet101
       
 <br />
 <br />
@@ -32,6 +37,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
 
 - B) TorchVision Finetune
     - Check - Monk_Object_Detection/2_pytorch_finetune/
+    
+- C) MX-RCNN
+    - Check - Monk_Object_Detection/2_mxrcnn/
       
 
 <br />
