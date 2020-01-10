@@ -23,17 +23,7 @@ Supports
 
 - Load Dataset
 
-`
-root_dir = "../sample_dataset";
-
-coco_dir = "kangaroo";
-
-img_dir = "images";
-
-set_dir = "Images";
-
-gtf.Train_Dataset(root_dir, coco_dir, img_dir, set_dir, batch_size=8, image_size=512, use_gpu=True)
-`
+`gtf.Train_Dataset(root_dir="../sample_dataset", coco_dir="kangaroo", img_dir="images", set_dir="Train", batch_size=8, image_size=512, use_gpu=True)`
 
 - Load Model
 
