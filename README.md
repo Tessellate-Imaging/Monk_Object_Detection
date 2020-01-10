@@ -10,6 +10,8 @@ A one-stop repository for low-code easily-installable object detection pipelines
 <br />
 
 ## Pipelines presented as jupyter notebooks - see example_notebooks
+(See the licenses for each pipeline and use accordingly)
+
 
 - A) GluonCV Finetune: credits https://gluon-cv.mxnet.io/build/examples_detection/index.html
     - SSD with Vgg16
@@ -26,6 +28,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - Faster-RCNN with VGG16
     - Faster-RCNN with Resnet50
     - Faster-RCNN with Resnet101
+    
+- D) Efficient-Det: credits https://github.com/signatrix/efficientdet
+
       
 <br />
 <br />
@@ -39,8 +44,10 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - Check - Monk_Object_Detection/2_pytorch_finetune/
     
 - C) MX-RCNN
-    - Check - Monk_Object_Detection/2_mxrcnn/
+    - Check - Monk_Object_Detection/3_mxrcnn/
       
+- D) Efficient-Det
+    - Check - onk_Object_Detection/4_efficientdet/
 
 <br />
 <br />
