@@ -13,7 +13,7 @@ A one-stop repository for low-code easily-installable object detection pipelines
 (See the licenses for each pipeline and use accordingly)
 
 
-- A) GluonCV Finetune: credits https://gluon-cv.mxnet.io/build/examples_detection/index.html
+- A) GluonCV Finetune: Original -  https://gluon-cv.mxnet.io/build/examples_detection/index.html
     - SSD with Vgg16
     - SSD with Resnet50
     - SSD with Resnet101
@@ -21,15 +21,15 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - YoloV3 with Darknet53
     - YoloV3 with MobileNet1.0
     
-- B) TorchVision Finetune: credits https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
+- B) TorchVision Finetune: Original - https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
     - Faster-RCNN with MobileNet2.0
     
-- C) MX-RCNN: credits https://github.com/ijkguo/mx-rcnn
+- C) MX-RCNN: Original - https://github.com/ijkguo/mx-rcnn
     - Faster-RCNN with VGG16
     - Faster-RCNN with Resnet50
     - Faster-RCNN with Resnet101
     
-- D) Efficient-Det: credits https://github.com/signatrix/efficientdet
+- D) Efficient-Det: Original -  https://github.com/signatrix/efficientdet
 
       
 <br />
