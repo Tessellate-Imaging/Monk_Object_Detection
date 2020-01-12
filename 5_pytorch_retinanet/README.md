@@ -13,7 +13,7 @@ Supports
     
 `cd installation`
 
-`cat requirements_cuda9.txt | xargs -n 1 -L 1 pip install`
+`cat requirements.txt | xargs -n 1 -L 1 pip install`
 
 <br />
 <br />
