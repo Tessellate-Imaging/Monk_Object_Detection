@@ -47,7 +47,7 @@ Supports
 
 - [x] Add support for Coco-Type Annotated Datasets
 - [x] Add support for VOC-Type Annotated Dataset
-- [ ] Test on Kaggle and Colab 
+- [x] Test on Kaggle and Colab 
 - [ ] Add validation feature & data pipeline
 - [ ] Add Optimizer selection feature
 - [ ] Enable Learning-Rate Scheduler Support
