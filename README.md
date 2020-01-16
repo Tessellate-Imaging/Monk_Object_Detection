@@ -37,6 +37,10 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - Resnet50
     - Resnet101
     - Resnet152
+    
+- F) CornerNet-Lite: Original - https://github.com/princeton-vl/CornerNet-Lite
+    - CornerNet-Saccade
+    - CornerNet-Squeeze
 
       
 <br />
@@ -58,6 +62,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
     
 - E) Pytorch-Retinanet
     - Check - Monk_Object_Detection/5_pytorch_retinanet/
+    
+- F) CornerNet-Lite
+    - Check - Monk_Object_Detection/6_cornernet_lite/
 
 <br />
 <br />
