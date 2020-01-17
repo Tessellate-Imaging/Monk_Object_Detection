@@ -52,7 +52,7 @@ Select the right requirements file and run
 ## TODO
 
 - [x] Add Faster-RCNN support
-- [x] Add YoloV3 support
+- [ ] Add YoloV3 support
 - [ ] Add support for Coco-Type Annotated Datasets
 - [x] Add support for VOC-Type Annotated Dataset
 - [ ] Add support for Base Network Changes
