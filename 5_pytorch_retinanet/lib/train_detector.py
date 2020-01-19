@@ -1,4 +1,5 @@
 import collections
+import os
 
 import numpy as np
 
@@ -32,6 +33,7 @@ class Detector():
         self.system_dict["params"]["num_workers"] = 3;
         self.system_dict["params"]["use_gpu"] = True;
         self.system_dict["params"]["lr"] = 0.0001;
+        self.system_dict["params"]["gpu_devices"] = [0];
         self.system_dict["params"]["num_epochs"] = 10;
         self.system_dict["params"]["val_interval"] = 1;
         self.system_dict["params"]["print_interval"] = 20;
@@ -95,7 +97,7 @@ class Detector():
         print('Num validation images: {}'.format(len(self.system_dict["local"]["dataset_val"])))
 
 
-    def Model(self, model_name="resnet18"):
+    def Model(self, model_name="resnet18",gpu_devices=[0]):
 
         num_classes = self.system_dict["local"]["dataset_train"].num_classes();
         if model_name == "resnet18":
@@ -110,8 +112,14 @@ class Detector():
             retinanet = model.resnet152(num_classes=num_classes, pretrained=True)
 
         if self.system_dict["params"]["use_gpu"]:
-            retinanet = retinanet.cuda()
-            retinanet = torch.nn.DataParallel(retinanet).cuda()
+            self.system_dict["params"]["gpu_devices"] = gpu_devices
+            if len(self.system_dict["params"]["gpu_devices"])==1:
+                os.environ["CUDA_VISIBLE_DEVICES"] = str(self.system_dict["params"]["gpu_devices"][0])
+            else:
+                os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(id) for id in self.system_dict["params"]["gpu_devices"]])
+            self.system_dict["local"]["device"] = 'cuda' if torch.cuda.is_available() else 'cpu'
+            retinanet = retinanet.to(self.system_dict["local"]["device"])
+            retinanet = torch.nn.DataParallel(retinanet).to(self.system_dict["local"]["device"])
 
         retinanet.training = True
         retinanet.train()
@@ -150,7 +158,7 @@ class Detector():
                 try:
                     self.system_dict["local"]["optimizer"].zero_grad()
 
-                    classification_loss, regression_loss = self.system_dict["local"]["model"]([data['img'].cuda().float(), data['annot']])
+                    classification_loss, regression_loss = self.system_dict["local"]["model"]([data['img'].to(self.system_dict["local"]["device"]).float(),  data['annot'].to(self.system_dict["local"]["device"])])
 
                     classification_loss = classification_loss.mean()
                     regression_loss = regression_loss.mean()
