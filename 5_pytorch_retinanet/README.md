@@ -58,6 +58,6 @@ Supports
 - [ ] Add Graph Visualization Support
 - [ ] Enable batch proessing at inference
 - [ ] Add feature for top-k output visualization
-- [ ] Add Multi-GPU training
+- [x] Add Multi-GPU training (Thanks to https://github.com/THEFASHIONGEEK)
 - [ ] Auto correct missing or corrupt images - Currently skips them
 - [ ] Add Experimental Data Analysis Feature
