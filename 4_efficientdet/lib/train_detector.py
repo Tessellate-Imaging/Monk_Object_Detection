@@ -27,6 +27,7 @@ class Detector():
         self.system_dict["params"]["batch_size"] = 8;
         self.system_dict["params"]["num_workers"] = 3;
         self.system_dict["params"]["use_gpu"] = True;
+        self.system_dict["params"]["gpu_devices"] = [0];
         self.system_dict["params"]["lr"] = 0.0001;
         self.system_dict["params"]["num_epochs"] = 10;
         self.system_dict["params"]["val_interval"] = 1;
@@ -98,13 +99,22 @@ class Detector():
                                                                 **self.system_dict["local"]["val_params"])
 
 
-    def Model(self):
-        self.system_dict["local"]["model"] = EfficientDet(num_classes=self.system_dict["local"]["training_set"].num_classes())
-        if(self.system_dict["params"]["use_gpu"]):
-            if torch.cuda.is_available():
-                self.system_dict["local"]["model"] = self.system_dict["local"]["model"].cuda();
-                self.system_dict["local"]["model"] = nn.DataParallel(self.system_dict["local"]["model"]);
-                self.system_dict["local"]["model"].train();
+    def Model(self,gpu_devices=[0]):
+        num_classes = self.system_dict["local"]["training_set"].num_classes();
+        efficientdet = EfficientDet(num_classes=num_classes)
+
+        if self.system_dict["params"]["use_gpu"]:
+            self.system_dict["params"]["gpu_devices"] = gpu_devices
+            if len(self.system_dict["params"]["gpu_devices"])==1:
+                os.environ["CUDA_VISIBLE_DEVICES"] = str(self.system_dict["params"]["gpu_devices"][0])
+            else:
+                os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(id) for id in self.system_dict["params"]["gpu_devices"]])
+            self.system_dict["local"]["device"] = 'cuda' if torch.cuda.is_available() else 'cpu'
+            efficientdet = efficientdet.to(self.system_dict["local"]["device"])
+            efficientdet= torch.nn.DataParallel(efficientdet).to(self.system_dict["local"]["device"])
+
+        self.system_dict["local"]["model"] = efficientdet;
+        self.system_dict["local"]["model"].train();
 
 
     def Set_Hyperparams(self, lr=0.0001, val_interval=1, es_min_delta=0.0, es_patience=0):
@@ -149,7 +159,7 @@ class Detector():
                     try:
                         self.system_dict["local"]["optimizer"].zero_grad()
                         if torch.cuda.is_available():
-                            cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].cuda().float(), data['annot'].cuda()])
+                            cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].to(self.system_dict["local"]["device"]).float(), data['annot'].to(self.system_dict["local"]["device"])])
                         else:
                             cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].float(), data['annot']])
 
@@ -185,7 +195,7 @@ class Detector():
                     for iter, data in enumerate(self.system_dict["local"]["test_generator"]):
                         with torch.no_grad():
                             if torch.cuda.is_available():
-                                cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].cuda().float(), data['annot'].cuda()])
+                                cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].to(self.system_dict["local"]["device"]).float(), data['annot'].to(self.system_dict["local"]["device"])])
                             else:
                                 cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].float(), data['annot']])
 
@@ -246,7 +256,7 @@ class Detector():
                     try:
                         self.system_dict["local"]["optimizer"].zero_grad()
                         if torch.cuda.is_available():
-                            cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].cuda().float(), data['annot'].cuda()])
+                            cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].to(self.system_dict["local"]["device"]).float(), data['annot'].to(self.system_dict["local"]["device"])])
                         else:
                             cls_loss, reg_loss = self.system_dict["local"]["model"]([data['img'].float(), data['annot']])
 
@@ -280,7 +290,7 @@ class Detector():
 
                 dummy_input = torch.rand(self.system_dict["params"]["batch_size"], 3, 512, 512)
                 if torch.cuda.is_available():
-                    dummy_input = dummy_input.cuda()
+                    dummy_input = dummy_input.to(self.system_dict["local"]["device"])
                 if isinstance(self.system_dict["local"]["model"], nn.DataParallel):
                     self.system_dict["local"]["model"].module.backbone_net.model.set_swish(memory_efficient=False)
 

@@ -14,7 +14,6 @@ torchvision
 efficientnet_pytorch
 
 
-tensorflow-gpu==1.12
 tensorboardX
 git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
 
