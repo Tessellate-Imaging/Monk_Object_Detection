@@ -110,7 +110,7 @@ class Detector():
         return line
 
 
-    def Model(self, model_name, use_pretrained=True, use_gpu=True):
+    def Model(self, model_name, use_pretrained=True, use_gpu=True, gpu_devices=[0]):
         self.system_dict["model_name"] = model_name;
         self.system_dict["use_pretrained"] = use_pretrained;
         if(self.system_dict["model_name"] in self.system_dict["model_set_1"]):
@@ -129,7 +129,7 @@ class Detector():
                 self.system_dict["batch_size"], True, batchify_fn=batchify_fn, last_batch='rollover', 
                 num_workers=self.system_dict["num_workers"])
 
-            self.set_device(use_gpu=use_gpu);
+            self.set_device(use_gpu=use_gpu ,gpu_devices=gpu_devices);
             self.system_dict["local"]["net"].collect_params().reset_ctx(self.system_dict["local"]["ctx"])
 
         elif((self.system_dict["model_name"] in self.system_dict["model_set_2"]) or (self.system_dict["model_name"] in self.system_dict["model_set_3"])
@@ -149,7 +149,7 @@ class Detector():
                 self.system_dict["batch_size"], True, batchify_fn=batchify_fn, last_batch='rollover', 
                 num_workers=self.system_dict["num_workers"])
 
-            self.set_device(use_gpu=use_gpu);
+            self.set_device(use_gpu=use_gpu, gpu_devices=gpu_devices);
             self.system_dict["local"]["net"].collect_params().reset_ctx(self.system_dict["local"]["ctx"])
 
         elif((self.system_dict["model_name"] in self.system_dict["model_set_5"]) or (self.system_dict["model_name"] in self.system_dict["model_set_6"])) :
@@ -168,21 +168,19 @@ class Detector():
                 self.system_dict["batch_size"], True, batchify_fn=batchify_fn, last_batch='rollover', 
                 num_workers=self.system_dict["num_workers"])
 
-            self.set_device(use_gpu=use_gpu);
+            self.set_device(use_gpu=use_gpu, gpu_devices=gpu_devices);
             self.system_dict["local"]["net"].collect_params().reset_ctx(self.system_dict["local"]["ctx"])
 
 
 
 
 
-    def set_device(self, use_gpu=True):
+    def set_device(self, use_gpu=True ,gpu_devices=[0]):
         self.system_dict["use_gpu"] = use_gpu;
-        if(use_gpu):
-            try:
-                a = mx.nd.zeros((1,), ctx=mx.gpu(0))
-                self.system_dict["local"]["ctx"] = [mx.gpu(0)]
-            except:
-                self.system_dict["local"]["ctx"] = [mx.cpu()]
+        
+        if self.system_dict["use_gpu"]:
+            self.system_dict["gpu_devices"] = gpu_devices;
+            self.system_dict["local"]["ctx"]= [mx.gpu(int(i)) for i in self.system_dict["gpu_devices"]]
         else:
             self.system_dict["local"]["ctx"] = [mx.cpu()]
 
@@ -323,7 +321,3 @@ class Detector():
                 self.system_dict["training_time"] += time.time() - tic;
 
             self.system_dict["local"]["net"].save_parameters(self.system_dict["params_file"])
-
-
-        
-

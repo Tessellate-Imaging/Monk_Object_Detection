@@ -103,8 +103,11 @@ def set_model_params(model_name="vgg16", resume=False, start_epoch=0):
 
 
 
-def set_hyper_params(gpus="0", lr=0.001, lr_decay_epoch="7", epochs=10, batch_size=1):
-    system_dict["gpus"] = gpus;
+def set_hyper_params(gpus=[0], lr=0.001, lr_decay_epoch="7", epochs=10, batch_size=1):
+    if gpus == '0':
+        system_dict["gpus"] = list(gpus)
+    else :
+        system_dict["gpus"] = gpus;
     system_dict["lr"] = lr;
     system_dict["lr_decay_epoch"] = lr_decay_epoch;
     system_dict["epochs"] = epochs;
@@ -269,10 +272,10 @@ def train(sym, roidb):
     #print(system_dict)
 
     # setup multi-gpu
-    if(system_dict["gpus"] == "-1"):
+    if(len(system_dict["gpus"]) == 0):
         ctx = [mx.cpu(0)];
     else:
-        ctx = [mx.gpu(int(i)) for i in system_dict["gpus"].split(',')]
+        ctx = [mx.gpu(int(i)) for i in system_dict["gpus"]]
     batch_size = system_dict["rcnn_batch_size"] * len(ctx)
 
     # load training data
