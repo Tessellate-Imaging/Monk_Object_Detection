@@ -180,7 +180,7 @@ class Detector():
         
         if self.system_dict["use_gpu"]:
             self.system_dict["gpu_devices"] = gpu_devices;
-            self.system_dict["local"]["ctx"]= [mx.gpu(int(i)) for i in system_dict["gpu_devices"]]
+            self.system_dict["local"]["ctx"]= [mx.gpu(int(i)) for i in self.system_dict["gpu_devices"]]
         else:
             self.system_dict["local"]["ctx"] = [mx.cpu()]
 
