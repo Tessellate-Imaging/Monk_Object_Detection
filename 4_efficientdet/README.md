@@ -13,7 +13,7 @@ Supports
     
 `cd installation`
 
-`cat requirements_cuda9.0.txt | xargs -n 1 -L 1 pip install`
+`cat requirements.txt | xargs -n 1 -L 1 pip install`
 
 <br />
 <br />
@@ -57,6 +57,15 @@ Supports
 - [ ] Add Graph Visualization Support
 - [ ] Enable batch proessing at inference
 - [ ] Add feature for top-k output visualization
-- [ ] Add Multi-GPU training
+- [x] Add Multi-GPU training
 - [ ] Auto correct missing or corrupt images - Currently skips them
 - [ ] Add Experimental Data Analysis Feature
+
+
+<br />
+<br />
+<br />
+
+## External Contributors list 
+
+- https://github.com/THEFASHIONGEEK: Multi GPU feature
