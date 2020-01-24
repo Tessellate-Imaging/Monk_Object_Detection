@@ -243,13 +243,14 @@ def Infer(img_name, mod):
         if cls > 0 and conf > system_dict["vis_thresh"]:
             print(system_dict["classes"][int(cls)], conf, [x1, y1, x2, y2])
     
+    
     max_index = conf_scores.index(max(conf_scores))
     print(output[max_index])
     
     if system_dict["vis"]:
         vis_detection(im_orig, det, system_dict["classes"], thresh=system_dict["vis_thresh"])
 
-
+    return output;
 
 
 
