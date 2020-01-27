@@ -41,6 +41,16 @@ A one-stop repository for low-code easily-installable object detection pipelines
 - F) CornerNet-Lite: Original - https://github.com/princeton-vl/CornerNet-Lite
     - CornerNet-Saccade
     - CornerNet-Squeeze
+    
+- G) YOLOV3: Original - https://github.com/ultralytics/yolov3
+    - yolov3
+    - yolov3s
+    - yolov3-spp
+    - yolov3-spp3
+    - yolov3-tiny
+    - yolov3-spp-matrix
+    - csresnext50-panet-spp
+
 
       
 <br />
@@ -65,6 +75,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
     
 - F) CornerNet-Lite
     - Check - Monk_Object_Detection/6_cornernet_lite/
+    
+- G) YoloV3
+    - Check - Monk_Object_Detection/7_yolov3/
 
 <br />
 <br />
