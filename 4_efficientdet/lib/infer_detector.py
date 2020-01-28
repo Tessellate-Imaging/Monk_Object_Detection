@@ -28,33 +28,47 @@ class Infer():
         if torch.cuda.is_available():
             self.system_dict["local"]["model"] = self.system_dict["local"]["model"].cuda();
 
-    def Predict(self, img_path, class_list, vis_threshold = 0.4):
-        img = cv2.imread(img_path);
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB);
+    def Predict(self, img_path, class_list, vis_threshold = 0.4,output_folder = 'Inference'):
+        
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        
+        image_filename = os.path.basename(img_path)
+        img = skimage.io.imread(img_path)
         image = img.astype(np.float32) / 255.;
-        image = (image.astype(np.float32) - self.system_dict["local"]["mean"]) / self.system_dict["local"]["std"]
-        height, width, _ = image.shape
-        if height > width:
-            scale = self.system_dict["local"]["common_size"] / height
-            resized_height = self.system_dict["local"]["common_size"]
-            resized_width = int(width * scale)
-        else:
-            scale = self.system_dict["local"]["common_size"] / width
-            resized_height = int(height * scale)
-            resized_width = self.system_dict["local"]["common_size"]
+        image = (image.astype(np.float32) - self.system_dict["local"]["mean"]) / self.system_dict["local"]["std"];
 
-        image = cv2.resize(image, (resized_width, resized_height))
+        rows, cols, cns = image.shape
 
-        new_image = np.zeros((self.system_dict["local"]["common_size"], self.system_dict["local"]["common_size"], 3))
-        new_image[0:resized_height, 0:resized_width] = image
+        smallest_side = min(rows, cols)
+
+        # rescale the image so the smallest side is min_side
+        scale = self.system_dict["local"]["min_side"] / smallest_side
+
+        # check if the largest side is now greater than max_side, which can happen
+        # when images have a large aspect ratio
+        largest_side = max(rows, cols)
+
+        if largest_side * scale > self.system_dict["local"]["max_side"]:
+            scale = self.system_dict["local"]["max_side"]  / largest_side
+
+
+        # resize the image with the computed scale
+        image = skimage.transform.resize(image, (int(round(rows*scale)), int(round((cols*scale)))))
+        rows, cols, cns = image.shape
+
+        pad_w = 32 - rows%32
+        pad_h = 32 - cols%32
+
+        new_image = np.zeros((rows + pad_w, cols + pad_h, cns)).astype(np.float32)
+        new_image[:rows, :cols, :] = image.astype(np.float32)
 
         img = torch.from_numpy(new_image)
 
         with torch.no_grad():
-            scores, labels, boxes = self.system_dict["local"]["model"](img.cuda().permute(2, 0, 1).float().unsqueeze(dim=0))
-            boxes /= scale;
-
-
+            scores, labels, boxes = self.system_dict["local"]["model"](img.cuda().permute(2, 0, 1).float().unsqueeze(dim=0));
+            boxes /= scale
+        
 
         if boxes.shape[0] > 0:
             output_image = cv2.imread(img_path)
@@ -65,7 +79,7 @@ class Infer():
                     break
                 pred_label = int(labels[box_id])
                 xmin, ymin, xmax, ymax = boxes[box_id, :]
-                color = colors[pred_label]
+                color = random.choice(self.system_dict["local"]["colors"])
                 cv2.rectangle(output_image, (xmin, ymin), (xmax, ymax), color, 2)
                 text_size = cv2.getTextSize(class_list[pred_label] + ' : %.2f' % pred_prob, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
 
@@ -75,8 +89,22 @@ class Infer():
                     (xmin, ymin + text_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 1,
                     (255, 255, 255), 1)
 
-        cv2.imwrite("output.jpg", output_image);
+        cv2.imwrite(os.path.join(output_folder, image_filename), output_image)
 
         return scores, labels, boxes
+    
+    def predict_batch_of_images(self, img_folder, class_list, vis_threshold = 0.4, output_folder='Inference'):
+        
+        all_filenames = os.listdir(img_folder)
+        all_filenames.sort()
+        generated_count = 0
+        for filename in all_filenames:
+            img_path = "{}/{}".format(img_folder, filename)
+            try:
+                self.Predict(img_path , class_list, vis_threshold ,output_folder)
+                generated_count += 1
+            except:
+                continue
+        print("Objects detected  for {} images".format(generated_count))
 
         
