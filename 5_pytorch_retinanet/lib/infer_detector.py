@@ -113,11 +113,10 @@ class Infer():
                         (255, 255, 255), 1)
 
             cv2.imwrite(os.path.join(output_folder, image_filename), output_image)
-        
+            return scores, labels, boxes
         except:
             print('No Boxes detected')
-
-        return scores, labels, boxes
+            return None
     
     def predict_batch_of_images(self, img_folder, class_list, vis_threshold = 0.4, output_folder='Inference'):
         
