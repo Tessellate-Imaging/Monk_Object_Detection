@@ -10,7 +10,27 @@ from gluoncv.utils import download, viz
 import pandas as pd
 import cv2
 from PIL import Image
-from tqdm.notebook import tqdm
+Image.LOAD_TRUNCATED_IMAGES = True
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+
+def isnotebook():
+    try:
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            return True   # Jupyter notebook or qtconsole
+        elif shell == 'TerminalInteractiveShell':
+            return False  # Terminal running IPython
+        else:
+            return False  # Other type (?)
+    except NameError:
+        return False
+if(isnotebook()):
+    from tqdm.notebook import tqdm
+else:
+    from tqdm import tqdm as tqdm
+
 
 from gluoncv.data.batchify import Tuple, Stack, Pad
 from gluoncv.data.transforms.presets.ssd import SSDDefaultTrainTransform
@@ -68,10 +88,10 @@ class Detector():
                     bbox.append([x1, y1, x2, y2]);
                     ids.append(classes.index(label));
 
-                if(not os.path.isfile(self.system_dict["root"] + self.system_dict["img_dir"] + img_name)):
+                if(not os.path.isfile(self.system_dict["root"] + "/" + self.system_dict["img_dir"] + "/" + img_name)):
                 	continue;
                 
-                img = cv2.imread(self.system_dict["root"] + self.system_dict["img_dir"] + img_name); 
+                img = cv2.imread(self.system_dict["root"] + "/" + self.system_dict["img_dir"] + "/" + img_name); 
                 all_boxes = np.array(bbox);
                 all_ids = np.array(ids);
                 line = self.write_line(img_name, img.shape, all_boxes, all_ids, i)
@@ -80,7 +100,7 @@ class Detector():
         cmd1 = "cp " + os.path.dirname(os.path.realpath(__file__)) + "/im2rec.py " + os.getcwd() + "/";
         os.system(cmd1);  
 
-        cmd2 = "python im2rec.py train.lst " + self.system_dict["root"] + self.system_dict["img_dir"] + "/ --pass-through --pack-label"
+        cmd2 = "python im2rec.py train.lst " + self.system_dict["root"] + "/" + self.system_dict["img_dir"] + "/ --pass-through --pack-label"
         os.system(cmd2);
 
         self.system_dict["local"]["train_dataset"] = gcv.data.RecordFileDetection('train.rec')
