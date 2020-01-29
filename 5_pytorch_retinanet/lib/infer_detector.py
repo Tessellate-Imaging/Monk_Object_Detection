@@ -50,7 +50,12 @@ class Infer():
             self.system_dict["local"]["model"] = self.system_dict["local"]["model"].cuda();
 
 
-    def Predict(self, img_path, class_list, vis_threshold = 0.4):
+    def Predict(self, img_path, class_list, vis_threshold = 0.4,output_folder = 'Inference'):
+        
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        
+        image_filename = os.path.basename(img_path)
         img = skimage.io.imread(img_path)
         image = img.astype(np.float32) / 255.;
         image = (image.astype(np.float32) - self.system_dict["local"]["mean"]) / self.system_dict["local"]["std"];
@@ -86,27 +91,43 @@ class Infer():
             scores, labels, boxes = self.system_dict["local"]["model"](img.cuda().permute(2, 0, 1).float().unsqueeze(dim=0));
             boxes /= scale
         
+        try:
 
-        if boxes.shape[0] > 0:
-            output_image = cv2.imread(img_path)
+            if boxes.shape[0] > 0:
+                output_image = cv2.imread(img_path)
 
-            for box_id in range(boxes.shape[0]):
-                pred_prob = float(scores[box_id])
-                if pred_prob < vis_threshold:
-                    break
-                pred_label = int(labels[box_id])
-                xmin, ymin, xmax, ymax = boxes[box_id, :]
-                color = random.choice(self.system_dict["local"]["colors"])
-                cv2.rectangle(output_image, (xmin, ymin), (xmax, ymax), color, 2)
-                text_size = cv2.getTextSize(class_list[pred_label] + ' : %.2f' % pred_prob, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
+                for box_id in range(boxes.shape[0]):
+                    pred_prob = float(scores[box_id])
+                    if pred_prob < vis_threshold:
+                        break
+                    pred_label = int(labels[box_id])
+                    xmin, ymin, xmax, ymax = boxes[box_id, :]
+                    color = random.choice(self.system_dict["local"]["colors"])
+                    cv2.rectangle(output_image, (xmin, ymin), (xmax, ymax), color, 2)
+                    text_size = cv2.getTextSize(class_list[pred_label] + ' : %.2f' % pred_prob, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
 
-                cv2.rectangle(output_image, (xmin, ymin), (xmin + text_size[0] + 3, ymin + text_size[1] + 4), color, -1)
-                cv2.putText(
-                    output_image, class_list[pred_label] + ' : %.2f' % pred_prob,
-                    (xmin, ymin + text_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 1,
-                    (255, 255, 255), 1)
+                    cv2.rectangle(output_image, (xmin, ymin), (xmin + text_size[0] + 3, ymin + text_size[1] + 4), color, -1)
+                    cv2.putText(
+                        output_image, class_list[pred_label] + ' : %.2f' % pred_prob,
+                        (xmin, ymin + text_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 1,
+                        (255, 255, 255), 1)
 
-        cv2.imwrite("output.jpg", output_image);
-
-
-        return scores, labels, boxes
+            cv2.imwrite(os.path.join(output_folder, image_filename), output_image)
+            return scores, labels, boxes
+        except:
+            print('No Boxes detected')
+            return None
+    
+    def predict_batch_of_images(self, img_folder, class_list, vis_threshold = 0.4, output_folder='Inference'):
+        
+        all_filenames = os.listdir(img_folder)
+        all_filenames.sort()
+        generated_count = 0
+        for filename in all_filenames:
+            img_path = "{}/{}".format(img_folder, filename)
+            try:
+                self.Predict(img_path , class_list, vis_threshold ,output_folder)
+                generated_count += 1
+            except:
+                continue
+        print("Objects detected  for {} images".format(generated_count))
