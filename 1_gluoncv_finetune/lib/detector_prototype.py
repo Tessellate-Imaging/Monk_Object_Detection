@@ -57,7 +57,7 @@ class Detector():
         self.system_dict["batch_size"] = batch_size;
         self.system_dict["num_workers"] = num_workers;
 
-        df = pd.read_csv(self.system_dict["root"] + self.system_dict["anno_file"]);
+        df = pd.read_csv(self.system_dict["root"] + "/" + self.system_dict["anno_file"]);
         columns = df.columns;
 
 
