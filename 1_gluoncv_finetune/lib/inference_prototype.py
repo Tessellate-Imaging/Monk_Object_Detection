@@ -119,10 +119,11 @@ class Infer():
         tmp["Scores"] = self.system_dict["local"]["score"];
         tmp["Boxes"] = self.system_dict["local"]["bbox"];
 
-        if(visualize):
-            ax = viz.plot_bbox(image, self.system_dict["local"]["bbox"][0], self.system_dict["local"]["score"][0], 
+        ax = viz.plot_bbox(image, self.system_dict["local"]["bbox"][0], self.system_dict["local"]["score"][0], 
                 self.system_dict["local"]["cid"][0], class_names=self.system_dict["classes"], thresh=thresh)
+        if(visualize):
             plt.show()
-
+        plt.savefig("output.png");
+        
         return tmp;
 
