@@ -223,7 +223,7 @@ class Detector():
                         torch.save(self.system_dict["local"]["model"], 
                             os.path.join(self.system_dict["output"]["saved_path"], "signatrix_efficientdet_coco.pth"))
 
-                        dummy_input = torch.rand(self.system_dict["params"]["batch_size"], 3, 512, 512)
+                        dummy_input = torch.rand(1, 3, 512, 512)
                         if torch.cuda.is_available():
                             dummy_input = dummy_input.cuda()
                         if isinstance(self.system_dict["local"]["model"], nn.DataParallel):
@@ -288,7 +288,7 @@ class Detector():
                 torch.save(self.system_dict["local"]["model"], 
                     os.path.join(self.system_dict["output"]["saved_path"], "signatrix_efficientdet_coco.pth"))
 
-                dummy_input = torch.rand(self.system_dict["params"]["batch_size"], 3, 512, 512)
+                dummy_input = torch.rand(1, 3, 512, 512)
                 if torch.cuda.is_available():
                     dummy_input = dummy_input.to(self.system_dict["local"]["device"])
                 if isinstance(self.system_dict["local"]["model"], nn.DataParallel):
