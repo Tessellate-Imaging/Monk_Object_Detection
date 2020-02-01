@@ -9,7 +9,6 @@ notebook
 pandas
 matplotlib
 pillow
-opencv-python
 
 mxnet-cu90
 cython
