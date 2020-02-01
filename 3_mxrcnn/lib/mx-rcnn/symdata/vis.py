@@ -12,4 +12,5 @@ def vis_detection(im_orig, detections, class_names, thresh=0.7):
             plt.gca().add_patch(rect)
             plt.gca().text(x1, y1 - 2, '{:s} {:.3f}'.format(class_names[cls], conf),
                            bbox=dict(facecolor=colors[cls], alpha=0.5), fontsize=12, color='white')
+    plt.save("output.png")
     plt.show()
