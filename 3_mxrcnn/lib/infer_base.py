@@ -12,7 +12,7 @@ from mxnet.module import Module
 
 from symdata.bbox import im_detect
 from symdata.loader import load_test, generate_batch
-from symdata.vis import vis_detection
+from symdata.vis import vis_detection, save_detection
 from symnet.model import load_param, check_shape
 
 system_dict = {};
@@ -249,6 +249,8 @@ def Infer(img_name, mod):
     
     if system_dict["vis"]:
         vis_detection(im_orig, det, system_dict["classes"], thresh=system_dict["vis_thresh"])
+    
+    save_detection(im_orig, det, system_dict["classes"], thresh=system_dict["vis_thresh"])
 
     return output;
 
