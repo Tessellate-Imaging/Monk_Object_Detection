@@ -170,6 +170,7 @@ class Infer():
                 if save_img:
                     if self.system_dict["local"]["dataset"].mode == 'images':
                         cv2.imwrite(save_path, im0)
+                        cv2.imwrite("output.jpg", im0);
 
 
         if save_txt or save_img:
