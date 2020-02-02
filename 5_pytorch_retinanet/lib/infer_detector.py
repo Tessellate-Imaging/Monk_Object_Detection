@@ -113,6 +113,7 @@ class Infer():
                         (255, 255, 255), 1)
 
             cv2.imwrite(os.path.join(output_folder, image_filename), output_image)
+            cv2.imwrite("output.jpg", output_image)
             return scores, labels, boxes
         except:
             print('No Boxes detected')
