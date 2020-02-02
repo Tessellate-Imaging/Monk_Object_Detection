@@ -16,4 +16,4 @@ xmltodict
 
 git+https://github.com/NVIDIA/apex.git#egg=apex
 pandas
-
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
