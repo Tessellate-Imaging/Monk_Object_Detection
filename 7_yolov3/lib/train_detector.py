@@ -106,7 +106,8 @@ class Detector():
 
     #sgd
     #adam
-    def set_hyperparams(self, optimizer="sgd", lr=0.00579, multi_scale=False, evolve=False, num_generations=2, mixed_precision=True):
+    def set_hyperparams(self, optimizer="sgd", lr=0.00579, multi_scale=False, evolve=False, num_generations=2, 
+                        mixed_precision=True, gpu_devices="0"):
         self.system_dict["params"]["multi_scale"] = multi_scale;
         if(optimizer == "sgd"):
             self.system_dict["params"]["adam"] = False;
@@ -121,7 +122,7 @@ class Detector():
         self.system_dict["params"]["weights"] = "";
         self.system_dict["params"]["arc"] = "default";
         self.system_dict["params"]["name"] = "";
-        self.system_dict["params"]["device"] = "0";
+        self.system_dict["params"]["device"] = gpu_devices;
         self.system_dict["params"]["mixed_precision"] = mixed_precision;
 
 
