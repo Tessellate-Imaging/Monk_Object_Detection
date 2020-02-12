@@ -51,7 +51,6 @@ Supports
 - [x] Add support for VOC-Type Annotated Dataset
 - [x] Test on Kaggle and Colab 
 - [x] Add validation feature & data pipeline
-- [ ] Resolve Error with original cornernet model
 - [x] Add Optimizer selection feature
 - [ ] Enable Learning-Rate Scheduler Support
 - [ ] Enable Layer Freezing
