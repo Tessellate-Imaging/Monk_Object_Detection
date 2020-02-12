@@ -10,6 +10,7 @@ argparse
 scikit-image
 tqdm
 git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+pandas
 
 jupyter 
 notebook
