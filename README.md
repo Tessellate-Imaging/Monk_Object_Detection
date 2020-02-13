@@ -10,6 +10,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
 <br />
 <br />
 
+### Documentation
+- [LINK](https://li8bot.github.io/monkai/#/home)
+
 ## Pipelines presented as jupyter notebooks - see example_notebooks
 (See the licenses for each pipeline and use accordingly)
 
