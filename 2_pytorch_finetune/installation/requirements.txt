@@ -1,7 +1,7 @@
 numpy
 scipy
 tqdm
-pillow==6.0.0
+pillow
 opencv-python
 cython
 jupyter
