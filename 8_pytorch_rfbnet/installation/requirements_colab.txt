@@ -1,0 +1,10 @@
+pyyaml
+EasyDict
+protobuf
+argparse
+scikit-image
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+
+dicttoxml
+xmltodict
+tensorboardX
