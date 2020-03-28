@@ -1,0 +1,1 @@
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
