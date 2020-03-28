@@ -1,0 +1,9 @@
+scikit-learn
+scikit-image
+
+efficientnet_pytorch
+
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+
+dicttoxml
+xmltodict
