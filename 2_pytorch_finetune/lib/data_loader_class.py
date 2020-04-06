@@ -59,10 +59,10 @@ class CustomDatasetMultiObject(object):
         num_objs = 0;
         obj_ids = [];
         for j in range(len(tmp)//5):
-            x1 = int(tmp[(j*5+0)]);
-            y1 = int(tmp[(j*5+1)]);
-            x2 = int(tmp[(j*5+2)]);
-            y2 = int(tmp[(j*5+3)]);
+            x1 = int(float(tmp[(j*5+0)]));
+            y1 = int(float(tmp[(j*5+1)]));
+            x2 = int(float(tmp[(j*5+2)]));
+            y2 = int(float(tmp[(j*5+3)]));
             label = tmp[(j*5+4)];
             boxes.append([x1, y1, x2, y2]);
             obj_ids.append(self.label_list.index(label)+1);
