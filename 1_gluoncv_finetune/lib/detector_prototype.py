@@ -79,10 +79,10 @@ class Detector():
                 bbox = [];
                 ids = [];
                 for j in range(len(tmp)//5):
-                    x1 = int(tmp[j*5+0]);
-                    y1 = int(tmp[j*5+1]);
-                    x2 = int(tmp[j*5+2]);
-                    y2 = int(tmp[j*5+3]);
+                    x1 = int(float(tmp[j*5+0]));
+                    y1 = int(float(tmp[j*5+1]));
+                    x2 = int(float(tmp[j*5+2]));
+                    y2 = int(float(tmp[j*5+3]));
                     label = tmp[j*5+4]
                     class_names.append(label);
                     bbox.append([x1, y1, x2, y2]);
