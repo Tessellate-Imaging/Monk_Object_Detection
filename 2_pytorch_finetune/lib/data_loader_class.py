@@ -29,11 +29,12 @@ class CustomDatasetMultiObject(object):
         self.train_list = pd.read_csv(root + "/" + anno_file);
         self.label_list = self.get_labels();
         self.num_classes = len(self.label_list) + 1;
+        self.columns = self.train_list.columns
         
     def get_labels(self):
         label_list = [];
         for i in range(len(self.train_list)):
-            label = self.train_list["Label"][i];
+            label = self.train_list[self.columns[1]][i];
             tmp = label.split(" ");
             for j in range(len(tmp)//5):
                 if(tmp[(j*5+4)] not in label_list):
@@ -44,10 +45,8 @@ class CustomDatasetMultiObject(object):
     def __getitem__(self, idx):
         # load images ad masks
 
-        columns = self.train_list.columns;
-
-        img_name = self.train_list[columns[0]][idx];
-        label = self.train_list[columns[1]][idx];
+        img_name = self.train_list[self.columns[0]][idx];
+        label = self.train_list[self.columns[1]][idx];
         
         
         img_path = os.path.join(self.root, self.img_dir, img_name)  
