@@ -44,7 +44,7 @@ Contributors
 6) Aayush Fadia [Linkedin](https://www.linkedin.com/in/aayush-fadia-700b27190/), [Github](https://github.com/aayush-fadia) 
   - Mar 2020 - Present
 
-7) Shreyas Waghe [Linkedin](https://www.linkedin.com/in/shreyash-waghe-49537b191/?originalSubdomain=in%20-%207378738175), [Github]() 
+7) Shreyash Waghe [Linkedin](https://www.linkedin.com/in/shreyash-waghe-49537b191/), [Github](https://github.com/Shreyashwaghe) 
   - Mar 2020 - Present
 
 8) Jayesh Kandpal [Linkedin](https://www.linkedin.com/in/jayesh-kandpal-355995186/), [Github](https://github.com/jayeshk7) 
