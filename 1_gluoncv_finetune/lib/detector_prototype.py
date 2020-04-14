@@ -63,7 +63,7 @@ class Detector():
 
         classes = [];
         for i in tqdm(range(len(df))):
-            tmp = df["Label"][i].split(" ");
+            tmp = df[columns[1]][i].split(" ");
             for j in range(len(tmp)//5):
                 label = tmp[j*5+4];
                 if(label not in classes):
