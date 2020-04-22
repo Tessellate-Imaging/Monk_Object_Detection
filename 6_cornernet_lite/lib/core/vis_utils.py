@@ -22,7 +22,8 @@ def draw_bboxes(image, bboxes, font_size=0.5, thresh=0.5, colors=None):
     image = image.copy()
     for cat_name in bboxes:
         keep_inds = bboxes[cat_name][:, -1] > thresh
-        cat_size  = cv2.getTextSize(cat_name +' : %.2f' % bboxes[cat_name][:, -1], cv2.FONT_HERSHEY_SIMPLEX, font_size, 2)[0]
+
+        cat_size  = cv2.getTextSize(cat_name, cv2.FONT_HERSHEY_SIMPLEX, font_size, 2)[0]
 
         if colors is None:
             color = np.random.random((3, )) * 0.6 + 0.4
@@ -38,7 +39,7 @@ def draw_bboxes(image, bboxes, font_size=0.5, thresh=0.5, colors=None):
                     (bbox[0] + cat_size[0], bbox[1] + cat_size[1] + 2),
                     color, -1
                 )
-                cv2.putText(image, cat_name +' : %.2f' % bboxes[cat_name][:, -1],
+                cv2.putText(image, cat_name,
                     (bbox[0], bbox[1] + cat_size[1] + 2),
                     cv2.FONT_HERSHEY_SIMPLEX, font_size, (0, 0, 0), thickness=1
                 )
@@ -48,7 +49,7 @@ def draw_bboxes(image, bboxes, font_size=0.5, thresh=0.5, colors=None):
                     (bbox[0] + cat_size[0], bbox[1] - 2),
                     color, -1
                 )
-                cv2.putText(image, cat_name +' : %.2f' % bboxes[cat_name][:, -1],
+                cv2.putText(image, cat_name,
                     (bbox[0], bbox[1] - 2),
                     cv2.FONT_HERSHEY_SIMPLEX, font_size, (0, 0, 0), thickness=1
                 )
