@@ -30,7 +30,7 @@ class COCODetection(data.Dataset):
         self.root_dir = root_dir
         self.coco_dir = coco_dir
         self.set_dir = set_dir
-        self.coco_name = root_dir + "_" + coco_dir + "_" + set_dir; 
+        self.coco_name = root_dir.replace("/", "") + "_" + coco_dir.replace("/", "") + "_" + set_dir.replace("/", ""); 
         self.data_path = os.getcwd();
         self.cache_path = os.path.join(self.data_path, 'coco_cache')
         if(not os.path.isdir(self.cache_path)):
