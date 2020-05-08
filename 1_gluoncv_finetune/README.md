@@ -30,6 +30,13 @@ For example for cuda 9.0
 <br />
 <br />
 
+## Functional Documentation
+  [Link](https://abhi-kumar.github.io/1_gluoncv_finetune_docs/)
+
+<br />
+<br />
+<br />
+
 ## Pipeline
 
 - Load Dataset
