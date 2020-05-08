@@ -18,8 +18,8 @@ A one-stop repository for low-code easily-installable object detection pipelines
 
 
 - A) GluonCV Finetune
-    - Original -  https://gluon-cv.mxnet.io/build/examples_detection/index.html
-    - Functional Documentation - https://abhi-kumar.github.io/1_gluoncv_finetune_docs/
+    - [Original Implementation](https://gluon-cv.mxnet.io/build/examples_detection/index.html)
+    - [Functional Documentation](https://abhi-kumar.github.io/1_gluoncv_finetune_docs/)
         - SSD with Vgg16
         - SSD with Resnet50
         - SSD with Resnet101
