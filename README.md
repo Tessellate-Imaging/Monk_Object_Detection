@@ -17,13 +17,15 @@ A one-stop repository for low-code easily-installable object detection pipelines
 (See the licenses for each pipeline and use accordingly)
 
 
-- A) GluonCV Finetune: Original -  https://gluon-cv.mxnet.io/build/examples_detection/index.html
-    - SSD with Vgg16
-    - SSD with Resnet50
-    - SSD with Resnet101
-    - SSD with MobileNet1.0
-    - YoloV3 with Darknet53
-    - YoloV3 with MobileNet1.0
+- A) GluonCV Finetune
+    - Original -  https://gluon-cv.mxnet.io/build/examples_detection/index.html
+    - Functional Documentation - https://abhi-kumar.github.io/1_gluoncv_finetune_docs/
+        - SSD with Vgg16
+        - SSD with Resnet50
+        - SSD with Resnet101
+        - SSD with MobileNet1.0
+        - YoloV3 with Darknet53
+        - YoloV3 with MobileNet1.0
     
 - B) TorchVision Finetune: Original - https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
     - Faster-RCNN with MobileNet2.0
