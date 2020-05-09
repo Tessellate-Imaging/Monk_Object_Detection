@@ -35,7 +35,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - Faster-RCNN with Resnet50
     - Faster-RCNN with Resnet101
     
-- D) Efficient-Det: Original -  https://github.com/signatrix/efficientdet
+- D) Efficient-Det: Original
+    - [Original Implementation](https://github.com/signatrix/efficientdet)
+    - [Functional Documentation](https://abhi-kumar.github.io/4_efficientdet_docs/)
 
 - E) Pytorch-Retinanet: Original
     - [Original Implementation](https://github.com/yhenon/pytorch-retinanet)
