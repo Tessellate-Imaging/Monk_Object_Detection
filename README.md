@@ -48,14 +48,16 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - CornerNet-Saccade
     - CornerNet-Squeeze
     
-- G) YOLOV3: Original - https://github.com/ultralytics/yolov3
-    - yolov3
-    - yolov3s
-    - yolov3-spp
-    - yolov3-spp3
-    - yolov3-tiny
-    - yolov3-spp-matrix
-    - csresnext50-panet-spp
+- G) YOLOV3: Original
+    - [Original Implementation](https://github.com/ultralytics/yolov3)
+    - [Functional Documentation](https://abhi-kumar.github.io/7_yolov3_docs/)
+        - yolov3
+        - yolov3s
+        - yolov3-spp
+        - yolov3-spp3
+        - yolov3-tiny
+        - yolov3-spp-matrix
+        - csresnext50-panet-spp
 
 - H) RFBNet: Original
     - [Original Implementation](https://github.com/ruinmessi/RFBNet)
