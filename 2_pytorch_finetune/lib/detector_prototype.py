@@ -40,6 +40,14 @@ from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.rpn import AnchorGenerator
 
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -49,6 +57,47 @@ class Detector():
 
 
     def Dataset(self, train_dataset, val_dataset=None, batch_size=4, num_workers=4):
+        '''
+        User function: Set dataset parameters
+
+        Dataset Directory Structure
+
+            Parent_Directory (root)
+                    |   
+                    |-----------Images (img_dir)
+                    |              |
+                    |              |------------------img1.jpg
+                    |              |------------------img2.jpg
+                    |              |------------------.........(and so on)
+                    |
+                    |
+                    |-----------train_labels.csv (anno_file)
+
+        Annotation file format
+
+               | Id         | Labels                                 |
+               | img1.jpg   | x1 y1 x2 y2 label1 x1 y1 x2 y2 label2  |
+
+            Labels: xmin ymin xmax ymax label
+            xmin, ymin - top left corner of bounding box
+            xmax, ymax - bottom right corner of bounding box
+
+
+        Args:
+            train_dataset (list): 
+                First element - Path to root folder containing training images and label file\n
+                Second element - Name of directory containing images\n
+                Third element - Name of Labels files containing annotations in monk format
+            val_dataset (list): Optional \n
+                First element - Path to root folder containing training images and label file\n 
+                Second element - Name of directory containing images\n
+                Third element - Name of Labels files containing annotations in monk format
+            batch_size (int): Mini batch sampling size for training epochs
+            num_workers (int): Number of parallel processors for data loader 
+
+        Returns:
+            None
+        '''
         train_root = train_dataset[0];
         train_img_dir = train_dataset[1];
         train_anno_file = train_dataset[2];
@@ -123,6 +172,21 @@ class Detector():
 
 
     def Model(self, model_name, use_pretrained=True, use_gpu=True):
+        '''
+        User function: Set Model parameters
+
+            Available models
+                faster-rcnn_mobilenet-v2
+
+        Args:
+            model_name (str): Select from available models
+            use_pretrained (bool): If True use pretrained weights else randomly initialized weights
+            use_gpu (bool): If True use GPU else run on CPU
+
+        Returns:
+            None
+        '''
+
         self.system_dict["model_name"] = model_name;
         self.system_dict["use_pretrained"] = use_pretrained;
         self.system_dict["use_gpu"] = use_gpu;
@@ -152,6 +216,15 @@ class Detector():
 
 
     def set_device(self, use_gpu=True):
+        '''
+        Internal function: Prepares GPU and CPU devices as per the model parameters set
+
+        Args:
+            use_gpu (bool): If True use GPU else run on CPU
+
+        Returns:
+            None
+        '''
         self.system_dict["use_gpu"] = use_gpu;
 
         if(self.system_dict["use_gpu"]):
@@ -161,7 +234,15 @@ class Detector():
 
 
     def Set_Learning_Rate(self, lr):
-        # construct an optimizer
+        '''
+        User function: Set initial learning rate
+
+        Args:
+            lr (float): Base learning rate
+
+        Returns:
+            None
+        '''
         params = [p for p in  self.system_dict["local"]["model"].parameters() if p.requires_grad]
         self.system_dict["local"]["optimizer"] = torch.optim.SGD(params, lr=lr,
                                     momentum=0.9, weight_decay=0.0005)
@@ -172,6 +253,16 @@ class Detector():
 
 
     def Train(self, epochs, params_file):
+        '''
+        User function: Start training
+
+        Args:
+            epochs (int): Number of epochs to train for
+            params_file (str): Trained weights file name with extension as ".params"
+
+        Returns:
+            None
+        '''
         self.system_dict["num_epochs"] = epochs;
         self.system_dict["params_file"] = params_file;
 
@@ -195,6 +286,15 @@ class Detector():
 
 
     def get_transform(self, train):
+        '''
+        Internal function: Get transforms for training
+
+        Args:
+            train (bool):If True, Training tansforms are added, else only test transforms are added
+
+        Returns:
+            Torchvision transforms
+        '''
         transforms = []
         transforms.append(T.ToTensor())
         if train:

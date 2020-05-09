@@ -23,6 +23,18 @@ from torchvision.models.detection.rpn import AnchorGenerator
 from torch.autograd import Variable
 
 class Infer():
+    '''
+    Class for main inference
+
+    Args:
+        model_name (str): Select the right model name as per training
+        params_file (str): Relative path to params file
+        class_list (list): List of classes in the same order as training
+        use_gpu (bool): If True use GPU else run on CPU
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, model_name, params_file, class_list, use_gpu=True, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -34,6 +46,17 @@ class Infer():
 
 
     def load_model(self, model_name, params_file, use_gpu=True):
+        '''
+        Internal function: Load trained model onto memory 
+
+        Args:
+            model_name (str): Select the right model name as per training
+            params_file (str): Relative path to params file
+            use_gpu (bool): If True use GPU else run on CPU
+
+        Returns:
+            None
+        '''
         self.system_dict["model_name"] = model_name;
         self.system_dict["params_file"] = params_file;
         self.system_dict["use_gpu"] = use_gpu;
@@ -70,6 +93,15 @@ class Infer():
 
         
     def set_device(self, use_gpu=True):
+        '''
+        Internal function: Set whether to use GPU or CPU
+
+        Args:
+            use_gpu (bool): If True use GPU else run on CPU
+
+        Returns:
+            None
+        '''
         self.system_dict["use_gpu"] = use_gpu;
 
         if(self.system_dict["use_gpu"]):
@@ -79,6 +111,17 @@ class Infer():
 
 
     def run(self, img_name, visualize=True, thresh=0.9):
+        '''
+        User function: Run inference on image and visualize it
+
+        Args:
+            img_name (str): Relative path to the image file
+            visualize (bool): If True, displays image with predicted bounding boxes and scores
+            thresh (float): Threshold for predicted scores. Scores for objects detected below this score will not be displayed 
+
+        Returns:
+            dict: Contaning IDs, Scores and bounding box locations of predicted objects. 
+        '''
         img = Image.open(img_name);
         tf = self.get_transform(False);
         img, _ = tf(img, None);
@@ -130,6 +173,15 @@ class Infer():
 
 
     def get_transform(self, train):
+        '''
+        Internal function: Get transforms for training
+
+        Args:
+            train (bool):If True, Training tansforms are added, else only test transforms are added
+
+        Returns:
+            Torchvision transforms
+        '''
         transforms = []
         transforms.append(T.ToTensor())
         if train:

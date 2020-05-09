@@ -37,6 +37,14 @@ from gluoncv.data.transforms.presets.ssd import SSDDefaultTrainTransform
 from gluoncv.data.transforms.presets.yolo import YOLO3DefaultTrainTransform
 
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -51,6 +59,42 @@ class Detector():
 
 
     def Dataset(self, root, img_dir, anno_file, batch_size=4, num_workers=0):
+        '''
+        User function: Set dataset parameters
+
+        Dataset Directory Structure
+
+            Parent_Directory (root)
+                    |   
+                    |-----------Images (img_dir)
+                    |              |
+                    |              |------------------img1.jpg
+                    |              |------------------img2.jpg
+                    |              |------------------.........(and so on)
+                    |
+                    |
+                    |-----------train_labels.csv (anno_file)
+
+        Annotation file format
+
+               | Id         | Labels                                 |
+               | img1.jpg   | x1 y1 x2 y2 label1 x1 y1 x2 y2 label2  |
+
+            Labels: xmin ymin xmax ymax label
+            xmin, ymin - top left corner of bounding box
+            xmax, ymax - bottom right corner of bounding box
+
+
+        Args:
+            root (str): Path to root_dir
+            img_dir (str): Name of image dir
+            anno_file (str): Name of Labels files containing annotations in monk format
+            batch_size (int): Mini batch sampling size for training epochs
+            num_workers (int): Number of parallel processors for data loader 
+
+        Returns:
+            None
+        '''  
         self.system_dict["root"] = root;
         self.system_dict["img_dir"] = img_dir;
         self.system_dict["anno_file"] = anno_file;
@@ -89,7 +133,7 @@ class Detector():
                     ids.append(classes.index(label));
 
                 if(not os.path.isfile(self.system_dict["root"] + "/" + self.system_dict["img_dir"] + "/" + img_name)):
-                	continue;
+                    continue;
                 
                 img = cv2.imread(self.system_dict["root"] + "/" + self.system_dict["img_dir"] + "/" + img_name); 
                 all_boxes = np.array(bbox);
@@ -108,6 +152,20 @@ class Detector():
 
 
     def write_line(self, img_path, im_shape, boxes, ids, idx):
+        '''
+        Internal function: Convert labels to required gluoncv format
+
+        Args:
+            img_path (str): Relative path to image
+            im_shape (tuple): Image shape in order - height, width, channel 
+            boxes (list): List of object bounding boxes in the image
+            ids (list): List of label ids for object bounding boxes
+            idx (idx): Unique image index 
+
+        Returns:
+            str: A String containing image index, headers, labels, and image path
+        '''
+
         h, w, c = im_shape
         # for header, we use minimal length 2, plus width and height
         # with A: 4, B: 5, C: width, D: height
@@ -131,6 +189,33 @@ class Detector():
 
 
     def Model(self, model_name, use_pretrained=True, use_gpu=True, gpu_devices=[0]):
+        '''
+        User function: Set Model parameters
+
+            Available models
+                ssd_300_vgg16_atrous_coco
+                ssd_300_vgg16_atrous_voc
+                ssd_512_vgg16_atrous_coco
+                ssd_512_vgg16_atrous_voc
+                ssd_512_resnet50_v1_coco
+                ssd_512_resnet50_v1_voc
+                ssd_512_mobilenet1.0_voc
+                ssd_512_mobilenet1.0_coco
+                yolo3_darknet53_voc
+                yolo3_darknet53_coco
+                yolo3_mobilenet1.0_voc
+                yolo3_mobilenet1.0_coco
+
+        Args:
+            model_name (str): Select from available models
+            use_pretrained (bool): If True use pretrained weights else randomly initialized weights
+            use_gpu (bool): If True use GPU else run on CPU
+            gpu_devices (list): List of GPU device Ids 
+
+        Returns:
+            None
+        '''
+
         self.system_dict["model_name"] = model_name;
         self.system_dict["use_pretrained"] = use_pretrained;
         if(self.system_dict["model_name"] in self.system_dict["model_set_1"]):
@@ -196,6 +281,16 @@ class Detector():
 
 
     def set_device(self, use_gpu=True ,gpu_devices=[0]):
+        '''
+        Internal function: Prepares GPU and CPU devices as per the model parameters set
+
+        Args:
+            use_gpu (bool): If True use GPU else run on CPU
+            gpu_devices (list): List of GPU device Ids
+
+        Returns:
+            None
+        '''
         self.system_dict["use_gpu"] = use_gpu;
         
         if self.system_dict["use_gpu"]:
@@ -206,6 +301,15 @@ class Detector():
 
 
     def Set_Learning_Rate(self, lr):
+        '''
+        User function: Set initial learning rate
+
+        Args:
+            lr (float): Base learning rate
+
+        Returns:
+            None
+        '''
         self.system_dict["local"]["trainer"] = gluon.Trainer(
             self.system_dict["local"]["net"].collect_params(), 'sgd',
             {'learning_rate': lr, 'wd': 0.0005, 'momentum': 0.9})
@@ -225,6 +329,16 @@ class Detector():
 
 
     def Train(self, epochs, params_file):
+        '''
+        User function: Start training
+
+        Args:
+            epochs (int): Number of epochs to train for
+            params_file (str): Trained weights file name with extension as ".params"
+
+        Returns:
+            None
+        '''
         self.system_dict["num_epochs"] = epochs;
         self.system_dict["params_file"] = params_file;
         self.system_dict["training_metrics"] = [];
