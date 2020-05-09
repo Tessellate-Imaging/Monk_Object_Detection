@@ -15,8 +15,15 @@ from layers.modules import MultiBoxLoss
 from layers.functions import PriorBox
 import time
 
-
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -53,6 +60,51 @@ class Detector():
 
 
     def Train_Dataset(self, root_dir, coco_dir, set_dir, batch_size=4, image_size=512, num_workers=3):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                     root_dir
+                          |
+                          |------coco_dir 
+                          |         |
+                          |         |----<set_dir>
+                          |                |
+                          |                |---------img1.jpg
+                          |                |---------img2.jpg
+                          |                |---------..........(and so on) 
+                          |
+                          |
+                          |         |---annotations 
+                          |         |----|
+                          |              |--------------------instances_<set_dir>.json
+                          |              |--------------------classes.txt
+                          
+                          
+                 - instances_<set_dir>.json -> In proper COCO format
+                 - classes.txt              -> A list of classes in alphabetical order
+                 
+
+                For TrainSet
+                 - root_dir = "../sample_dataset";
+                 - coco_dir = "kangaroo";
+                 - set_dir = "Images";
+                 
+
+                Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            set_dir (str): Name of folder containing all training images
+            batch_size (int): Mini batch sampling size for training epochs
+            image_size (int): Either of [512, 300]
+            num_workers (int): Number of parallel processors for data loader 
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["train"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["train"]["coco_dir"] = coco_dir;
         self.system_dict["dataset"]["train"]["set_dir"] = set_dir;
@@ -63,6 +115,48 @@ class Detector():
 
 
     def Val_Dataset(self, root_dir, coco_dir, set_dir):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                     root_dir
+                          |
+                          |------coco_dir 
+                          |         |
+                          |         |----<set_dir>
+                          |                |
+                          |                |---------img1.jpg
+                          |                |---------img2.jpg
+                          |                |---------..........(and so on) 
+                          |
+                          |
+                          |         |---annotations 
+                          |         |----|
+                          |              |--------------------instances_<set_dir>.json
+                          |              |--------------------classes.txt
+                          
+                          
+                 - instances_<set_dir>.json -> In proper COCO format
+                 - classes.txt              -> A list of classes in alphabetical order
+                 
+
+                For TrainSet
+                 - root_dir = "../sample_dataset";
+                 - coco_dir = "kangaroo";
+                 - set_dir = "Images";
+                 
+
+                Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            set_dir (str): Name of folder containing all training images
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["val"]["status"] = True;
         self.system_dict["dataset"]["val"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["val"]["coco_dir"] = coco_dir;
@@ -70,6 +164,22 @@ class Detector():
         
 
     def Model(self, model_name="vgg", use_gpu=True, ngpu=1):
+        '''
+        User function: Set Model parameters
+
+            Available Models
+                vgg
+                e_vgg
+                mobilenet
+
+        Args:
+            model_name (str): Select model from available models
+            use_gpu (bool): If True, model is loaded on GPU else cpu
+            ngpu (int): Number of GPUs to use in parallel
+
+        Returns:
+            None
+        '''
         if(not os.path.isdir("weights/")):
             cmd1 = "cp " + os.path.dirname(os.path.realpath(__file__)) + "/download.sh " + os.getcwd() + "/.";
             os.system(cmd1);
@@ -90,6 +200,20 @@ class Detector():
 
 
     def Set_HyperParams(self, lr=0.0001, momentum=0.9, weight_decay=0.0005, gamma=0.1, jaccard_threshold=0.5):
+        '''
+        User function: Set hyper parameters
+
+        Args:
+            lr (float): Initial learning rate for training
+            momentum (float): Momentum value for optimizer
+            weight_decay (float): Decay term for weights durng training for better regularization
+            gamma (float): Multiplicative factor for learning rate 
+            jaccard_threshold (float): Limit nms thresholding 
+            print_interval (int): Post every specified iteration the training losses and accuracies will be printed
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["jaccard_threshold"] = jaccard_threshold;
         self.system_dict["params"]["lr"] = lr;
         self.system_dict["params"]["momentum"] = momentum;
@@ -99,6 +223,18 @@ class Detector():
 
 
     def Train(self, epochs=200, log_iters=True, output_weights_dir="weights", saved_epoch_interval=10):
+        '''
+        User function: Start training
+
+        Args:
+            epochs (int): Number of epochs to train for
+            log_iters (bool): If True, logs will be saved
+            output_weights_dir (str): Folder path to save trained weights
+            saved_epoch_interval (int): Save intermediate weights aver every "saved_epoch_interval" number of epochs
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["max_epoch"] = epochs;
         self.system_dict["params"]["log_iters"] = log_iters;
         self.system_dict["params"]["save_folder"] = output_weights_dir;
@@ -300,6 +436,20 @@ class Detector():
 
 
     def adjust_learning_rate(self, optimizer, gamma, epoch, step_index, iteration, epoch_size):
+        '''
+        Internal function: Adjust learning rates during training
+
+        Args:
+            optimizer (pytorch optimizer): Optimizer being used
+            gamma (float): Multiplicative factor for learning rate 
+            epoch (int): Current epoch
+            step_index(int): Step index for scheduling learning rate
+            iteration (int): Current iteration
+            epoch_size (int): Total number of epochs
+
+        Returns:
+            None
+        '''
         if epoch < 6:
             lr = 1e-6 + (self.system_dict["params"]["lr"]-1e-6) * iteration / (epoch_size * 5) 
         else:

@@ -19,6 +19,14 @@ from utils.timer import Timer
 
 
 class Infer():
+    '''
+    Class for main inference
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -41,6 +49,17 @@ class Infer():
 
 
     def Model(self, model_name="vgg", weights="weights/Final_RFB_vgg_COCO.pth", use_gpu=True):
+        '''
+        User function: Selet trained model params
+
+        Args:
+            model_name (str): Select the right model
+            weights (str): Relative path to the trained model 
+            use_gpu (bool): If True, model is loaded on GPU else cpu
+
+        Returns:
+            None
+        '''
         if(model_name == "vgg"):
             self.system_dict["params"]["version"] = "RFB_vgg";
         elif(model_name == "e_vgg"):
@@ -59,6 +78,16 @@ class Infer():
 
 
     def Image_Params(self, class_file, input_size=512):
+        '''
+        User function: Set trained model params
+
+        Args:
+            class_file (str): Path to file containing class names
+            input_size (int): Input image shape
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["size"] = input_size;
         f = open(class_file, 'r');
         lines = f.readlines();
@@ -68,6 +97,15 @@ class Infer():
 
 
     def Setup(self):
+        '''
+        User function: Setup all parameters
+
+        Args:
+            None
+
+        Returns:
+            None
+        '''
         if(self.system_dict["params"]["size"] == 300):
             self.system_dict["local"]["cfg"] = COCO_300;
         else:
@@ -124,6 +162,18 @@ class Infer():
 
     
     def Predict(self, img_file, thresh=0.7, font_size=1, line_size=5):
+        '''
+        User function: Run inference on image and visualize it
+
+        Args:
+            img_file (str): Relative path to the image file
+            thresh (float): Threshold for predicted scores. Scores for objects detected below this score will not be displayed 
+            font_size (int): Font size for text of label names on predicted images
+            line_size (int): Drawn bounding boxes line widths
+
+        Returns:
+            list: List of bounding box locations of predicted objects along with classes. 
+        '''
         top_k = 200
         img_dim = (300,512)[self.system_dict["params"]["size"] == 512]
         num_classes = len(self.system_dict["local"]["classes"])
