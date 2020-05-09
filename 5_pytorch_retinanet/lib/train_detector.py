@@ -19,6 +19,14 @@ assert torch.__version__.split('.')[0] == '1'
 
 
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -44,6 +52,56 @@ class Detector():
 
 
     def Train_Dataset(self, root_dir, coco_dir, img_dir, set_dir, batch_size=8, image_size=512, use_gpu=True, num_workers=3):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                   root_dir
+                      |
+                      |------coco_dir 
+                      |         |
+                      |         |----img_dir
+                      |                |
+                      |                |------<set_dir_train> (set_dir) (Train)
+                      |                         |
+                      |                         |---------img1.jpg
+                      |                         |---------img2.jpg
+                      |                         |---------..........(and so on)  
+                      |
+                      |
+                      |         |---annotations 
+                      |         |----|
+                      |              |--------------------instances_Train.json  (instances_<set_dir_train>.json)
+                      |              |--------------------classes.txt
+                      
+                      
+             - instances_Train.json -> In proper COCO format
+             - classes.txt          -> A list of classes in alphabetical order
+             
+
+            For TrainSet
+             - root_dir = "../sample_dataset";
+             - coco_dir = "kangaroo";
+             - img_dir = "images";
+             - set_dir = "Train";
+            
+             
+            Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            img_dir (str): Name of folder containing all training and validation folders
+            set_dir (str): Name of folder containing all training images
+            batch_size (int): Mini batch sampling size for training epochs
+            image_size (int): Either of [512, 300]
+            use_gpu (bool): If True use GPU else run on CPU
+            num_workers (int): Number of parallel processors for data loader 
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["train"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["train"]["coco_dir"] = coco_dir;
         self.system_dict["dataset"]["train"]["img_dir"] = img_dir;
@@ -73,6 +131,51 @@ class Detector():
 
 
     def Val_Dataset(self, root_dir, coco_dir, img_dir, set_dir):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                   root_dir
+                      |
+                      |------coco_dir 
+                      |         |
+                      |         |----img_dir
+                      |                |
+                      |                |------<set_dir_val> (set_dir) (Validation)
+                      |                         |
+                      |                         |---------img1.jpg
+                      |                         |---------img2.jpg
+                      |                         |---------..........(and so on)  
+                      |
+                      |
+                      |         |---annotations 
+                      |         |----|
+                      |              |--------------------instances_Val.json  (instances_<set_dir_val>.json)
+                      |              |--------------------classes.txt
+                      
+                      
+             - instances_Train.json -> In proper COCO format
+             - classes.txt          -> A list of classes in alphabetical order
+
+             
+            For ValSet
+             - root_dir = "..sample_dataset";
+             - coco_dir = "kangaroo";
+             - img_dir = "images";
+             - set_dir = "Val";
+             
+             Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            img_dir (str): Name of folder containing all training and validation folders
+            set_dir (str): Name of folder containing all validation images
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["val"]["status"] = True;
         self.system_dict["dataset"]["val"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["val"]["coco_dir"] = coco_dir;
@@ -98,6 +201,23 @@ class Detector():
 
 
     def Model(self, model_name="resnet18",gpu_devices=[0]):
+        '''
+        User function: Set Model parameters
+
+            Available Models
+                resnet18
+                resnet34
+                resnet50
+                resnet101
+                resnet152
+
+        Args:
+            model_name (str): Select model from available models
+            gpu_devices (list): List of GPU Device IDs to be used in training
+
+        Returns:
+            None
+        '''
 
         num_classes = self.system_dict["local"]["dataset_train"].num_classes();
         if model_name == "resnet18":
@@ -130,6 +250,17 @@ class Detector():
 
 
     def Set_Hyperparams(self, lr=0.0001, val_interval=1, print_interval=20):
+        '''
+        User function: Set hyper parameters
+
+        Args:
+            lr (float): Initial learning rate for training
+            val_interval (int): Post specified number of training epochs, a validation epoch will be carried out
+            print_interval (int): Post every specified iteration the training losses and accuracies will be printed
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["lr"] = lr;
         self.system_dict["params"]["val_interval"] = val_interval;
         self.system_dict["params"]["print_interval"] = print_interval;
@@ -145,6 +276,16 @@ class Detector():
 
 
     def Train(self, num_epochs=2, output_model_name="final_model.pt"):
+        '''
+        User function: Start training
+
+        Args:
+            num_epochs (int): Number of epochs to train for
+            output_model_name (str): Final model name for saving purposes, with extension ".pt"
+
+        Returns:
+            None
+        '''
         self.system_dict["output"]["saved_model"] = output_model_name;
         self.system_dict["params"]["num_epochs"] = num_epochs;
 
