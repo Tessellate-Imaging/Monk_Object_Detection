@@ -22,6 +22,10 @@ Supports
 <br />
 <br />
 
+## Functional Documentation
+[Link](https://abhi-kumar.github.io/6_cornernet_lite_docs/)
+
+
 
 ## Pipeline
 
