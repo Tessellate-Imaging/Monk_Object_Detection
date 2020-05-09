@@ -25,6 +25,11 @@ Select the right requirements file and run
 <br />
 <br />
 
+
+# Functional Documentation
+[Link](https://abhi-kumar.github.io/2_pytorch_finetune_docs/)
+
+
 ## Pipeline
 
 - Load Dataset
