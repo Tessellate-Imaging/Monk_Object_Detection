@@ -15,6 +15,14 @@ import cv2
 
 
 class Infer():
+    '''
+    Class for main inference
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -24,11 +32,32 @@ class Infer():
         self.system_dict["local"]["std"] = np.array([[[0.229, 0.224, 0.225]]])
 
     def Model(self, model_dir="trained/"):
+        '''
+        User function: Selet trained model params
+
+        Args:
+            model_dir (str): Relative path to directory containing trained models 
+
+        Returns:
+            None
+        '''
         self.system_dict["local"]["model"] = torch.load(model_dir + "/signatrix_efficientdet_coco.pth").module
         if torch.cuda.is_available():
             self.system_dict["local"]["model"] = self.system_dict["local"]["model"].cuda();
 
-    def Predict(self, img_path, class_list, vis_threshold = 0.4,output_folder = 'Inference'):
+    def Predict(self, img_path, class_list, vis_threshold = 0.4, output_folder = 'Inference'):
+        '''
+        User function: Run inference on image and visualize it
+
+        Args:
+            img_path (str): Relative path to the image file
+            class_list (list): List of classes in the training set
+            vis_threshold (float): Threshold for predicted scores. Scores for objects detected below this score will not be displayed 
+            output_folder (str): Path to folder where output images will be saved
+
+        Returns:
+            tuple: Contaning label IDs, Scores and bounding box locations of predicted objects. 
+        '''
 
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
@@ -89,7 +118,18 @@ class Infer():
             return None
 
     def predict_batch_of_images(self, img_folder, class_list, vis_threshold = 0.4, output_folder='Inference'):
-        
+        '''
+        User function: Run inference on multiple images and visualize them
+
+        Args:
+            img_folder (str): Relative path to folder containing all the image files
+            class_list (list): List of classes in the training set
+            vis_threshold (float): Threshold for predicted scores. Scores for objects detected below this score will not be displayed 
+            output_folder (str): Path to folder where output images will be saved
+
+        Returns:
+            None 
+        '''
         all_filenames = os.listdir(img_folder)
         all_filenames.sort()
         generated_count = 0
