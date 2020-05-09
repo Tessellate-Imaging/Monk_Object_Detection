@@ -22,18 +22,17 @@ from core.sample import data_sampling_func
 from core.nnet.py_factory import NetworkFactory
 
 
-
 def prefetch_data(system_config, db, queue, sample_data, data_aug):
-        ind = 0
-        print("start prefetching data...")
-        np.random.seed(os.getpid())
-        while True:
-            try:
-                data, ind = sample_data(system_config, db, ind, data_aug=data_aug)
-                queue.put(data)
-            except Exception as e:
-                traceback.print_exc()
-                raise e
+    ind = 0
+    print("start prefetching data...")
+    np.random.seed(os.getpid())
+    while True:
+        try:
+            data, ind = sample_data(system_config, db, ind, data_aug=data_aug)
+            queue.put(data)
+        except Exception as e:
+            traceback.print_exc()
+            raise e
             
 def _pin_memory(ts):
     if type(ts) is list:
@@ -67,6 +66,14 @@ def terminate_tasks(tasks):
 
 
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -98,6 +105,55 @@ class Detector():
 
 
     def Train_Dataset(self, root_dir, coco_dir, img_dir, set_dir, batch_size=4, use_gpu=True, num_workers=4):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                   root_dir
+                      |
+                      |------coco_dir 
+                      |         |
+                      |         |----img_dir
+                      |                |
+                      |                |------<set_dir_train> (set_dir) (Train)
+                      |                         |
+                      |                         |---------img1.jpg
+                      |                         |---------img2.jpg
+                      |                         |---------..........(and so on)  
+                      |
+                      |
+                      |         |---annotations 
+                      |         |----|
+                      |              |--------------------instances_Train.json  (instances_<set_dir_train>.json)
+                      |              |--------------------classes.txt
+                      
+                      
+             - instances_Train.json -> In proper COCO format
+             - classes.txt          -> A list of classes in alphabetical order
+             
+
+            For TrainSet
+             - root_dir = "../sample_dataset";
+             - coco_dir = "kangaroo";
+             - img_dir = "images";
+             - set_dir = "Train";
+            
+             
+            Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            img_dir (str): Name of folder containing all training and validation folders
+            set_dir (str): Name of folder containing all training images
+            batch_size (int): Mini batch sampling size for training epochs
+            use_gpu (bool): If True use GPU else run on CPU
+            num_workers (int): Number of parallel processors for data loader 
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["train"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["train"]["coco_dir"] = coco_dir;
         self.system_dict["dataset"]["train"]["img_dir"] = img_dir;
@@ -111,6 +167,51 @@ class Detector():
 
 
     def Val_Dataset(self, root_dir, coco_dir, img_dir, set_dir):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                   root_dir
+                      |
+                      |------coco_dir 
+                      |         |
+                      |         |----img_dir
+                      |                |
+                      |                |------<set_dir_val> (set_dir) (Validation)
+                      |                         |
+                      |                         |---------img1.jpg
+                      |                         |---------img2.jpg
+                      |                         |---------..........(and so on)  
+                      |
+                      |
+                      |         |---annotations 
+                      |         |----|
+                      |              |--------------------instances_Val.json  (instances_<set_dir_val>.json)
+                      |              |--------------------classes.txt
+                      
+                      
+             - instances_Train.json -> In proper COCO format
+             - classes.txt          -> A list of classes in alphabetical order
+
+             
+            For ValSet
+             - root_dir = "..sample_dataset";
+             - coco_dir = "kangaroo";
+             - img_dir = "images";
+             - set_dir = "Val";
+             
+             Note: Annotation file name too coincides against the set_dir
+
+        Args:
+            root_dir (str): Path to root directory containing coco_dir
+            coco_dir (str): Name of coco_dir containing image folder and annotation folder
+            img_dir (str): Name of folder containing all training and validation folders
+            set_dir (str): Name of folder containing all validation images
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["val"]["status"] = True;
         self.system_dict["dataset"]["val"]["root_dir"] = root_dir;
         self.system_dict["dataset"]["val"]["coco_dir"] = coco_dir;
@@ -120,6 +221,20 @@ class Detector():
 
 
     def Model(self, model_name="CornerNet_Saccade", use_distributed=False):
+        '''
+        User function: Set Model parameters
+
+            Available Models
+                CornerNet_Saccade
+                CornerNet_Squeeze
+
+        Args:
+            model_name (str): Select appropriate model
+            use_distributed (bool): If true, use distributed training
+
+        Returns:
+            None
+        '''
         self.system_dict["model"]["params"]["cfg_file"] = model_name;
         self.system_dict["model"]["params"]["distributed"] = use_distributed;
 
@@ -128,6 +243,17 @@ class Detector():
 
 
     def Hyper_Params(self, lr=0.00025, total_iterations=1000, val_interval=500):
+        '''
+        User function: Set hyper parameters
+
+        Args:
+            lr (float): Initial learning rate for training
+            total_iterations (float): Total mini batch iterations for training
+            val_interval (int): Post specified number of training epochs, a validation epoch will be carried out
+
+        Returns:
+            None
+        '''
         self.system_dict["training"]["params"]["lr"] = lr;
         self.system_dict["training"]["params"]["total_iterations"] = total_iterations;
         self.system_dict["training"]["params"]["val_interval"] = val_interval;
@@ -135,6 +261,15 @@ class Detector():
 
 
     def Setup(self):
+        '''
+        User function: Setup dataset, model and hyper-params 
+
+        Args:
+            None
+
+        Returns:
+            None
+        '''
         distributed = self.system_dict["model"]["params"]["distributed"]
         world_size  = self.system_dict["model"]["params"]["world_size"]
 
@@ -192,6 +327,15 @@ class Detector():
 
 
     def Train(self, display_interval=100):
+        '''
+        User function: Start training
+
+        Args:
+            display_interval (int): Post every specified iteration the training losses and accuracies will be printed
+
+        Returns:
+            None
+        '''
                 # reading arguments from command
         start_iter  = self.system_dict["training"]["params"]["start_iter"]
         distributed = self.system_dict["model"]["params"]["distributed"]
