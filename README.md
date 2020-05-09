@@ -27,8 +27,10 @@ A one-stop repository for low-code easily-installable object detection pipelines
         - YoloV3 with Darknet53
         - YoloV3 with MobileNet1.0
     
-- B) TorchVision Finetune: Original - https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
-    - Faster-RCNN with MobileNet2.0
+- B) TorchVision Finetune: Original
+    - [Original Implementation](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html)
+    - [Functional Documentation](https://abhi-kumar.github.io/2_pytorch_finetune_docs/)
+        - Faster-RCNN with MobileNet2.0
     
 - C) MX-RCNN: Original
     - [Original Implementation](https://github.com/ijkguo/mx-rcnn)
