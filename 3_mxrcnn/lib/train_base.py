@@ -23,6 +23,39 @@ system_dict = {};
 
 #######################################################################################################################################
 def set_dataset_params(root_dir="data", coco_dir="coco", imageset="traincustom"):
+    '''
+    User function: Set dataset parameters
+
+    Dataset Directory Structure
+
+        root_dir_name
+              |
+              |------coco_dir_name 
+              |         |
+              |         |---imageset
+              |         |----|
+              |              |-------------------img1.jpg
+              |              |-------------------img2.jpg
+              |              |-------------------.........(and so on)
+              |
+              |
+              |         |---anno_dir_name
+              |         |----|
+              |              |--------------------instances_<imageset>.json 
+              |              |--------------------classes.txt
+      
+      
+         - instances_<imageset>.json -> In proper COCO format
+         - classes.txt          -> A list of classes in alphabetical order
+
+    Args:
+        root_dir (str): Path to root directory containing coco_dir
+        coco_dir (str): Name of coco_dir containing image folder and annotation folder
+        imageset (str): Name of folder containing all training images
+
+    Returns:
+        None
+    '''       
     system_dict["dataset_root"] = root_dir;
     system_dict["dataset"] = coco_dir;
     system_dict["dataset_dir"] = root_dir + "/" + coco_dir;
@@ -33,6 +66,18 @@ def set_dataset_params(root_dir="data", coco_dir="coco", imageset="traincustom")
     
 
 def set_img_preproc_params(img_short_side=600, img_long_side=1000, mean=(123.68, 116.779, 103.939), std=(1.0, 1.0, 1.0)):
+    '''
+    User function: Set image preprocessing parameters
+
+    Args:
+        img_short_side (int): Minimum image size for rescaling
+        img_long_side (int): Maximum image size for rescaling
+        mean (tuple): 3-Channel mean for subtraction in preprocessing
+        std (tuple): 3-Channel standard deviation for normalizing in preprocessing
+
+    Returns:
+        None
+    '''
     system_dict["img_short_side"] = img_short_side;
     system_dict["img_long_side"] = img_long_side;
     system_dict["img_pixel_means"] = str(mean);
@@ -44,6 +89,22 @@ def set_img_preproc_params(img_short_side=600, img_long_side=1000, mean=(123.68,
 
 #network options - vgg16, renet50, resnet101
 def set_model_params(model_name="vgg16", resume=False, start_epoch=0):
+    '''
+    User function: Set model parameters
+
+        Available models
+            vgg16
+            resnet50
+            resnet101
+
+    Args:
+        model_name (str): Select from available models
+        resume (bool): If True resume training from start_epoch 
+        start_epoch (int): Set resume epoch
+
+    Returns:
+        None
+    '''
     system_dict["network"] = model_name;
     if(model_name == "vgg16"):
         system_dict["pretrained"] = "pretrained/vgg16-0000.params";
@@ -104,6 +165,19 @@ def set_model_params(model_name="vgg16", resume=False, start_epoch=0):
 
 
 def set_hyper_params(gpus=[0], lr=0.001, lr_decay_epoch="7", epochs=10, batch_size=1):
+    '''
+    User function: Set hyper parameters
+
+    Args:
+        gpus (list): List of gpu device IDs to train on
+        lr (float): Initial learning rate for training
+        lr_decay_epoch (str): Reduce learning rate at these epochs. epochs provided by a comma in string, eg. "7, 10, 15"
+        epochs (int): No of epochs to train the detector
+        batch_size (int): Data loader mini batch size for every epoch
+
+    Returns:
+        None
+    '''
     if gpus == '0':
         system_dict["gpus"] = list(gpus)
     else :
@@ -115,6 +189,16 @@ def set_hyper_params(gpus=[0], lr=0.001, lr_decay_epoch="7", epochs=10, batch_si
 
 
 def set_output_params(log_interval=100, save_prefix="model_vgg16"):
+    '''
+    User function: Set output parameters
+
+    Args:
+        log_interval (int): Log-prints training status after every specified interval of iterations inside an epoch  
+        save_prefix (str): Common prefix to be attached to intermediate models
+
+    Returns:
+        None
+    '''
     system_dict["log_interval"] = log_interval;
     if(not os.path.isdir("trained_model")):
         os.mkdir("trained_model");
@@ -131,6 +215,15 @@ def set_output_params(log_interval=100, save_prefix="model_vgg16"):
 
 #######################################################################################################################################
 def initialize_rpn_params():
+    '''
+    User function: Initialize all RPN parameters
+
+    Args:
+        None
+
+    Returns:
+        None
+    '''
     system_dict["rpn_feat_stride"] = 16;
     system_dict["rpn_anchor_scales"] = '(8, 16, 32)';
     system_dict["rpn_anchor_ratios"] = '(0.5, 1, 2)';
@@ -149,6 +242,15 @@ def initialize_rpn_params():
 
 
 def initialize_rcnn_params():
+    '''
+    User function: Initialize all RCNN parameters
+
+    Args:
+        None
+
+    Returns:
+        None
+    '''
     system_dict["rcnn_batch_rois"] = 128;
     system_dict["rcnn_fg_fraction"] = 0.25;
     system_dict["rcnn_fg_overlap"] = 0.5;
@@ -170,6 +272,15 @@ def initialize_rcnn_params():
 
 #######################################################################################################################################
 def get_coco(system_dict):
+    '''
+    Internal function: Get coco dataset as per dataset params
+
+    Args:
+        system_dict (dict): Dictionary of all the parameters selected for training
+
+    Returns:
+        list: List of all the images and labels in coco-db format
+    '''
     from symimdb.coco import coco
     if not system_dict["imageset"]:
         system_dict["imageset"] = 'train2017'
@@ -187,6 +298,15 @@ def get_coco(system_dict):
 
 
 def set_dataset():
+    '''
+    User function: Set dataloader
+
+    Args:
+        None
+
+    Returns:
+        list: List of all the images and labels in coco-db format
+    '''
     dataset = system_dict["dataset"];
     datasets = {
         dataset: get_coco
@@ -208,6 +328,15 @@ def set_dataset():
 
 #######################################################################################################################################
 def get_resnet101_train(system_dict):
+    '''
+    Internal function: Select resnet101 params
+
+    Args:
+        system_dict (dict): Dictionary of all the parameters selected for training
+
+    Returns:
+        mxnet model: Resnet101 model
+    '''
     from symnet.symbol_resnet import get_resnet_train
 
     return get_resnet_train(anchor_scales=system_dict["rpn_anchor_scales"], anchor_ratios=system_dict["rpn_anchor_ratios"],
@@ -222,6 +351,15 @@ def get_resnet101_train(system_dict):
 
 
 def get_resnet50_train(system_dict):
+    '''
+    Internal function: Select resnet50 params
+
+    Args:
+        system_dict (dict): Dictionary of all the parameters selected for training
+
+    Returns:
+        mxnet model: Resnet50 model
+    '''
     from symnet.symbol_resnet import get_resnet_train
 
     return get_resnet_train(anchor_scales=system_dict["rpn_anchor_scales"], anchor_ratios=system_dict["rpn_anchor_ratios"],
@@ -236,6 +374,15 @@ def get_resnet50_train(system_dict):
 
 
 def get_vgg16_train(system_dict):
+    '''
+    Internal function: Select vgg16 params
+
+    Args:
+        system_dict (dict): Dictionary of all the parameters selected for training
+
+    Returns:
+        mxnet model: Vgg16 model
+    '''
     from symnet.symbol_vgg import get_vgg_train
 
     return get_vgg_train(anchor_scales=system_dict["rpn_anchor_scales"], anchor_ratios=system_dict["rpn_anchor_ratios"],
@@ -248,6 +395,15 @@ def get_vgg16_train(system_dict):
                          rcnn_fg_overlap=system_dict["rcnn_fg_overlap"], rcnn_bbox_stds=system_dict["rcnn_bbox_stds"])
 
 def set_network():
+    '''
+    User function: Set the train model
+
+    Args:
+        None
+
+    Returns:
+        mxnet model: Model as per selected params
+    '''
     network = system_dict["network"]
     networks = {
         'vgg16': get_vgg16_train,
@@ -267,6 +423,19 @@ def set_network():
 
 #######################################################################################################################################
 def train(sym, roidb):
+    '''
+    User function: Start training
+
+    Args:
+        sym (mxnet model): Mxnet model returned from set_network() function
+        roidb (dataloader): Dataloader returned from set_model() function
+
+    Returns:
+        None
+    '''
+
+
+
     # print config
     #logger.info('called with system_dict\n{}'.format(pprint.pformat(vars(system_dict))))
     #print(system_dict)
