@@ -35,6 +35,14 @@ from apex import amp
 
 
 class Detector():
+    '''
+    Class to train a detector
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -57,6 +65,15 @@ class Detector():
 
 
     def set_fixed_params(self):
+        '''
+        Internal function: Set fixed parameters
+
+        Args:
+            None
+
+        Returns:
+            None
+        '''
         self.system_dict["fixed_params"]["wdir"] = 'weights' + os.sep  
         self.system_dict["fixed_params"]["last"] = self.system_dict["fixed_params"]["wdir"] + 'last.pt'
         self.system_dict["fixed_params"]["best"] = self.system_dict["fixed_params"]["wdir"] + 'best.pt'
@@ -90,6 +107,63 @@ class Detector():
 
 
     def set_train_dataset(self, img_dir, label_dir, class_list, batch_size=2, img_size=416, cache_images=False):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                    root_dir
+                      |
+                      |-----------images (img_dir)
+                      |              |
+                      |              |------------------img1.jpg
+                      |              |------------------img2.jpg
+                      |              |------------------.........(and so on)
+                      |
+                      |-----------labels (label_dir)
+                      |              |
+                      |              |------------------img1.txt
+                      |              |------------------img2.txt
+                      |              |------------------.........(and so on)
+                      |
+                      |------------classes.txt 
+                      
+
+            Classes file
+             
+                 List of classes in every new line.
+                 The order corresponds to the IDs in annotation files
+                 
+                 Eg.
+                      class1               (------------------------------> if will be 0)
+                      class2               (------------------------------> if will be 1)
+                      class3               (------------------------------> if will be 2)
+                      class4               (------------------------------> if will be 3)
+                      
+
+            Annotation file format
+
+                CLASS_ID BOX_X_CENTER BOX_Y_CENTER WIDTH BOX_WIDTH BOX_HEIGHT
+                
+                (All the coordinates should be normalized)
+                (X coordinates divided by width of image, Y coordinates divided by height of image)
+                
+                Ex. (One line per bounding box of object in image)
+                    class_id x1 y1 w h
+                    class_id x1 y1 w h
+                    ..... (and so on)
+        
+
+        Args:
+            img_dir (str): Relative path to folder containing all training images
+            label_dir (str): Relative path to folder containing all training labels text files
+            class_list (list): List of all classes in dataset
+            batch_size (int): Mini batch sampling size for training epochs
+            cache_images (bool): If True, images are cached for faster loading
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["train"]["img_dir"] = img_dir;
         self.system_dict["dataset"]["train"]["label_dir"] = label_dir;
         self.system_dict["dataset"]["train"]["class_list"] = class_list;
@@ -101,29 +175,113 @@ class Detector():
 
 
     def set_val_dataset(self, img_dir, label_dir):
+        '''
+        User function: Set training dataset parameters
+
+        Dataset Directory Structure
+
+                    root_dir
+                      |
+                      |-----------images (img_dir)
+                      |              |
+                      |              |------------------img1.jpg
+                      |              |------------------img2.jpg
+                      |              |------------------.........(and so on)
+                      |
+                      |-----------labels (label_dir)
+                      |              |
+                      |              |------------------img1.txt
+                      |              |------------------img2.txt
+                      |              |------------------.........(and so on)
+                      |
+                      |------------classes.txt 
+                      
+
+            Classes file
+             
+                 List of classes in every new line.
+                 The order corresponds to the IDs in annotation files
+                 
+                 Eg.
+                      class1               (------------------------------> if will be 0)
+                      class2               (------------------------------> if will be 1)
+                      class3               (------------------------------> if will be 2)
+                      class4               (------------------------------> if will be 3)
+                      
+
+            Annotation file format
+
+                CLASS_ID BOX_X_CENTER BOX_Y_CENTER WIDTH BOX_WIDTH BOX_HEIGHT
+                
+                (All the coordinates should be normalized)
+                (X coordinates divided by width of image, Y coordinates divided by height of image)
+                
+                Ex. (One line per bounding box of object in image)
+                    class_id x1 y1 w h
+                    class_id x1 y1 w h
+                    ..... (and so on)
+        
+
+        Args:
+            img_dir (str): Relative path to folder containing all validation images
+            label_dir (str): Relative path to folder containing all validation labels text files
+
+        Returns:
+            None
+        '''
         self.system_dict["dataset"]["val"]["img_dir"] = img_dir;
         self.system_dict["dataset"]["val"]["label_dir"] = label_dir;
         self.system_dict["dataset"]["val"]["status"] = True;
 
 
-    #"yolov3";
-    #"yolov3s";
-    #"yolov3-spp";
-    #"yolov3-spp3";
-    #"yolov3-tiny";
-    #"yolov3-spp-matrix";
-    #"csresnext50-panet-spp";
+
     def set_model(self, model_name="yolov3"):
+        '''
+        User function: Set Model parameters
+
+            Available Models
+                yolov3
+                yolov3s
+                yolov3-spp
+                yolov3-spp3
+                yolov3-tiny
+                yolov3-spp-matrix
+                csresnext50-panet-spp
+
+
+        Args:
+            model_name (str): Select model from available models
+            gpu_devices (list): List of GPU Device IDs to be used in training
+
+        Returns:
+            None
+        '''
         tmp_cfg = os.path.dirname(os.path.realpath(__file__)) + "/cfg/" + model_name + ".cfg";
         cmd = "cp " + tmp_cfg + " " + os.getcwd() + "/" + model_name + ".cfg";
         os.system(cmd);
         self.system_dict["params"]["cfg"] = model_name + ".cfg";
 
 
-    #sgd
-    #adam
+
     def set_hyperparams(self, optimizer="sgd", lr=0.00579, multi_scale=False, evolve=False, num_generations=2, 
                         mixed_precision=True, gpu_devices="0"):
+        '''
+        User function: Set hyper parameters
+            Available optimizers
+                sgd
+                adam
+
+        Args:
+            optimizer (str): Select the right optimizer
+            lr (float): Initial learning rate for training
+            multi_scale (bool): If True, run multi-scale training.
+            evolve (bool): If True, runs multiple epochs in every generation and updates hyper-params accordingly
+            mixed_precision (bool): If True, uses both 16-bit and 32-bit floating-point types in a model during training to make it run faster and use less memory.
+            gpu_devices (str): List of all GPU device IDs separated by a comma in a string
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["multi_scale"] = multi_scale;
         if(optimizer == "sgd"):
             self.system_dict["params"]["adam"] = False;
@@ -143,7 +301,15 @@ class Detector():
 
 
     def setup(self):
-        #folder
+        '''
+        Internal function: Setup all the dataset, model and data params 
+
+        Args:
+            None
+
+        Returns:
+            None
+        '''
         if(not os.path.isdir("weights")):
             os.mkdir("weights");
 
@@ -337,6 +503,15 @@ class Detector():
 
 
     def Train(self, num_epochs=2):
+        '''
+        User function: Set training params and train
+
+        Args:
+            num_epochs (int): Number of epochs in training
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["epochs"] = num_epochs;
 
         if not self.system_dict["params"]["evolve"]:
@@ -401,6 +576,15 @@ class Detector():
 
 
     def start_training(self):
+        '''
+        Internal function: Start training post setting up all params
+
+        Args:
+            None
+
+        Returns:
+            str: Training and validation epoch results
+        '''
         self.system_dict["local"]["nb"] = len(self.system_dict["local"]["dataloader"])
         prebias = self.system_dict["local"]["start_epoch"] == 0
         self.system_dict["local"]["model"].nc = self.system_dict["local"]["nc"]  # attach number of classes to model

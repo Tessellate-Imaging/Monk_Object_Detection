@@ -6,6 +6,14 @@ from utils.utils import *
 
 
 class Infer():
+    '''
+    Class for main inference
+
+    Args:
+        verbose (int): Set verbosity levels
+                        0 - Print Nothing
+                        1 - Print desired details
+    '''
     def __init__(self, verbose=1):
         self.system_dict = {};
         self.system_dict["verbose"] = verbose;
@@ -37,6 +45,29 @@ class Infer():
 
 
     def Model(self, model_name, class_list, weight, use_gpu=True, input_size=416, half_precision=False):
+        '''
+        User function: Set Model parameters
+
+            Available Models
+                yolov3
+                yolov3s
+                yolov3-spp
+                yolov3-spp3
+                yolov3-tiny
+                yolov3-spp-matrix
+                csresnext50-panet-spp
+
+
+        Args:
+            model_name (str): Select model from available models
+            class_list (list): List of classes as per given in training session
+            weight (srt): Path to file storing model weights 
+            use_gpu (bool): If True, model is loaded onto GPU device, else on CPU
+            half_precision (bool): If True, uses only 16 bit floating point operations for faster inferencing
+
+        Returns:
+            None
+        '''
         self.system_dict["params"]["cfg"] = model_name + ".cfg"; 
         self.system_dict["params"]["half"] = half_precision;
         self.system_dict["params"]["names"] = class_list;
@@ -75,6 +106,17 @@ class Infer():
 
 
     def Predict(self, img_path, conf_thres=0.3, iou_thres=0.5):
+        '''
+        User function: Run inference on image and visualize it
+
+        Args:
+            img_path (str): Relative path to the image file
+            conf_thres (float): Threshold for predicted scores. Scores for objects detected below this score will not be displayed 
+            iou_thres (float): Threshold for bounding boxes nms merging
+
+        Returns:
+            None.
+        '''
         self.system_dict["params"]["conf_thres"] = conf_thres;
         self.system_dict["params"]["iou_thres"] = iou_thres;
         view_img = self.system_dict["params"]["view_img"];
