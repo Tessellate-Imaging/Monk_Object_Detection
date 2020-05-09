@@ -44,9 +44,11 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - Resnet101
     - Resnet152
     
-- F) CornerNet-Lite: Original - https://github.com/princeton-vl/CornerNet-Lite
-    - CornerNet-Saccade
-    - CornerNet-Squeeze
+- F) CornerNet-Lite: Original
+    - [Original Implementation](https://github.com/princeton-vl/CornerNet-Lite)
+    - [Functional Documentation](https://abhi-kumar.github.io/6_cornernet_lite_docs/)
+        - CornerNet-Saccade
+        - CornerNet-Squeeze
     
 - G) YOLOV3: Original
     - [Original Implementation](https://github.com/ultralytics/yolov3)
