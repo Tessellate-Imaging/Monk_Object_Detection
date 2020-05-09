@@ -37,12 +37,14 @@ A one-stop repository for low-code easily-installable object detection pipelines
     
 - D) Efficient-Det: Original -  https://github.com/signatrix/efficientdet
 
-- E) Pytorch-Retinanet: Original - https://github.com/yhenon/pytorch-retinanet
-    - Resnet18
-    - Resnet34
-    - Resnet50
-    - Resnet101
-    - Resnet152
+- E) Pytorch-Retinanet: Original
+    - [Original Implementation](https://github.com/yhenon/pytorch-retinanet)
+    - [Functional Documentation](https://abhi-kumar.github.io/5_pytorch_retinanet_docs/)
+        - Resnet18
+        - Resnet34
+        - Resnet50
+        - Resnet101
+        - Resnet152
     
 - F) CornerNet-Lite: Original
     - [Original Implementation](https://github.com/princeton-vl/CornerNet-Lite)
