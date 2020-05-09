@@ -57,10 +57,12 @@ A one-stop repository for low-code easily-installable object detection pipelines
     - yolov3-spp-matrix
     - csresnext50-panet-spp
 
-- H) RFBNet: Original - https://github.com/ruinmessi/RFBNet
-    - VGG16
-    - E_VGG16
-    - MobileNet
+- H) RFBNet: Original
+    - [Original Implementation](https://github.com/ruinmessi/RFBNet)
+    - [Functional Documentation](https://abhi-kumar.github.io/8_pytorch_rfbnet_docs/)
+        - VGG16
+        - E_VGG16
+        - MobileNet
     
 
 
