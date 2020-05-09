@@ -19,6 +19,11 @@ Supports
 <br />
 <br />
 
+## Functional Documentation
+[Link](https://abhi-kumar.github.io/4_efficientdet_docs/)
+
+
+
 ## Pipeline
 
 - Load Dataset
