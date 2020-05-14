@@ -16,7 +16,7 @@ notebook
 
 dicttoxml
 xmltodict
-tensorflow-gpu==1.14
+tensorflow-gpu==1.15
 keras==2.2.4
 segmentation-models
 albumentations>=0.3.0

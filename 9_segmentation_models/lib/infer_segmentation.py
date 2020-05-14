@@ -33,7 +33,7 @@ class Infer():
         self.system_dict["params"] = {};      
 
 
-    def Data_Params(self, classes_dict, classes_to_train):
+    def Data_Params(self, classes_dict, classes_to_train, image_shape=[320, 320]):
         '''
         User function: Set dataset parameters
 
@@ -48,6 +48,7 @@ class Infer():
         '''
         self.system_dict["params"]["classes_dict"] = classes_dict;
         self.system_dict["params"]["classes_to_train"] = classes_to_train;
+        self.system_dict["params"]["image_shape"] = image_shape;
 
 
     def Model_Params(self, model="Unet", backbone="efficientnetb2", path_to_model='best_model.h5'):
@@ -158,13 +159,20 @@ class Infer():
 
         x_test_dir = dirPath + "/img_dir";
         y_test_dir = dirPath + "/gt_dir";
+
+        if(self.system_dict["params"]["image_shape"][0] % 32 != 0):
+            self.system_dict["params"]["image_shape"][0] += (32 - self.system_dict["params"]["image_shape"][0] % 32)
+
+        if(self.system_dict["params"]["image_shape"][1] % 32 != 0):
+            self.system_dict["params"]["image_shape"][1] += (32 - self.system_dict["params"]["image_shape"][1] % 32)
+
         preprocess_input = sm.get_preprocessing(self.system_dict["params"]["backbone"])
         test_dataset = Dataset(
             x_test_dir, 
             y_test_dir, 
             self.system_dict["params"]["classes_dict"],
             classes_to_train=self.system_dict["params"]["classes_to_train"], 
-            augmentation=get_validation_augmentation(),
+            augmentation=get_validation_augmentation(self.system_dict["params"]["image_shape"][0], self.system_dict["params"]["image_shape"][1]),
             preprocessing=get_preprocessing(preprocess_input),
         )
 

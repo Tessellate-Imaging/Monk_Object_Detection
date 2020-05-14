@@ -148,7 +148,7 @@ class Segmenter():
         print("Available models - {}".format(self.system_dict["params"]["models"]));
 
 
-    def Data_Params(self, batch_size=2, backbone="efficientnetb2", image_shape=(320, 320)):
+    def Data_Params(self, batch_size=2, backbone="efficientnetb2", image_shape=[320, 320]):
         '''
         User function: Set Data parameters
 
