@@ -148,7 +148,7 @@ class Segmenter():
         print("Available models - {}".format(self.system_dict["params"]["models"]));
 
 
-    def Data_Params(self, batch_size=2, backbone="efficientnetb2"):
+    def Data_Params(self, batch_size=2, backbone="efficientnetb2", image_shape=(320, 320)):
         '''
         User function: Set Data parameters
 
@@ -169,6 +169,7 @@ class Segmenter():
         '''
         self.system_dict["params"]["batch_size"] = batch_size;
         self.system_dict["params"]["backbone"] = backbone;
+        self.system_dict["params"]["image_shape"] = image_shape;
 
 
     def Model_Params(self, model="Unet"):
@@ -262,6 +263,15 @@ class Segmenter():
             preprocessing=get_preprocessing(preprocess_input),
         )
 
+
+        if(self.system_dict["params"]["image_shape"][0] % 32 != 0):
+            self.system_dict["params"]["image_shape"][0] += (32 - self.system_dict["params"]["image_shape"][0] % 32)
+
+        if(self.system_dict["params"]["image_shape"][1] % 32 != 0):
+            self.system_dict["params"]["image_shape"][1] += (32 - self.system_dict["params"]["image_shape"][1] % 32)
+
+
+
         # Dataset for validation images
         if(self.system_dict["dataset"]["val"]["status"]):
             valid_dataset = Dataset(
@@ -269,7 +279,7 @@ class Segmenter():
                 self.system_dict["dataset"]["val"]["mask_dir"], 
                 self.system_dict["dataset"]["train"]["classes_dict"],
                 classes_to_train=self.system_dict["dataset"]["train"]["classes_to_train"], 
-                augmentation=get_validation_augmentation(),
+                augmentation=get_validation_augmentation(self.system_dict["params"]["image_shape"][0], self.system_dict["params"]["image_shape"][1]),
                 preprocessing=get_preprocessing(preprocess_input),
             )
         else:
@@ -278,7 +288,7 @@ class Segmenter():
                 self.system_dict["dataset"]["train"]["mask_dir"], 
                 self.system_dict["dataset"]["train"]["classes_dict"],
                 classes_to_train=self.system_dict["dataset"]["train"]["classes_to_train"], 
-                augmentation=get_validation_augmentation(),
+                augmentation=get_validation_augmentation(self.system_dict["params"]["image_shape"][0], self.system_dict["params"]["image_shape"][1]),
                 preprocessing=get_preprocessing(preprocess_input),
             )
 
