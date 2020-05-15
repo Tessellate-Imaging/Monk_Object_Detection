@@ -1,0 +1,13 @@
+pyyaml
+EasyDict
+protobuf
+argparse
+scikit-image
+git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+
+dicttoxml
+xmltodict
+tensorflow-gpu==1.15
+keras==2.2.4
+segmentation-models
+albumentations>=0.3.0
