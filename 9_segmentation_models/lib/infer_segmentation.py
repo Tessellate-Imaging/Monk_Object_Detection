@@ -14,6 +14,7 @@ from utils import get_training_augmentation
 from utils import get_validation_augmentation
 from utils import get_preprocessing
 from utils import visualize
+from utils import visualize2
 from utils import denormalize
 
 
@@ -183,8 +184,26 @@ class Infer():
         pr_mask = self.system_dict["local"]["model"].predict(image).round()
         np.save("output_mask.npy", pr_mask)
 
+        '''
         if(vis):
             visualize(
                 image=denormalize(image.squeeze()),
                 pr_mask=pr_mask[..., 0].squeeze(),
+            )
+        '''
+        
+        img_list = [denormalize(image.squeeze())];
+        label_list = ["image"];
+
+        
+        for i in range(len(self.system_dict["params"]["classes_to_train"])):
+            img_list.append(pr_mask[..., i].squeeze());
+            label_list.append(self.system_dict["params"]["classes_to_train"][i])
+            
+        
+        
+        if(vis):
+            visualize2(
+                label_list,
+                img_list
             )

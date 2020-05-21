@@ -23,6 +23,24 @@ def visualize(**images):
         plt.title(' '.join(name.split('_')).title())
         plt.imshow(image)
     plt.show()
+
+
+# Data loader and visualization functions
+# helper function for data visualization
+def visualize2(label_list, img_list):
+    """PLot images in one row."""
+    n = len(label_list)
+    plt.figure(figsize=(16, 5))
+    for i in range(len(label_list)):
+        name = label_list[i];
+        image = img_list[i];
+        plt.subplot(1, n, i + 1)
+        plt.xticks([])
+        plt.yticks([])
+        plt.title(' '.join(name.split('_')).title())
+        plt.imshow(image)
+    plt.show()
+
     
 # helper function for data visualization    
 def denormalize(x):
