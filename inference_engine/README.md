@@ -3,10 +3,24 @@
 Supports 
 - Python 3.6
 - Cuda 9.0, Cuda 10.0
-    
-`cd installation`
 
-`cat requirements.txt | xargs -n 1 -L 1 pip install`
+` $ sudo apt-get install python3.6 python3.6-dev python3.7 python3.7-dev python3-pip`
+
+` $ sudo pip install virtualenv virtualenvwrapper`
+
+` $ $ echo -e "\n# virtualenv and virtualenvwrapper" >> ~/.bashrc`
+
+` $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc`
+
+` $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc`
+
+` $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc`
+
+` $ source ~/.bashrc`
+
+` $ cd installation`
+
+` $ cat requirements.txt | xargs -n 1 -L 1 pip install`
 
 
 <br />
