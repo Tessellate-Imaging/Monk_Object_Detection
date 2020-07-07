@@ -13,6 +13,9 @@ A one-stop repository for low-code easily-installable object detection pipelines
 ### Documentation
 - [LINK](https://li8bot.github.io/monkai/#/home)
 
+<br />
+<br />
+<br />
 
 ## Important Elements
 
