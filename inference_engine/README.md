@@ -4,7 +4,7 @@ Supports
 - Python 3.6
 - Cuda 9.0, Cuda 10.0
 
-` $ sudo apt-get install python3.6 python3.6-dev python3.7 python3.7-dev python3-pip`
+` $ sudo apt-get install python3.6 python3.6-dev python3-pip`
 
 ` $ sudo pip install virtualenv virtualenvwrapper`
 
