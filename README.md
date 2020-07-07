@@ -13,7 +13,26 @@ A one-stop repository for low-code easily-installable object detection pipelines
 ### Documentation
 - [LINK](https://li8bot.github.io/monkai/#/home)
 
-## Pipelines presented as jupyter notebooks - see example_notebooks
+
+## Important Elements
+
+- A) Training Engine
+    - Train models on custom dataset witjh low code syntax
+    - Pretrained examples on variety of datasets
+    - Useful to train your own detector
+    
+- B) Inference Engine
+    - Original pretrained models (from original authors and implementations) for inferencing and analysing
+    - Pretrained models on coco, voc, cityscpaes, type datasets
+    - Useful to analyse which algoeithm works best for you
+    - Useful to generate semi-accurate annotations (coco, pascal-voc, yolo formats) on a new dataset
+
+<br />
+<br />
+<br />
+
+
+## Training engine - Pipelines presented as jupyter notebooks - see example_notebooks
 (See the licenses for each pipeline and use accordingly)
 
 
@@ -89,7 +108,44 @@ A one-stop repository for low-code easily-installable object detection pipelines
 <br />
 <br />
 
-## Installation
+
+
+## Inference Engine
+(See the licenses for each pipeline and use accordingly)
+
+- A) GluonCV Finetune
+     - [Original Implementation](https://gluon-cv.mxnet.io/build/examples_detection/index.html)
+     - Pretrained models on 
+          - COCO Dataset
+          - Pascal VOC Dataset
+     - Models using
+          - SSD
+          - faster-rcnn
+          - Yolo-V3
+          - CenterNet
+          
+ - B) EfficientDet Pytorch
+     - [Original Implementation](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
+     - Pretrained models on 
+          - COCO Dataset
+     - Models using efficient network variants
+
+
+<br />
+<br />
+<br />
+
+## Installation - Inference engine
+ - Check - Monk_Object_Detection/inference_engine/
+
+
+
+
+<br />
+<br />
+<br />
+
+## Installation - Training engine
 - A) GluonCV Finetune
     - Check - Monk_Object_Detection/1_gluoncv_finetune/
 
