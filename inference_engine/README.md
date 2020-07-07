@@ -13,22 +13,31 @@ Supports
 <br />
 <br />
 
-## Projects
+## Project Credits
 - A) Object Detection
+    - [GluonCV Finetune Model Zoo](https://gluon-cv.mxnet.io/model_zoo/detection.html)
+    - [EfficientDet Pytorch](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
 
 - B) Image Segmentation
+    - In Development
 
 - C) Pose Estimation
+    - In Development
 
 - D) Face Recognition
+    - In Development
 
 - E) Facial Keypoint Recognition
+    - In Development
 
 - F) Activity Classification
+    - In Development
 
 - G) Gaze Estimation
+    - In Development
 
 - H) Object Tracking
+    - In Development
 
 
 <br />
