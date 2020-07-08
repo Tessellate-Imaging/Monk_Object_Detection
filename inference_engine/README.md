@@ -8,7 +8,7 @@ Supports
 
 ` $ sudo pip install virtualenv virtualenvwrapper`
 
-` $ $ echo -e "\n# virtualenv and virtualenvwrapper" >> ~/.bashrc`
+` $ echo -e "\n# virtualenv and virtualenvwrapper" >> ~/.bashrc`
 
 ` $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc`
 
