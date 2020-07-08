@@ -382,14 +382,14 @@ for k in range(len(df_status)):
 
         if(write_monk_format):
             print("Saving Annotations to monk format");
-            df = preds_to_monk_format(output_name, preds, classes, class_names=obj_list, thresh=0.5);
+            df = preds_to_monk_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".csv";
             df.to_csv(out_file_name, index=False);
 
 
         if(write_coco_format):
             print("Saving Annotations to coco format (individual files)");
-            coco_json = preds_to_coco_format(output_name, preds, classes, class_names=obj_list, thresh=0.5);
+            coco_json = preds_to_coco_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".json";
             outfile =  open(out_file_name, 'w');
             json_str = json.dumps(coco_json, indent=4);
@@ -399,13 +399,13 @@ for k in range(len(df_status)):
 
         if(write_voc_format):
             print("Saving Annotations to voc format");
-            voc_xml = preds_to_voc_format(output_name, preds, classes, class_names=obj_list, thresh=0.5);
+            voc_xml = preds_to_voc_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".xml";
             voc_xml.save(out_file_name)
 
         if(write_yolo_format):
             print("Saving Annotations to yolo format");
-            yolo_str = preds_to_yolo_format(output_name, preds, classes, class_names=obj_list, thresh=0.5);
+            yolo_str = preds_to_yolo_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".txt";
             f = open(out_file_name, 'w');
             f.write(yolo_str);
