@@ -18,6 +18,8 @@ Supports
 
 ` $ source ~/.bashrc`
 
+ #### Reboot system here and cd back to Monk_Object_Detection/inference_engine
+
 ` $ cd installation`
 
 ` $ cat requirements.txt | xargs -n 1 -L 1 pip install`
