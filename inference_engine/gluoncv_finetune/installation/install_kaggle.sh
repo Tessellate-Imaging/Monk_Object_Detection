@@ -4,6 +4,7 @@
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3.6
 export WORKON_HOME=$HOME/.virtualenvs
 . $HOME/.local/bin/virtualenvwrapper.sh
+. /usr/local/bin/virtualenvwrapper.sh
 
 
 mkvirtualenv -p /usr/bin/python3.6 gluoncv_finetune
