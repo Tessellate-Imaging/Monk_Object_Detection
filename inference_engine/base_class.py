@@ -147,7 +147,7 @@ class system():
             if out == '' and process.poll() != None:
                 return True;
             if out and verbose:
-                sys.stdout.write(out)
+                sys.stdout.write(out.decode('utf-8'))
                 sys.stdout.flush()
             if(output == "Completed"):
                 return True;
