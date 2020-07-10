@@ -48,12 +48,16 @@ class Infer(system):
                         write_coco_format=False,
                         write_monk_format=True,
                         write_yolo_format=False,
+                        save_output_img = True,
                         verbose=1):
 
         check_status = self.check_inputs_image(algo_type, algo, data, model, img_path, classes);
 
 
         if(check_status):
+            if(not save_output_img):
+                visualize=False;
+
             self.system_dict["result_dir_master"] = self.system_dict["results"]["object_detection_dir"] + "/" + algo + "/";
             self.system_dict["result_dir_model"] = self.system_dict["result_dir_master"] + "/" + model + "/";
 
@@ -106,8 +110,10 @@ class Infer(system):
             f.close();
 
             self.infer_image(algo_type, algo, model, verbose);
+            if(not save_output_img):
+                os.system("rm " + self.system_dict["current_image_output_path"])
             os.system("rm test_img.txt")
-            print("Output stored at {}".format(self.system_dict["current_image_output_path"].replace("//", "/")));
+            print("Output stored at {}".format(self.system_dict["result_dir_model"].replace("//", "/")));
 
 
 
@@ -124,11 +130,15 @@ class Infer(system):
                         write_coco_format=False,
                         write_monk_format=True,
                         write_yolo_format=False,
+                        save_output_img = True,
                         verbose=1):
 
         check_status = self.check_inputs_folder(algo_type, algo, data, model, folder_path, classes);
 
         if(check_status):
+            if(not save_output_img):
+                visualize=False;
+
             self.system_dict["result_dir_master"] = self.system_dict["results"]["object_detection_dir"] + "/" + algo + "/";
             self.system_dict["result_dir_model"] = self.system_dict["result_dir_master"] + "/" + model + "/";
 
@@ -192,7 +202,11 @@ class Infer(system):
 
             self.infer_folder_image(algo_type, algo, model, verbose);
             os.system("rm test_folder.txt");
-            print("Output stored at {}".format(self.system_dict["current_folder_output_path"].replace("//", "/")));
+            if(not save_output_img):
+                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.jpg")
+                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.png")
+                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.jpeg")
+            print("Output stored at {}".format(self.system_dict["result_dir_sub"].replace("//", "/")));
 
 
 
@@ -210,11 +224,14 @@ class Infer(system):
                  write_coco_format=True,
                  write_monk_format=True,
                  write_yolo_format=True,
+                 save_output_img = True,
                  verbose=1):
 
         check_status = self.check_inputs_video(algo_type, algo, data, model, video_path, classes);
 
         if(check_status):
+            if(not save_output_img):
+                visualize=False;
 
             self.system_dict["result_dir_master"] = self.system_dict["results"]["object_detection_dir"] + "/" + algo + "/";
             self.system_dict["result_dir_model"] = self.system_dict["result_dir_master"] + "/" + model + "/";
@@ -278,7 +295,11 @@ class Infer(system):
             self.infer_video(algo_type, algo, model, verbose);
             os.system("rm test_folder.txt");
             os.system("rm -r tmp_video");
-            print("Output stored at {}".format(self.system_dict["current_video_output_path"].replace("//", "/")));
+            if(not save_output_img):
+                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.jpg")
+                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.png")
+                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.jpeg")
+            print("Output stored at {}".format(self.system_dict["result_dir_sub"].replace("//", "/")));
 
 
 
