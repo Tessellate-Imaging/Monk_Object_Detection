@@ -223,7 +223,9 @@ write_voc_format = int(lines[6][:len(lines[6])-1]);
 write_coco_format = int(lines[7][:len(lines[7])-1]);
 write_monk_format = int(lines[8][:len(lines[8])-1]);
 write_yolo_format = int(lines[9][:len(lines[9])-1]);
-savefig = int(lines[10]);
+visualize = int(lines[10][:len(lines[10])-1]);
+savefig = int(lines[11]);
+
 
 df_status = pd.read_csv(output_folder_path + "/status.csv");
 
@@ -368,28 +370,30 @@ for k in range(len(df_status)):
 
         imgs = ori_imgs;
         i = 0;
-        for j in range(len(preds[i]['rois'])):
-            x1, y1, x2, y2 = preds[i]['rois'][j].astype(np.int)
-            obj = obj_list[preds[i]['class_ids'][j]]
-            score = float(preds[i]['scores'][j])
-            if(score >= threshold and obj in classes):
-                plot_one_box(imgs[i], [x1, y1, x2, y2], label=obj,score=score,color=color_list[get_index_label(obj, obj_list)])
+
+        if(savefig):
+            for j in range(len(preds[i]['rois'])):
+                x1, y1, x2, y2 = preds[i]['rois'][j].astype(np.int)
+                obj = obj_list[preds[i]['class_ids'][j]]
+                score = float(preds[i]['scores'][j])
+                if(score >= threshold and obj in classes):
+                    plot_one_box(imgs[i], [x1, y1, x2, y2], label=obj,score=score,color=color_list[get_index_label(obj, obj_list)])
 
 
-        cv2.imwrite(output_name, imgs[i])
+            cv2.imwrite(output_name, imgs[i])
 
 
 
         if(write_monk_format):
             print("Saving Annotations to monk format");
-            df = preds_to_monk_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
+            df = preds_to_monk_format(img_path, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".csv";
             df.to_csv(out_file_name, index=False);
 
 
         if(write_coco_format):
             print("Saving Annotations to coco format (individual files)");
-            coco_json = preds_to_coco_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
+            coco_json = preds_to_coco_format(img_path, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".json";
             outfile =  open(out_file_name, 'w');
             json_str = json.dumps(coco_json, indent=4);
@@ -399,13 +403,13 @@ for k in range(len(df_status)):
 
         if(write_voc_format):
             print("Saving Annotations to voc format");
-            voc_xml = preds_to_voc_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
+            voc_xml = preds_to_voc_format(img_path, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".xml";
             voc_xml.save(out_file_name)
 
         if(write_yolo_format):
             print("Saving Annotations to yolo format");
-            yolo_str = preds_to_yolo_format(output_name, preds, classes, class_names=obj_list, thresh=thresh);
+            yolo_str = preds_to_yolo_format(img_path, preds, classes, class_names=obj_list, thresh=thresh);
             out_file_name = output_name.split(".")[0] + ".txt";
             f = open(out_file_name, 'w');
             f.write(yolo_str);

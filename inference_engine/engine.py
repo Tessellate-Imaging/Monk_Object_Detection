@@ -195,6 +195,10 @@ class Infer(system):
             else:
                 f.write("0\n");
             if(visualize):
+                f.write("1\n");
+            else:
+                f.write("0\n");
+            if(save_output_img):
                 f.write("1");
             else:
                 f.write("0");
@@ -202,10 +206,6 @@ class Infer(system):
 
             self.infer_folder_image(algo_type, algo, model, verbose);
             os.system("rm test_folder.txt");
-            if(not save_output_img):
-                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.jpg")
-                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.png")
-                os.system("rm " + self.system_dict["current_folder_output_path"] + "/*.jpeg")
             print("Output stored at {}".format(self.system_dict["result_dir_sub"].replace("//", "/")));
 
 
@@ -289,16 +289,16 @@ class Infer(system):
                 f.write("1\n");
             else:
                 f.write("0\n");
-            f.write("0");
+            f.write("0\n");
+            if(save_output_img):
+                f.write("1");
+            else:
+                f.write("0");
             f.close();
 
             self.infer_video(algo_type, algo, model, verbose);
             os.system("rm test_folder.txt");
             os.system("rm -r tmp_video");
-            if(not save_output_img):
-                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.jpg")
-                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.png")
-                os.system("rm " + self.system_dict["current_video_output_path"] + "/*.jpeg")
             print("Output stored at {}".format(self.system_dict["result_dir_sub"].replace("//", "/")));
 
 

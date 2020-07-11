@@ -207,7 +207,8 @@ write_voc_format = int(lines[6][:len(lines[6])-1]);
 write_coco_format = int(lines[7][:len(lines[7])-1]);
 write_monk_format = int(lines[8][:len(lines[8])-1]);
 write_yolo_format = int(lines[9][:len(lines[9])-1]);
-savefig = int(lines[10]);
+visualize = int(lines[10][:len(lines[10])-1]);
+savefig = int(lines[11]);
 
 
 print("Downloading and Loading model")
@@ -241,23 +242,24 @@ for j in range(len(df_status)):
                     class_IDs[0][i][0] = -1;
 
 
-        ax = utils.viz.plot_bbox(img, bounding_boxes[0], scores[0],
-                                 class_IDs[0], class_names=net.classes,
-                                 thresh=thresh)
+        if(savefig):
+            ax = utils.viz.plot_bbox(img, bounding_boxes[0], scores[0],
+                                     class_IDs[0], class_names=net.classes,
+                                     thresh=thresh)
 
-        plt.savefig(output_name);
+            plt.savefig(output_name);
 
 
         if(write_monk_format):
             print("Saving Annotations to monk format");
-            df = preds_to_monk_format(output_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
+            df = preds_to_monk_format(img_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
             out_file_name = output_name.split(".")[0] + ".csv";
             df.to_csv(out_file_name, index=False);
 
 
         if(write_coco_format):
             print("Saving Annotations to coco format (individual files)");
-            coco_json = preds_to_coco_format(output_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
+            coco_json = preds_to_coco_format(img_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
             out_file_name = output_name.split(".")[0] + ".json";
             outfile =  open(out_file_name, 'w');
             json_str = json.dumps(coco_json, indent=4);
@@ -267,13 +269,13 @@ for j in range(len(df_status)):
 
         if(write_voc_format):
             print("Saving Annotations to voc format");
-            voc_xml = preds_to_voc_format(output_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
+            voc_xml = preds_to_voc_format(img_name, bounding_boxes, class_IDs, scores, class_names=net.classes, thresh=0.5);
             out_file_name = output_name.split(".")[0] + ".xml";
             voc_xml.save(out_file_name)
 
         if(write_yolo_format):
             print("Saving Annotations to yolo format");
-            yolo_str = preds_to_yolo_format(output_name, bounding_boxes, class_IDs, classes, scores, class_names=net.classes, thresh=0.5);
+            yolo_str = preds_to_yolo_format(img_name, bounding_boxes, class_IDs, classes, scores, class_names=net.classes, thresh=0.5);
             out_file_name = output_name.split(".")[0] + ".txt";
             f = open(out_file_name, 'w');
             f.write(yolo_str);
