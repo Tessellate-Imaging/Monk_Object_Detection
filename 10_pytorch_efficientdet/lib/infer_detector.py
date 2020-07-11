@@ -147,7 +147,7 @@ class Infer():
             if imwrite:
                 cv2.imwrite('output.jpg', imgs[i])
                  
-        return scores, labels, boxes;                    
+        return scores, labels, bboxes;                    
         
         
         
