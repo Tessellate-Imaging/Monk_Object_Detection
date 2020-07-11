@@ -105,7 +105,19 @@ A one-stop repository for low-code easily-installable object detection pipelines
         - FPN
         - Linknet
         - PSPNet
-
+        
+- J) Pytorch_Efficientdet:
+    - [Original Implementation](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
+    - [Functional Documentation]
+        - efficientdet-d0.pth
+        - efficientdet-d1.pth
+        - efficientdet-d2.pth
+        - efficientdet-d3.pth
+        - efficientdet-d4.pth
+        - efficientdet-d5.pth
+        - efficientdet-d6.pth
+        - efficientdet-d7.pth
+        
       
 <br />
 <br />
