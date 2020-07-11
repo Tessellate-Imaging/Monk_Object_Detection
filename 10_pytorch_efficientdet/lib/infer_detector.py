@@ -113,8 +113,8 @@ class Infer():
                               self.system_dict["params"]["threshold"], self.system_dict["params"]["iou_threshold"])
             
         out = invert_affine(framed_metas, out)
-        self.display(out, ori_imgs, imshow=False, imwrite=True)
-            
+        scores, labels, boxes = self.display(out, ori_imgs, imshow=False, imwrite=True)
+        return scores, labels, boxes;    
      
     
     
@@ -146,6 +146,8 @@ class Infer():
 
             if imwrite:
                 cv2.imwrite('output.jpg', imgs[i])
+                 
+        return scores, labels, boxes;                    
         
         
         
