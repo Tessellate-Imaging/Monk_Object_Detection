@@ -113,18 +113,18 @@ class Infer():
                               self.system_dict["params"]["threshold"], self.system_dict["params"]["iou_threshold"])
             
         out = invert_affine(framed_metas, out)
-        scores, labels, boxes = self.display(out, ori_imgs, imshow=False, imwrite=True)
-        return scores, labels, boxes;    
+        scores, labels, bboxes = self.display(out, ori_imgs, imshow=False, imwrite=True)
+        return scores, labels, bboxes;    
      
     
     
     def display(self, preds, imgs, imshow=True, imwrite=False):
+        scores = [];
+        labels = [];
+        bboxes = [];
         for i in range(len(imgs)):
             if len(preds[i]['rois']) == 0:
                 continue
-            scores = [];
-            labels = [];
-            bboxes = [];
             for j in range(len(preds[i]['rois'])):
                 x1, y1, x2, y2 = preds[i]['rois'][j].astype(np.int)
                 obj = self.system_dict["params"]["obj_list"][preds[i]['class_ids'][j]]
