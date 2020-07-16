@@ -45,9 +45,9 @@ def get_base_system_dict():
 
 
 
-    system_dict["object_detection"]["all_algo"] = ["gluoncv_finetune", "efficientdet_pytorch"];
-    system_dict["object_detection"]["all_venv"] = ["gluoncv_finetune", "efficientdet_pytorch"];
-    system_dict["object_detection"]["all_installation"] = [False, False];
+    system_dict["object_detection"]["all_algo"] = ["gluoncv_finetune", "efficientdet_pytorch", "detecto_rs"];
+    system_dict["object_detection"]["all_venv"] = ["gluoncv_finetune", "efficientdet_pytorch", "detecto_rs"];
+    system_dict["object_detection"]["all_installation"] = [False, False, False];
     
     system_dict["object_detection"]["gluoncv_finetune"] = {};
     system_dict["object_detection"]["gluoncv_finetune"]["all_model"] = [
@@ -96,6 +96,13 @@ def get_base_system_dict():
         ["coco", "efficientdet-d5", "50.2"],
         ["coco", "efficientdet-d6", "50.7"],
         ["coco", "efficientdet-d7", "51.2"]
+    ]
+
+
+    system_dict["object_detection"]["detecto_rs"] = {};
+    system_dict["object_detection"]["detecto_rs"]["all_model"] = [
+        ["coco", "resnet-50", "51.3"],
+        ["coco", "resnext-101-32x4d", "53.3"]
     ]
     
     system_dict["results"] = {};

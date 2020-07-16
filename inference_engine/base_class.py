@@ -71,6 +71,17 @@ class system():
                 sorted_list[i][2]
                 ))
 
+    def print_detecto_rs_model_names(self):
+        print("Available models: ");
+        sorted_list = sorted(self.system_dict["object_detection"]["detecto_rs"]["all_model"], key=lambda x: float(x[2]))
+        for i in range(len(sorted_list)):
+            print("{}. Data: {}, Model-Name: {}, mAP: {}".format(
+                i+1,
+                sorted_list[i][0],
+                sorted_list[i][1],
+                sorted_list[i][2]
+                ))
+
     def install_gluoncv_finetune(self, system):
         venv = self.system_dict["object_detection"]["all_venv"][0];
 
@@ -133,6 +144,38 @@ class system():
 
         if(cmd_status):
             self.system_dict["object_detection"]["all_installation"][1] = True;
+
+
+    def install_detecto_rs(self, system):
+        venv = self.system_dict["object_detection"]["all_venv"][2];
+
+        if(system == "cuda-9.0"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda90.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda90.sh']
+        elif(system == "cuda-9.2"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda92.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda92.sh']
+        elif(system == "cuda-10.0"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda100.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda100.sh']
+        elif(system == "cuda-10.1"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda101.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_cuda101.sh']
+        elif(system == "colab"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_colab.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_colab.sh']
+        elif(system == "kaggle"):
+            os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/installation/install_kaggle.sh")
+            cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/installation/install_kaggle.sh']
+        elif(system == "cpu"):
+            print("CPU instance support in development.");
+            print("Cannot run inference engine on CPU");
+
+        cmd_status = self.run_command(cmd);
+
+
+        if(cmd_status):
+            self.system_dict["object_detection"]["all_installation"][2] = True;
 
 
     def run_command(self, command, verbose=1):
@@ -352,6 +395,9 @@ class system():
             elif(algo == "efficientdet_pytorch"):
                 os.system("chmod +x Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_img_efficientdet.sh");
                 cmd = ['bash', 'Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_img_efficientdet.sh'];
+            elif(algo == "detecto_rs"):
+                os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_img_detecto_rs.sh");
+                cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_img_detecto_rs.sh'];
 
 
 
@@ -395,6 +441,9 @@ class system():
             elif(algo == "efficientdet_pytorch"):
                 os.system("chmod +x Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_folder_img_efficientdet.sh");
                 cmd = ['bash', 'Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_folder_img_efficientdet.sh'];
+            elif(algo == "detecto_rs"):
+                os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_folder_img_detecto_rs.sh");
+                cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_folder_img_detecto_rs.sh'];
 
 
         cmd_status = self.run_command(cmd, verbose=verbose);
@@ -469,6 +518,9 @@ class system():
             elif(algo == "efficientdet_pytorch"):
                 os.system("chmod +x Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_video_efficientdet.sh");
                 cmd = ['bash', 'Monk_Object_Detection/inference_engine/efficientdet_pytorch/lib/infer_video_efficientdet.sh'];
+            elif(algo == "detecto_rs"):
+                os.system("chmod +x Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_video_detecto_rs.sh");
+                cmd = ['bash', 'Monk_Object_Detection/inference_engine/detecto_rs/lib/infer_video_detecto_rs.sh'];
 
 
 

@@ -22,6 +22,8 @@ class Infer(system):
                 self.install_gluoncv_finetune(system);
             elif(algo == "efficientdet_pytorch"):
                 self.install_efficientdet_pytorch(system);
+            elif(algo == "detecto_rs"):
+                self.install_detecto_rs(system);
 
     def List_Model_Names(self, algo_type="object_detection", algo="gluoncv_finetune"):
         if(algo_type == "object_detection"):
@@ -29,6 +31,8 @@ class Infer(system):
                 self.print_gluoncv_finetune_model_names();
             elif(algo == "efficientdet_pytorch"):
                 self.print_efficientdet_pytorch_model_names();
+            elif(algo == "detecto_rs"):
+                self.print_detecto_rs_model_names();
         else:
             print("Algo type - {}, Algo - {} unimplemented".format(algo_type, algo));
             print("Development in progress");
@@ -266,7 +270,7 @@ class Infer(system):
             self.system_dict["current_visualize"] = False;
             self.system_dict["current_classes"] = classes;
         
-            f = open("test_folder.txt", 'w');
+            f = open("test_video.txt", 'w');
             f.write("tmp_video\n");
             f.write(self.system_dict["current_data"] + "\n");
             f.write(self.system_dict["current_model"] + "\n");
