@@ -144,6 +144,14 @@ A one-stop repository for low-code easily-installable object detection pipelines
      - Pretrained models on 
           - COCO Dataset
      - Models using efficient network variants
+     
+ - C) DetectoRS: Detecting Objects with Recursive Feature Pyramid and Switchable Atrous Convolution.
+    - [Original Implementation](https://github.com/joe-siyuan-qiao/DetectoRS)
+    - Pretrained models on 
+        - COCO Dataset
+    - Models using
+        - Resnet-50
+        - RexNext-101
 
 
 <br />
