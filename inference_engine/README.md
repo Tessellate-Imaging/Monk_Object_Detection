@@ -33,6 +33,7 @@ Supports
 - A) Object Detection
     - [GluonCV Finetune Model Zoo](https://gluon-cv.mxnet.io/model_zoo/detection.html)
     - [EfficientDet Pytorch](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
+    - [DetectoRS](https://github.com/joe-siyuan-qiao/DetectoRS)
 
 - B) Image Segmentation
     - In Development
