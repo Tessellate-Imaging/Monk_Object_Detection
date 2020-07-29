@@ -185,7 +185,7 @@ class Infer():
                     det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
 
                     # Print results
-                    for c in det[:, -1].unique():
+                    for c in det[:, -1].detach().unique():
                         n = (det[:, -1] == c).sum()  # detections per class
                         s += '%g %ss, ' % (n, names[int(c)])  # add to string
 
