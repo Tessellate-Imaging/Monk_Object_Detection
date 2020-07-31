@@ -118,6 +118,11 @@ A one-stop repository for low-code easily-installable object detection pipelines
         - efficientdet-d6.pth
         - efficientdet-d7.pth
         
+- K) Slim-Yolo-V3:
+    - [Original Implementation 1](https://github.com/PengyiZhang/SlimYOLOv3)
+    - [Original Implementation 2](https://github.com/erikguo/yolov3)
+    - [Functional Documentation]
+        
       
 <br />
 <br />
@@ -195,6 +200,12 @@ A one-stop repository for low-code easily-installable object detection pipelines
     
 - I) Segmentation_Models
     - Check - Monk_Object_Detection/9_segmentation_models
+    
+- J) Pytorch EfficientDet
+    - Check - Monk_Object_Detection/10_pytorch_efficientdet
+   
+- K) SlimYoloV3
+    - Check - Monk_Object_Detection/11_slimyolov3
 
 <br />
 <br />
