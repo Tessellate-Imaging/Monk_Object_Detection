@@ -12,7 +12,13 @@ Supports
 
 ` $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc`
 
+If on ubuntu 16.04
+
 ` $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc`
+
+If on ubuntu 17.04 +
+
+` $ echo "export VIRTUALENVWRAPPER_PYTHON=$HOME/.local/bin/python3" >> ~/.bashrc`
 
 ` $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc`
 
