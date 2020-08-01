@@ -143,7 +143,7 @@ class Detector():
         self.system_dict["dataset"]["train"]["class_list"] = class_list;
         self.system_dict["params"]["batch_size"] = batch_size;
         self.system_dict["params"]["accumulate"] = batch_size;
-        self.system_dict["params"]["img_size"] = [img_size];
+        self.system_dict["params"]["img_size"] = img_size;
         self.system_dict["params"]["img_size_selected"] = [img_size];
         self.system_dict["params"]["cache_images"] = cache_images;
 
@@ -246,7 +246,7 @@ class Detector():
         self.system_dict["params"]["sparsity"] = sparsity;
 
 
-    def setup(self, finetune=False):
+    def setup_and_train(self, finetune=False):
         if(not finetune):
             model_name = "yolov3-spp3"
             tmp_cfg = os.path.dirname(os.path.realpath(__file__)) + "/cfg/" + model_name + ".cfg";
@@ -254,370 +254,290 @@ class Detector():
             os.system(cmd);
             self.system_dict["params"]["cfg"] = model_name + ".cfg";
 
+            #update(self.system_dict["params"]["cfg"], self.system_dict["local"]["num_classes"]);
+            #attempt_download('darknet53.conv.74')
+
 
         if(not os.path.isdir("weights")):
             os.mkdir("weights");
 
-        self.system_dict["params"]["weights"] = last if self.system_dict["params"]["resume"] else self.system_dict["params"]["weights"]
-        self.system_dict["local"]["device"] = torch_utils.select_device(apex=self.system_dict["params"]["mixed_precision"])
-        if self.system_dict["local"]["device"].type == 'cpu':
-            self.system_dict["params"]["mixed_precision"] = False
+        cfg = self.system_dict["params"]["cfg"]
+        img_size = self.system_dict["params"]["img_size"]
+        epochs = self.system_dict["params"]["epochs"]  
+        batch_size = self.system_dict["params"]["batch_size"]
+        accumulate = self.system_dict["params"]["accumulate"] 
+        weights = self.system_dict["params"]["weights"]
+        sparsity = self.system_dict["params"]["sparsity"]
+        arc = self.system_dict["params"]["arc"];
+        hyp = self.system_dict["fixed_params"]["hyp"]
+        rect = self.system_dict["params"]["rect"]
+        cache_images = self.system_dict["params"]["cache_images"]
+        batch_size = self.system_dict["params"]["batch_size"]
+        train_img_dir = self.system_dict["dataset"]["train"]["img_dir"]
+        train_label_dir = self.system_dict["dataset"]["train"]["label_dir"]
+        val_img_dir = self.system_dict["dataset"]["val"]["img_dir"]
+        val_label_dir = self.system_dict["dataset"]["val"]["label_dir"]
 
-        self.system_dict["local"]["tb_writer"] = None
-        self.system_dict["local"]["tb_writer"] = SummaryWriter()
 
-        img_size, img_size_test = self.system_dict["params"]["img_size"] if len(self.system_dict["params"]["img_size"]) == 2 else self.system_dict["params"]["img_size"] * 2 
+        # Initialize
+        init_seeds()
+        wdir = self.system_dict["fixed_params"]["wdir"]
+        last = self.system_dict["fixed_params"]["last"]
+        best = self.system_dict["fixed_params"]["best"]
+        mixed_precision = self.system_dict["params"]["mixed_precision"]
+        device = torch_utils.select_device(apex=mixed_precision)
+        multi_scale = self.system_dict["params"]["multi_scale"]
 
-        if self.system_dict["params"]["multi_scale"]:
-            img_sz_min = round(img_size / 32 / 1.5)
-            img_sz_max = round(img_size / 32 * 1.5)
+        if multi_scale:
+            img_sz_min = round(img_size / 32 / 1.5) + 1
+            img_sz_max = round(img_size / 32 * 1.5) - 1
             img_size = img_sz_max * 32  # initiate with maximum multi_scale size
             print('Using multi-scale %g - %g' % (img_sz_min * 32, img_size))
-
-            self.system_dict["params"]["img_sz_min"] = img_sz_min;
-            self.system_dict["params"]["img_sz_max"] = img_sz_max;
-
-        self.system_dict["params"]["img_size"] = img_size;
-        self.system_dict["params"]["img_size_test"] = img_size_test;
 
         f = open(self.system_dict["dataset"]["train"]["class_list"], 'r');
         lines = f.readlines();
         f.close();
-
         self.system_dict["local"]["classes"] = [];
         for i in range(len(lines)):
             if(lines[i] != "" and lines[i] != "\n" ):
                 self.system_dict["local"]["classes"].append(lines[i]);
         self.system_dict["local"]["num_classes"] = int(len(self.system_dict["local"]["classes"]));
-        if(self.system_dict["local"]["num_classes"] == 1):
-            self.system_dict["params"]["single_cls"] = True;
-        else:
-            self.system_dict["params"]["single_cls"] = False;
 
-        self.system_dict["local"]["nc"] = 1 if self.system_dict["params"]["single_cls"] else self.system_dict["local"]["num_classes"]
-
-        if 'pw' not in self.system_dict["params"]["arc"]:  # remove BCELoss positive weights
-            self.system_dict["fixed_params"]["hyp"]['cls_pw'] = 1.
-            self.system_dict["fixed_params"]["hyp"]['obj_pw'] = 1.
-        
-
-
-        #Update Config file
         if(not finetune):
             update(self.system_dict["params"]["cfg"], self.system_dict["local"]["num_classes"]);
+            attempt_download('darknet53.conv.74');
+            weights="darknet53.conv.74";
 
-        #Model
-        self.system_dict["local"]["model"] = Darknet(self.system_dict["params"]["cfg"], 
-                                            arc=self.system_dict["params"]["arc"]).to(self.system_dict["local"]["device"])
+        classes = self.system_dict["local"]["classes"];
+        nc = self.system_dict["local"]["num_classes"];
 
-        if(not finetune):
-            attempt_download('darknet53.conv.74')
+        # Initialize model
+        model = Darknet(cfg, arc=arc).to(device)
 
         if self.system_dict["params"]["adam"]:
-            self.system_dict["local"]["optimizer"] = optim.Adam(self.system_dict["local"]["model"].parameters(), lr=self.system_dict["fixed_params"]["hyp"]['lr0'])
+            optimizer = optim.Adam(model.parameters(), lr=hyp['lr0'], weight_decay=hyp['weight_decay'])
         else:
-            self.system_dict["local"]["optimizer"] = optim.SGD(self.system_dict["local"]["model"].parameters(), lr=self.system_dict["fixed_params"]["hyp"]['lr0'], 
-                                                                    momentum=self.system_dict["fixed_params"]["hyp"]['momentum'], nesterov=True)
+            optimizer = optim.SGD(model.parameters(), lr=hyp['lr0'], momentum=hyp['momentum'], weight_decay=hyp['weight_decay'],
+                          nesterov=True)
 
-
-        self.system_dict["local"]["cutoff"] = -1  # backbone reaches to cutoff layer
-        self.system_dict["local"]["start_epoch"] = 0
-        self.system_dict["local"]["best_fitness"] = 0.
-
-        if self.system_dict["params"]["weights"].endswith('.pt'):  
-            chkpt = torch.load(self.system_dict["params"]["weights"], map_location=self.system_dict["local"]["device"])
+        cutoff = -1  # backbone reaches to cutoff layer
+        start_epoch = 0
+        best_fitness = 0.
+        if weights.endswith('.pt'):  # pytorch format
+            # possible weights are 'last.pt', 'yolov3-spp.pt', 'yolov3-tiny.pt' etc
+            chkpt = torch.load(weights, map_location=device)
 
             # load model
-            try:
-                chkpt['model'] = {k: v for k, v in chkpt['model'].items() if self.system_dict["local"]["model"].state_dict()[k].numel() == v.numel()}
-                self.system_dict["local"]["model"].load_state_dict(chkpt['model'], strict=False)
-            except KeyError as e:
-                s = "%s is not compatible with %s. Specify --weights '' or specify a --cfg compatible with %s. " \
-                    "See https://github.com/ultralytics/yolov3/issues/657" % (self.system_dict["params"]["weights"], self.system_dict["params"]["cfg"], 
-                                                                              self.system_dict["params"]["weights"])
-                raise KeyError(s) from e
+            if not finetune:
+                chkpt['model'] = {k: v for k, v in chkpt['model'].items() if model.state_dict()[k].numel() == v.numel()}
+                model.load_state_dict(chkpt['model'], strict=False)
+            else:
+                model.load_state_dict(chkpt['model'])
 
             # load optimizer
             if chkpt['optimizer'] is not None:
-                self.system_dict["local"]["optimizer"].load_state_dict(chkpt['optimizer'])
-                self.system_dict["local"]["best_fitness"] = chkpt['best_fitness']
+                optimizer.load_state_dict(chkpt['optimizer'])
+                best_fitness = chkpt['best_fitness']
 
-            '''
-            # load results
-            if chkpt.get('training_results') is not None:
-                with open(self.system_dict["fixed_params"]["results_file"], 'w') as file:
-                    file.write(chkpt['training_results'])
-
-            self.system_dict["local"]["start_epoch"] = chkpt['epoch'] + 1
-            '''
             del chkpt
-
-        elif len(self.system_dict["params"]["weights"]) > 0:  # darknet format
-            # possible weights are '*.weights', 'yolov3-tiny.conv.15',  'darknet53.conv.74' etc.
-            load_darknet_weights(self.system_dict["local"]["model"], self.system_dict["params"]["weights"])
-
-
-        #Scheduler
-        self.system_dict["local"]["scheduler"] = lr_scheduler.MultiStepLR(self.system_dict["local"]["optimizer"], 
-                                                    milestones=[round(self.system_dict["params"]["epochs"] * x) for x in [0.8, 0.9]], gamma=0.1)
-        self.system_dict["local"]["scheduler"].last_epoch = self.system_dict["local"]["start_epoch"] - 1
+        elif len(weights) > 0:  # darknet format
+            # possible weights are 'yolov3.weights', 'yolov3-tiny.conv.15',  'darknet53.conv.74' etc.
+            cutoff = load_darknet_weights(model, weights)
 
 
-        if self.system_dict["params"]["mixed_precision"]:
-            self.system_dict["local"]["model"], self.system_dict["local"]["optimizer"] = amp.initialize(self.system_dict["local"]["model"], 
-                                                                                                        self.system_dict["local"]["optimizer"], 
-                                                                                                        opt_level='O1', verbosity=0)
+        scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=[round(epochs * x) for x in [0.8, 0.9]], gamma=0.1)
+        scheduler.last_epoch = start_epoch - 1
 
-        # Initialize distributed training
-        if self.system_dict["local"]["device"].type != 'cpu' and torch.cuda.device_count() > 1:
-            dist.init_process_group(backend='nccl', 
-                                    init_method='tcp://127.0.0.1:9999',  
-                                    world_size=1,  
-                                    rank=0)  
-            self.system_dict["local"]["model"] = torch.nn.parallel.DistributedDataParallel(self.system_dict["local"]["model"], 
-                                                                                            find_unused_parameters=True)
-            self.system_dict["local"]["model"].yolo_layers = self.system_dict["local"]["model"].module.yolo_layers
+        if mixed_precision:
+            model, optimizer = amp.initialize(model, optimizer, opt_level='O1', verbosity=0)
 
+        if torch.cuda.device_count() > 1:
+            dist.init_process_group(backend='nccl',  # 'distributed backend'
+                                    init_method='tcp://127.0.0.1:9999',  # distributed training init method
+                                    world_size=1,  # number of nodes for distributed training
+                                    rank=0)  # distributed training node rank
+            model = torch.nn.parallel.DistributedDataParallel(model)
+            model.yolo_layers = model.module.yolo_layers  # move yolo layer indices to top level
 
-        # Dataset
-        self.system_dict["local"]["dataset"] = LoadImagesAndLabels(self.system_dict["dataset"]["train"]["img_dir"], 
-                                        self.system_dict["dataset"]["train"]["label_dir"],
-                                        self.system_dict["params"]["img_size"], 
-                                        self.system_dict["params"]["batch_size"],
+        dataset = LoadImagesAndLabels(train_img_dir, 
+                                        train_label_dir,
+                                        img_size, 
+                                        batch_size,
                                         augment=True,
-                                        hyp=self.system_dict["fixed_params"]["hyp"], 
-                                        rect=self.system_dict["params"]["rect"],
-                                        cache_images=self.system_dict["params"]["cache_images"])
+                                        hyp=hyp, 
+                                        rect=rect,
+                                        cache_images=cache_images);
 
-        # Dataloader
-        self.system_dict["params"]["batch_size"] = min(self.system_dict["params"]["batch_size"], len(self.system_dict["local"]["dataset"]))
-        self.system_dict["local"]["nw"] = min([os.cpu_count(), self.system_dict["params"]["batch_size"] if self.system_dict["params"]["batch_size"] > 1 else 0, 8]) 
+        dataloader = torch.utils.data.DataLoader(dataset,
+                                             batch_size=batch_size,
+                                             num_workers=min(os.cpu_count(), batch_size),
+                                             shuffle=not rect,  # Shuffle=True unless rectangular training is used
+                                             pin_memory=True,
+                                             collate_fn=dataset.collate_fn)
 
-        self.system_dict["local"]["dataloader"] = torch.utils.data.DataLoader(self.system_dict["local"]["dataset"],
-                                                 batch_size=self.system_dict["params"]["batch_size"],
-                                                 num_workers=self.system_dict["local"]["nw"],
-                                                 shuffle=not self.system_dict["params"]["rect"], 
-                                                 pin_memory=True,
-                                                 collate_fn=self.system_dict["local"]["dataset"].collate_fn)
-
-        for f in glob.glob('*_batch*.png') + glob.glob(self.system_dict["fixed_params"]["results_file"]):
+        # Remove previous results
+        for f in glob.glob('*_batch*.jpg') + glob.glob('results.txt'):
             os.remove(f)
 
-        if(self.system_dict["dataset"]["val"]["status"]):
-            self.system_dict["local"]["testloader"] = torch.utils.data.DataLoader(LoadImagesAndLabels(self.system_dict["dataset"]["val"]["img_dir"], 
-                                                                                                        self.system_dict["dataset"]["val"]["label_dir"],
-                                                                                                        self.system_dict["params"]["img_size"], 
-                                                                                                        self.system_dict["params"]["batch_size"],
-                                                                                                        hyp=self.system_dict["fixed_params"]["hyp"],
-                                                                                                        rect=False,
-                                                                                                        cache_images=self.system_dict["params"]["cache_images"]),
-                                                                                     batch_size=self.system_dict["params"]["batch_size"],
-                                                                                     num_workers=self.system_dict["local"]["nw"],
-                                                                                     pin_memory=True,
-                                                                                     collate_fn=self.system_dict["local"]["dataset"].collate_fn)
+        tb_writer = SummaryWriter()
 
-
-
-    def start_training(self):
-        '''
-        Internal function: Start training post setting up all params
-
-        Args:
-            None
-
-        Returns:
-            str: Training and validation epoch results
-        '''
-        self.system_dict["local"]["nb"] = len(self.system_dict["local"]["dataloader"])
-        prebias = self.system_dict["local"]["start_epoch"] == 0
-        self.system_dict["local"]["model"].nc = self.system_dict["local"]["nc"]  # attach number of classes to model
-        self.system_dict["local"]["model"].arc = self.system_dict["params"]["arc"]  # attach yolo architecture
-        self.system_dict["local"]["model"].hyp = self.system_dict["fixed_params"]["hyp"]  # attach hyperparameters to model
-        self.system_dict["local"]["model"].class_weights = labels_to_class_weights(self.system_dict["local"]["dataset"].labels, 
-                                                                self.system_dict["local"]["nc"]).to(self.system_dict["local"]["device"])  # attach class weights
-        maps = np.zeros(self.system_dict["local"]["nc"])  # mAP per class
-        # torch.autograd.set_detect_anomaly(True)
+        # Start training
+        model.nc = nc  # attach number of classes to model
+        model.arc = arc  # attach yolo architecture
+        model.hyp = hyp  # attach hyperparameters to model
+        model.class_weights = labels_to_class_weights(dataset.labels, nc).to(device)  # attach class weights
+        model_info(model, report='summary')  # 'full' or 'summary'
+        nb = len(dataloader)
+        maps = np.zeros(nc)  # mAP per class
         results = (0, 0, 0, 0, 0, 0, 0)  # 'P', 'R', 'mAP', 'F1', 'val GIoU', 'val Objectness', 'val Classification'
         t0 = time.time()
-        model_info(self.system_dict["local"]["model"], report='summary')  # 'full' or 'summary'
-        print('Using %g dataloader workers' % self.system_dict["local"]["nw"])
-        print('Starting training for %g epochs...' % self.system_dict["params"]["epochs"])
-
-        for epoch in range(self.system_dict["local"]["start_epoch"], self.system_dict["params"]["epochs"]):  # epoch ------------------------------
-            self.system_dict["local"]["model"].train()
-
-            mloss = torch.zeros(4).to(self.system_dict["local"]["device"])  # mean losses
+        for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
+            model.train()
             print(('\n' + '%10s' * 8) % ('Epoch', 'gpu_mem', 'GIoU', 'obj', 'cls', 'total', 'targets', 'img_size'))
-            pbar = tqdm(enumerate(self.system_dict["local"]["dataloader"]), total=self.system_dict["local"]["nb"])  # progress bar
 
+            # Update scheduler
+            if epoch > 0:
+                scheduler.step()
+
+            # Freeze backbone at epoch 0, unfreeze at epoch 1 (optional)
+            freeze_backbone = False
+            if freeze_backbone and epoch < 2:
+                for name, p in model.named_parameters():
+                    if int(name.split('.')[1]) < cutoff:  # if layer < 75
+                        p.requires_grad = False if epoch == 0 else True
+
+            # Update image weights (optional)
+            if dataset.image_weights:
+                w = model.class_weights.cpu().numpy() * (1 - maps) ** 2  # class weights
+                image_weights = labels_to_image_weights(dataset.labels, nc=nc, class_weights=w)
+                dataset.indices = random.choices(range(dataset.n), weights=image_weights, k=dataset.n)  # rand weighted idx
+
+            mloss = torch.zeros(4).to(device)  # mean losses
+            pbar = tqdm(enumerate(dataloader), total=nb)  # progress bar
             for i, (imgs, targets, paths, _) in pbar:  # batch -------------------------------------------------------------
-
-                
-                ni = i + self.system_dict["local"]["nb"] * epoch  # number integrated batches (since train start)
-                imgs = imgs.to(self.system_dict["local"]["device"]).float()  # uint8 to float32, 0 - 255 to 0.0 - 1.0
-                targets = targets.to(self.system_dict["local"]["device"])
+                ni = i + nb * epoch  # number integrated batches (since train start)
+                imgs = imgs.to(device)
+                targets = targets.to(device)
 
                 # Multi-Scale training
-                if self.system_dict["params"]["multi_scale"]:
-                    if ni / self.system_dict["params"]["accumulate"] % 10 == 0:  #  adjust (67% - 150%) every 10 batches
-                        self.system_dict["params"]["img_size"] = random.randrange(self.system_dict["params"]["img_sz_min"], self.system_dict["params"]["img_sz_max"] + 1) * 32
-                    sf = self.system_dict["params"]["img_size"] / max(imgs.shape[2:])  # scale factor
+                if multi_scale:
+                    if ni / accumulate % 10 == 0:  #  adjust (67% - 150%) every 10 batches
+                        img_size = random.randrange(img_sz_min, img_sz_max + 1) * 32
+                    sf = img_size / max(imgs.shape[2:])  # scale factor
                     if sf != 1:
                         ns = [math.ceil(x * sf / 32.) * 32 for x in imgs.shape[2:]]  # new shape (stretched to 32-multiple)
                         imgs = F.interpolate(imgs, size=ns, mode='bilinear', align_corners=False)
 
                 # Plot images with bounding boxes
                 if ni == 0:
-                    fname = 'train_batch%g.png' % i
+                    fname = 'train_batch%g.jpg' % i
                     plot_images(imgs=imgs, targets=targets, paths=paths, fname=fname)
-                    if self.system_dict["local"]["tb_writer"]:
-                        self.system_dict["local"]["tb_writer"].add_image(fname, cv2.imread(fname)[:, :, ::-1], dataformats='HWC')
+                    if tb_writer:
+                        tb_writer.add_image(fname, cv2.imread(fname)[:, :, ::-1], dataformats='HWC')
+
+                # Hyperparameter burn-in
+                # n_burn = nb - 1  # min(nb // 5 + 1, 1000)  # number of burn-in batches
+                # if ni <= n_burn:
+                #     for m in model.named_modules():
+                #         if m[0].endswith('BatchNorm2d'):
+                #             m[1].momentum = 1 - i / n_burn * 0.99  # BatchNorm2d momentum falls from 1 - 0.01
+                #     g = (i / n_burn) ** 4  # gain rises from 0 - 1
+                #     for x in optimizer.param_groups:
+                #         x['lr'] = hyp['lr0'] * g
+                #         x['weight_decay'] = hyp['weight_decay'] * g
+
                 # Run model
-                pred = self.system_dict["local"]["model"](imgs)
+                pred = model(imgs)
 
                 # Compute loss
-                loss, loss_items = compute_loss(pred, targets, self.system_dict["local"]["model"])
-                if not torch.isfinite(loss):
-                    print('WARNING: non-finite loss, ending training ', loss_items)
+                loss, loss_items = compute_loss(pred, targets, model)
+                if torch.isnan(loss):
+                    print('WARNING: nan loss detected, ending training')
                     return results
 
                 # Divide by accumulation count
-                if self.system_dict["params"]["accumulate"] > 1:
-                    loss /= self.system_dict["params"]["accumulate"]
+                if accumulate > 1:
+                    loss /= accumulate
 
                 # Compute gradient
-                if self.system_dict["params"]["mixed_precision"]:
-                    with amp.scale_loss(loss, self.system_dict["local"]["optimizer"]) as scaled_loss:
+                if mixed_precision:
+                    with amp.scale_loss(loss, optimizer) as scaled_loss:
                         scaled_loss.backward()
                 else:
                     loss.backward()
 
                 # Accumulate gradient for x batches before optimizing
-                if ni % self.system_dict["params"]["accumulate"] == 0:
-                    if self.system_dict["params"]["sparsity"] != 0:
-                        self.updateBN(self.system_dict["params"]["sparsity"], 
-                                      self.system_dict["local"]["model"])
-                    self.system_dict["local"]["optimizer"].step()
-                    self.system_dict["local"]["optimizer"].zero_grad()
+                if ni % accumulate == 0:
+                    if sparsity != 0:
+                        self.updateBN(sparsity, model)
+                    optimizer.step()
+                    optimizer.zero_grad()
 
-                 # Print batch results
+                # Print batch results
                 mloss = (mloss * i + loss_items) / (i + 1)  # update mean losses
                 mem = torch.cuda.memory_cached() / 1E9 if torch.cuda.is_available() else 0  # (GB)
                 s = ('%10s' * 2 + '%10.3g' * 6) % (
-                    '%g/%g' % (epoch, self.system_dict["params"]["epochs"] - 1), '%.3gG' % mem, *mloss, len(targets), self.system_dict["params"]["img_size"])
-                pbar.set_description(s)
+                    '%g/%g' % (epoch, epochs - 1), '%.3gG' % mem, *mloss, len(targets), img_size)
+                pbar.set_description(s)  # end batch -----------------------------------------------------------------------
 
-                # end batch ------------------------------------------------------------------------------------------------
+            final_epoch = epoch + 1 == epochs
+            
+            with torch.no_grad():
+                results, maps = validate(cfg,
+                                            val_img_dir,
+                                            val_label_dir,
+                                            classes,
+                                            batch_size=batch_size,
+                                            img_size=img_size,
+                                            model=model,
+                                            conf_thres=0.001 if final_epoch and epoch > 0 else 0.1,  # 0.1 for speed
+                                            save_json=False)
 
-            # Process epoch results
-            final_epoch = epoch + 1 == self.system_dict["params"]["epochs"]
+            # Write epoch results
+            with open('results.txt', 'a') as file:
+                file.write(s + '%10.3g' * 7 % results + '\n')  # P, R, mAP, F1, test_losses=(GIoU, obj, cls)
 
+            # Write Tensorboard results
+            if tb_writer:
+                x = list(mloss) + list(results)
+                titles = ['GIoU', 'Objectness', 'Classification', 'Train loss',
+                          'Precision', 'Recall', 'mAP', 'F1', 'val GIoU', 'val Objectness', 'val Classification']
+                for xi, title in zip(x, titles):
+                    tb_writer.add_scalar(title, xi, epoch)
 
-            if(self.system_dict["dataset"]["val"]["status"]):
-                if not self.system_dict["params"]["notest"] or final_epoch:  # Calculate mAP
-                    is_coco = False
-                    with torch.no_grad():
-                        results, maps = validate(self.system_dict["params"]["cfg"],
-                                                    self.system_dict["dataset"]["val"]["img_dir"],
-                                                    self.system_dict["dataset"]["val"]["label_dir"],
-                                                    self.system_dict["local"]["classes"],
-                                                    batch_size=self.system_dict["params"]["batch_size"],
-                                                    img_size=self.system_dict["params"]["img_size_test"],
-                                                    model=self.system_dict["local"]["model"],
-                                                    conf_thres=0.001 if final_epoch and is_coco else 0.1,  # 0.1 for speed
-                                                    iou_thres=0.5,
-                                                    save_json=final_epoch and is_coco,
-                                                    single_cls=self.system_dict["params"]["single_cls"],
-                                                    dataloader=self.system_dict["local"]["testloader"])
+            # Update best mAP
+            fitness = results[2]  # mAP
+            if fitness > best_fitness:
+                best_fitness = fitness
 
-            if(self.system_dict["dataset"]["val"]["status"]):
-                # Write epoch results
-                with open(self.system_dict["fixed_params"]["results_file"], 'a') as f:
-                    f.write(s + '%10.3g' * 7 % results + '\n')  # P, R, mAP, F1, test_losses=(GIoU, obj, cls)
-                if len(self.system_dict["params"]["name"]) and self.system_dict["params"]["bucket"]:
-                    os.system('gsutil cp results.txt gs://%s/results%s.txt' % (self.system_dict["params"]["bucket"], 
-                                                                                self.system_dict["params"]["name"]))
-
-                # Write Tensorboard results
-                if self.system_dict["local"]["tb_writer"]:
-                    x = list(mloss) + list(results)
-                    titles = ['GIoU', 'Objectness', 'Classification', 'Train loss',
-                              'Precision', 'Recall', 'mAP', 'F1', 'val GIoU', 'val Objectness', 'val Classification']
-                    for xi, title in zip(x, titles):
-                        self.system_dict["local"]["tb_writer"].add_scalar(title, xi, epoch)
-
-                # Update best mAP
-                fitness = results[2]  # mAP
-                if fitness > self.system_dict["local"]["best_fitness"]:
-                    self.system_dict["local"]["best_fitness"] = fitness
-
-                # Save training results
-                save = (not self.system_dict["params"]["nosave"]) or (final_epoch and not self.system_dict["params"]["evolve"])
-                if save:
-                    with open(self.system_dict["fixed_params"]["results_file"], 'r') as f:
-                        # Create checkpoint
-                        chkpt = {'epoch': epoch,
-                                 'best_fitness': self.system_dict["local"]["best_fitness"],
-                                 'training_results': f.read(),
-                                 'model': self.system_dict["local"]["model"].module.state_dict() if type(
-                                      self.system_dict["local"]["model"]) is nn.parallel.DistributedDataParallel else  self.system_dict["local"]["model"].state_dict(),
-                                 'optimizer': None if final_epoch else  self.system_dict["local"]["optimizer"].state_dict()}
-
-                    # Save last checkpoint
-                    torch.save(chkpt, self.system_dict["fixed_params"]["last"])
-
-                    # Save best checkpoint
-                    if self.system_dict["local"]["best_fitness"] == fitness:
-                        torch.save(chkpt, self.system_dict["fixed_params"]["best"])
-
-                    # Save backup every 1 epochs (optional)
-                    if epoch > 0 and epoch % 1 == 0:
-                        torch.save(chkpt, self.system_dict["fixed_params"]["wdir"] + 'backup%g.pt' % epoch)
-
-                    # Delete checkpoint
-                    del chkpt
-            else:
-                chkpt = {'epoch': epoch,
-                                 'best_fitness': 0.0,
-                                 'training_results': "",
-                                 'model': self.system_dict["local"]["model"].module.state_dict() if type(
-                                      self.system_dict["local"]["model"]) is nn.parallel.DistributedDataParallel else  self.system_dict["local"]["model"].state_dict(),
-                                 'optimizer': None if final_epoch else  self.system_dict["local"]["optimizer"].state_dict()}
+            # Save training results
+            save = True
+            if save:
+                with open('results.txt', 'r') as file:
+                    # Create checkpoint
+                    chkpt = {'epoch': epoch,
+                             'best_fitness': best_fitness,
+                             'training_results': file.read(),
+                             'model': model.module.state_dict() if type(
+                                 model) is nn.parallel.DistributedDataParallel else model.state_dict(),
+                             'optimizer': None if final_epoch else optimizer.state_dict()}
 
                 # Save last checkpoint
-                torch.save(chkpt, self.system_dict["fixed_params"]["last"])
-
-
-                # Save backup every 1 epochs (optional)
-                if epoch > 0 and epoch % 1 == 0:
-                    torch.save(chkpt, self.system_dict["fixed_params"]["wdir"] + 'backup%g.pt' % epoch)
+                torch.save(chkpt, last)
+                
+                # Save best checkpoint
+                if best_fitness == fitness:
+                    torch.save(chkpt, best)
 
                 # Delete checkpoint
-                del chkpt
+                del chkpt  # end epoch -------------------------------------------------------------------------------------
 
-        if(self.system_dict["dataset"]["val"]["status"]):
-            n = self.system_dict["params"]["name"]
-            if len(n):
-                n = '_' + n if not n.isnumeric() else n
-                fresults, flast, fbest = 'results%s.txt' % n, 'last%s.pt' % n, 'best%s.pt' % n
-                os.rename('results.txt', fresults)
-                os.rename(self.system_dict["fixed_params"]["wdir"] + 'last.pt', 
-                    self.system_dict["fixed_params"]["wdir"] + flast) if os.path.exists(self.system_dict["fixed_params"]["wdir"] + 'last.pt') else None
-                os.rename(self.system_dict["fixed_params"]["wdir"] + 'best.pt', 
-                    self.system_dict["fixed_params"]["wdir"] + fbest) if os.path.exists(self.system_dict["fixed_params"]["wdir"] + 'best.pt') else None
-
-                # save to cloud
-                if self.system_dict["params"]["bucket"]:
-                    os.system('gsutil cp %s %s gs://%s' % (fresults, self.system_dict["fixed_params"]["wdir"] + flast, 
-                        self.system_dict["params"]["bucket"]))
-
-            if not self.system_dict["params"]["evolve"]:
-                plot_results()  # save as results.png
-            print('%g epochs completed in %.3f hours.\n' % (epoch - self.system_dict["local"]["start_epoch"] + 1, (time.time() - t0) / 3600))
-            dist.destroy_process_group() if torch.cuda.device_count() > 1 else None
-            torch.cuda.empty_cache()
-
-            return results
+        # Report time
+        plot_results()  # save as results.png
+        print('%g epochs completed in %.3f hours.\n' % (epoch - start_epoch + 1, (time.time() - t0) / 3600))
+        dist.destroy_process_group() if torch.cuda.device_count() > 1 else None
+        torch.cuda.empty_cache()
+        return results
 
 
 
@@ -636,8 +556,7 @@ class Detector():
         self.system_dict["params"]["epochs"] = num_epochs;
 
         if not self.system_dict["params"]["evolve"]:
-            self.setup(finetune=finetune);
-            self.start_training();
+            result = self.setup_and_train(finetune=finetune);
         else:
             if(not self.system_dict["dataset"]["val"]["status"]):
                 print("Validation data required for evolving hyper-parameters");
@@ -680,8 +599,7 @@ class Detector():
                         self.system_dict["fixed_params"]["hyp"][k] = np.clip(self.system_dict["fixed_params"]["hyp"][k], v[0], v[1])
 
                     # Train mutation
-                    self.setup(finetune=finetune);
-                    results = self.start_training();
+                    result = self.setup_and_train(finetune=finetune);
                     self.system_dict["params"]["img_size"] = self.system_dict["params"]["img_size_selected"];
 
                     # Write mutation results
@@ -710,5 +628,3 @@ class Detector():
 
         self.system_dict["params"]["cfg"] = input_cfg;
         self.system_dict["params"]["weights"] = input_weights;
-
-

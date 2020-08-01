@@ -43,6 +43,7 @@ def validate(cfg,
             model = nn.DataParallel(model)
     else:
         device = next(model.parameters()).device  # get model device
+        print("Validation on device - ", device);
         verbose = True
 
     nc = int(len(classes))  # number of classes
