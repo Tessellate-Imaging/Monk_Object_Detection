@@ -23,6 +23,9 @@ Interns
   
 4) Sinchana S R [Linkedin](https://www.linkedin.com/in/sinchana-s-r-469313132/ ), [Github](https://github.com/sinchubhat) 
   - Mar 2020 - Present
+  
+5) Swapnil Ahlawat [Linkedin](https://www.linkedin.com/in/swapnilahlawat/), [Github](https://github.com/swapnil-ahlawat)
+  - July 2020 - Present
  
  
 Contributors
