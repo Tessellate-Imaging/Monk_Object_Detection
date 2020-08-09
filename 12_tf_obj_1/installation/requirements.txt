@@ -1,0 +1,12 @@
+numpy
+scipy
+scikit-learn
+scikit-image
+opencv-python
+pillow
+pandas
+tqdm
+tensorflow-gpu==1.15
+jupyter 
+notebook
+pycocotools

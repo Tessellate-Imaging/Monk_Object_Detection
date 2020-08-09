@@ -1,0 +1,48 @@
+<annotation>
+    <folder>tf2_train</folder>
+    <filename>output-000000509.jpg</filename>
+    <path>/home/ubuntu/Desktop/tf2_train/output-000000509.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1280</width>
+        <height>720</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>96</xmin>
+            <ymin>508</ymin>
+            <xmax>381</xmax>
+            <ymax>605</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>0</xmin>
+            <ymin>381</ymin>
+            <xmax>100</xmax>
+            <ymax>517</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-4</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1036</xmin>
+            <ymin>554</ymin>
+            <xmax>1090</xmax>
+            <ymax>616</ymax>
+        </bndbox>
+    </object>
+</annotation>

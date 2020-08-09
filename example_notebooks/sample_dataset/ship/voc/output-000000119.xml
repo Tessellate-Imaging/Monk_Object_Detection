@@ -1,0 +1,81 @@
+<annotation>
+    <folder>tf2_train</folder>
+    <filename>output-000000119.jpg</filename>
+    <path>/home/ubuntu/Desktop/tf2_train/output-000000119.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1280</width>
+        <height>720</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>type-0</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>728</xmin>
+            <ymin>546</ymin>
+            <xmax>780</xmax>
+            <ymax>610</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-0</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>856</xmin>
+            <ymin>565</ymin>
+            <xmax>901</xmax>
+            <ymax>614</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>436</xmin>
+            <ymin>434</ymin>
+            <xmax>694</xmax>
+            <ymax>670</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>868</xmin>
+            <ymin>415</ymin>
+            <xmax>1225</xmax>
+            <ymax>638</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>555</xmin>
+            <ymin>444</ymin>
+            <xmax>874</xmax>
+            <ymax>543</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>type-3</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>89</xmin>
+            <ymin>507</ymin>
+            <xmax>353</xmax>
+            <ymax>612</ymax>
+        </bndbox>
+    </object>
+</annotation>
