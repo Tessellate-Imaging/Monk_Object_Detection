@@ -99,6 +99,12 @@ class Detector():
                 os.system("wget http://download.tensorflow.org/models/object_detection/rfcn_resnet101_coco_2018_01_28.tar.gz");
                 os.system("tar -xvzf rfcn_resnet101_coco_2018_01_28.tar.gz");
             return model_name;
+        elif(model_name == "faster_rcnn_resnet101"):
+            model_name = "faster_rcnn_resnet101_coco_2018_01_28";
+            if(not os.path.isdir(model_name)):
+                os.system("wget http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_coco_2018_01_28.tar.gz");
+                os.system("tar -xvzf faster_rcnn_resnet101_coco_2018_01_28.tar.gz");
+            return model_name;
         
     
     
@@ -695,6 +701,52 @@ class Detector():
             f = open(model_name + "/pipeline_updated.config", 'w');
             f.write(data);
             f.close()
+            
+        elif(model_name == "faster_rcnn_resnet101_coco_2018_01_28"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("initial_learning_rate: 0.000300000014249", 
+                                "initial_learning_rate: " + str(lr));
+            
+            data = data.replace("step: 0", 
+                                "step: " + str(1));
+            data = data.replace("learning_rate: 0.000300000014249", 
+                                "learning_rate: " + str(lr));
+            
+            data = data.replace("step: 900000", 
+                                "step: " + str(num_steps//3));
+            data = data.replace("learning_rate: 2.99999992421e-05", 
+                                "learning_rate: " + str(lr/10));
+                                
+            data = data.replace("step: 1200000", 
+                                "step: " + str(2*num_steps//3));
+            data = data.replace("learning_rate: 3.00000010611e-06", 
+                                "learning_rate: " + str(lr/100));                    
+
+
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 1", 
+                                "batch_size: " + str(batch_size));
+            
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close()
     
          
     
@@ -707,7 +759,7 @@ class Detector():
                                           "ssd_mobilenet_v2_quantized", "ssdlite_mobilenet_v2",
                                           "ssd_inception_v2", "faster_rcnn_inception_v2",
                                           "faster_rcnn_resnet50", "faster_rcnn_resnet50_lowproposals",
-                                          "rfcn_resnet101"
+                                          "rfcn_resnet101", "faster_rcnn_resnet101"
                                          ];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
@@ -809,7 +861,8 @@ class Detector():
         elif(self.system_dict["model_name"] == "faster_rcnn_inception_v2_coco_2018_01_28" or
             self.system_dict["model_name"] == "faster_rcnn_resnet50_coco_2018_01_28" or
             self.system_dict["model_name"] == "faster_rcnn_resnet50_lowproposals_coco_2018_01_28" or
-            self.system_dict["model_name"] == "rfcn_resnet101_coco_2018_01_28"):
+            self.system_dict["model_name"] == "rfcn_resnet101_coco_2018_01_28" or
+            self.system_dict["model_name"] == "faster_rcnn_resnet101_coco_2018_01_28"):
             self.system_dict["input_shape"] = None; 
             
         
