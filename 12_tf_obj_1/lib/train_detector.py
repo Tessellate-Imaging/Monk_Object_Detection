@@ -45,8 +45,15 @@ class Detector():
                 os.system("wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_0.75_depth_300x300_coco14_sync_2018_07_03.tar.gz ");
                 os.system("tar -xvzf ssd_mobilenet_v1_0.75_depth_300x300_coco14_sync_2018_07_03.tar.gz");
             return model_name;
-            
+        elif(model_name == "ssd_mobilenet_v1_quantized"):
+            model_name = "ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18";
+            if(not os.path.isdir(model_name)):
+                os.system("wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18.tar.gz");
+                os.system("tar -xvzf ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18.tar.gz");
+            return model_name;
          
+        
+        
         
     def update_config(self, model_name, num_classes, lr, decay, label_map, output_path, batch_size):
         if(model_name == "ssd_mobilenet_v1_coco_2018_01_28"):
@@ -246,6 +253,38 @@ class Detector():
             f = open(model_name + "/pipeline_updated.config", 'w');
             f.write(data);
             f.close();
+            
+        elif(model_name == "ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("learning_rate_base: 0.20000000298", 
+                                "learning_rate_base: " + str(lr));
+            
+            data = data.replace("warmup_learning_rate: 0.0599999986589", 
+                                "warmup_learning_rate: " + str(lr/3));
+            
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record-00000-of-00100\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record-00000-of-00010\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 128", 
+                                "batch_size: " + str(batch_size));
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close();
         
         
         
@@ -255,7 +294,8 @@ class Detector():
     def list_models(self):
         self.system_dict["model_list"] = ["ssd_mobilenet_v1", "ssd_mobilenet_v2", 
                                           "ssd_mobilenet_v1_ppn", "ssd_mobilenet_v1_fpn",
-                                          "ssd_resnet50_v1_fpn", "ssd_mobilenet_v1_0.75_depth"];
+                                          "ssd_resnet50_v1_fpn", "ssd_mobilenet_v1_0.75_depth",
+                                          "ssd_mobilenet_v1_quantized"];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
         
@@ -340,7 +380,8 @@ class Detector():
         if(self.system_dict["model_name"] == "ssd_mobilenet_v1_coco_2018_01_28" or
            self.system_dict["model_name"] == "ssd_mobilenet_v2_coco_2018_03_29" or
            self.system_dict["model_name"] == "ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03" or
-           self.system_dict["model_name"] == "ssd_mobilenet_v1_0.75_depth_300x300_coco14_sync_2018_07_03"):
+           self.system_dict["model_name"] == "ssd_mobilenet_v1_0.75_depth_300x300_coco14_sync_2018_07_03" or
+           self.system_dict["model_name"] == "ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18"):
             self.system_dict["input_shape"] = "-1, 300, 300, 3";
         elif(self.system_dict["model_name"] == "ssd_mobilenet_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03" or
             self.system_dict["model_name"] == "ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03"):
