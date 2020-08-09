@@ -30,12 +30,12 @@ class Infer():
         f.close();
         
         
-    def infer_on_image(self, img_path, thresh=0.5, bbox_thickness=3, text_size=2, text_thickness=4):
+    def infer_on_image(self, img_path, img_size=300, thresh=0.5, bbox_thickness=3, text_size=2, text_thickness=4):
         start = time.time();
         img = cv.imread(img_path)
         rows = img.shape[0]
         cols = img.shape[1]
-        inp = cv.resize(img, (300, 300))
+        inp = cv.resize(img, (img_size, img_size))
         inp = inp[:, :, [2, 1, 0]]  # BGR2RGB
         end = time.time();
         print("Image loaded in {} sec".format(end-start));
