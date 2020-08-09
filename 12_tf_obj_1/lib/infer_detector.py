@@ -35,7 +35,10 @@ class Infer():
         img = cv.imread(img_path)
         rows = img.shape[0]
         cols = img.shape[1]
-        inp = cv.resize(img, (img_size, img_size))
+        if(img_size):
+            inp = cv.resize(img, (img_size, img_size))
+        else:
+            inp = img;
         inp = inp[:, :, [2, 1, 0]]  # BGR2RGB
         end = time.time();
         print("Image loaded in {} sec".format(end-start));

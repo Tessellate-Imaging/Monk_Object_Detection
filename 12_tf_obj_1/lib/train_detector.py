@@ -75,11 +75,17 @@ class Detector():
                 os.system("wget http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2018_01_28.tar.gz ");
                 os.system("tar -xvzf ssd_inception_v2_coco_2018_01_28.tar.gz");
             return model_name;
+        elif(model_name == "faster_rcnn_inception_v2"):
+            model_name = "faster_rcnn_inception_v2_coco_2018_01_28";
+            if(not os.path.isdir(model_name)):
+                os.system("wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz ");
+                os.system("tar -xvzf faster_rcnn_inception_v2_coco_2018_01_28.tar.gz");
+            return model_name;
         
     
     
         
-    def update_config(self, model_name, num_classes, lr, decay, label_map, output_path, batch_size):
+    def update_config(self, model_name, num_classes, lr, decay, label_map, output_path, batch_size, num_steps):
         if(model_name == "ssd_mobilenet_v1_coco_2018_01_28"):
             f = open(model_name + "/pipeline.config");
             data = f.read();
@@ -474,12 +480,57 @@ class Detector():
 
             with open(model_name + "/pipeline_updated.config", 'w') as file_handler:
                 file_handler.writelines(lines)
+                
+        elif(model_name == "faster_rcnn_inception_v2_coco_2018_01_28"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("initial_learning_rate: 0.000199999994948", 
+                                "initial_learning_rate: " + str(lr));
+            
+            data = data.replace("step: 0", 
+                                "step: " + str(1));
+            data = data.replace("learning_rate: 0.000199999994948", 
+                                "learning_rate: " + str(lr));
+            
+            data = data.replace("step: 900000", 
+                                "step: " + str(num_steps//3));
+            data = data.replace("learning_rate: 1.99999994948e-05", 
+                                "learning_rate: " + str(lr/10));
+                                
+            data = data.replace("step: 1200000", 
+                                "step: " + str(2*num_steps//3));
+            data = data.replace("learning_rate: 1.99999999495e-06", 
+                                "learning_rate: " + str(lr/100));                    
+
+
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 1", 
+                                "batch_size: " + str(batch_size));
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close()
             
         
     
     
         
-
+    
     
     def list_models(self):
         self.system_dict["model_list"] = ["ssd_mobilenet_v1", "ssd_mobilenet_v2", 
@@ -487,7 +538,8 @@ class Detector():
                                           "ssd_resnet50_v1_fpn", "ssd_mobilenet_v1_0.75_depth",
                                           "ssd_mobilenet_v1_quantized", "ssd_mobilenet_v1_0.75_depth_quantized",
                                           "ssd_mobilenet_v2_quantized", "ssdlite_mobilenet_v2",
-                                          "ssd_inception_v2"];
+                                          "ssd_inception_v2", "faster_rcnn_inception_v2"
+                                         ];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
         
@@ -560,7 +612,8 @@ class Detector():
                               self.system_dict["lr_decay_rate"],
                               self.system_dict["label_map"],
                               self.system_dict["output_path"],
-                              self.system_dict["batch_size"]);
+                              self.system_dict["batch_size"],
+                              self.system_dict["num_train_steps"]);
     
         self.system_dict["pipeline_config_path"] = self.system_dict["model_name"] + "/pipeline_updated.config";
         
@@ -584,6 +637,8 @@ class Detector():
         elif(self.system_dict["model_name"] == "ssd_mobilenet_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03" or
             self.system_dict["model_name"] == "ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03"):
             self.system_dict["input_shape"] = "-1, 640, 640, 3";
+        elif(self.system_dict["model_name"] == "faster_rcnn_inception_v2_coco_2018_01_28"):
+            self.system_dict["input_shape"] = None; 
             
         
         
