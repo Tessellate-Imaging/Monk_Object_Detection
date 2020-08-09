@@ -21,12 +21,16 @@ class Detector():
                 os.system("wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v2_coco_2018_03_29.tar.gz")
             return model_name;
-            
+        elif(model_name == "ssd_mobilenet_v1_ppn"):
+            model_name = "ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03";
+            if(not os.path.isdir(model_name)):
+                os.system("wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03.tar.gz");
+                os.system("tar -xvzf ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03.tar.gz");
+            return model_name;
             
         
     def update_config(self, model_name, num_classes, lr, decay, label_map, output_path, batch_size):
-        if(model_name == "ssd_mobilenet_v1_coco_2018_01_28" or 
-           model_name == "ssd_mobilenet_v2_coco_2018_03_29"):
+        if(model_name == "ssd_mobilenet_v1_coco_2018_01_28"):
             f = open(model_name + "/pipeline.config");
             data = f.read();
             f.close();
@@ -56,17 +60,82 @@ class Detector():
             
             data = data.replace("batch_norm_trainable: true", 
                                 "#batch_norm_trainable: true");
-            
-            
-            
 
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close();
+        
+        elif(model_name == "ssd_mobilenet_v2_coco_2018_03_29"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("initial_learning_rate: 0.00400000018999", 
+                                "initial_learning_rate: " + str(lr));
+
+            data = data.replace("decay_factor: 0.949999988079", 
+                                "decay_factor: " + str(decay));
+
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 24", 
+                                "batch_size: " + str(batch_size));
+            
+            data = data.replace("batch_norm_trainable: true", 
+                                "#batch_norm_trainable: true");
+
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close()
+            
+        elif(model_name == "ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("learning_rate_base: 0.699999988079", 
+                                "learning_rate_base: " + str(lr));
+            
+            data = data.replace("warmup_learning_rate: 0.13330000639", 
+                                "warmup_learning_rate: " + str(lr/3));
+            
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record-00000-of-00100\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record-00000-of-00010\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 512", 
+                                "batch_size: " + str(batch_size));
+            
             f = open(model_name + "/pipeline_updated.config", 'w');
             f.write(data);
             f.close();
 
     
     def list_models(self):
-        self.system_dict["model_list"] = ["ssd_mobilenet_v1", "ssd_mobilenet_v2"];
+        self.system_dict["model_list"] = ["ssd_mobilenet_v1", "ssd_mobilenet_v2", 
+                                          "ssd_mobilenet_v1_ppn"];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
         
@@ -102,6 +171,7 @@ class Detector():
     def set_model_params(self, model_name="ssd_mobilenet_v1"):
         self.system_dict["model_name"] = model_name;
         self.system_dict["model_name"] = self.download_model(self.system_dict["model_name"]);
+        print("Model name set as {}".format(self.system_dict["model_name"]));
         
         with open('system_dict.json', 'w') as json_file:
             json.dump(self.system_dict, json_file)
@@ -148,7 +218,8 @@ class Detector():
         self.system_dict["input_type"] = "image_tensor";
         
         if(self.system_dict["model_name"] == "ssd_mobilenet_v1_coco_2018_01_28" or
-           self.system_dict["model_name"] == "ssd_mobilenet_v2_coco_2018_03_29"):
+           self.system_dict["model_name"] == "ssd_mobilenet_v2_coco_2018_03_29" or
+           self.system_dict["model_name"] == "ssd_mobilenet_v1_ppn_shared_box_predictor_300x300_coco14_sync_2018_07_03"):
             self.system_dict["input_shape"] = "-1, 300, 300, 3";
             
         
