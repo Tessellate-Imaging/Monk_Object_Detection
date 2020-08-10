@@ -33,7 +33,9 @@ Supports
 
  - Load Dataset
  
- `gtf.set_train_dataset(img_dir, label_dir, class_list_file, batch_size=2)`
+ `gtf.set_train_dataset(train_img_dir, train_anno_dir, class_list_file, batch_size=2, trainval_split = 0.8)`
+ 
+ `gtf.create_tfrecord(data_output_dir="data_tfrecord")`
  
  - Set Hyper Params
  
@@ -41,13 +43,11 @@ Supports
  
   - Train
   
-  `gtf.Train(num_epochs=2);`
+  `%run Monk_Object_Detection/12_tf_obj_1/lib/train.py`
  
-  - Reload Model, prune and retrain
+  - Export Model
   
-  `gtf.prune_weights("yolov3-spp3.cfg", "weights/last.pt", "pruned1.cfg", "pruned1.pt"1);`
-    
-   `gtf.Train(num_epochs=2, finetune=True)`
+  `%run Monk_Object_Detection/12_tf_obj_1/lib/export.py`
 
 
 <br />
