@@ -5,6 +5,14 @@ Pipeline based on CornerNet-Lite project - https://github.com/princeton-vl/Corne
 <br />
 <br />
 
+# Supported Models
+  - CornerNet-Saccade
+  - CornerNet-Squeeze  
+
+<br />
+<br />
+
+
 ## Installation
 
 Supports 
