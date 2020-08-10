@@ -6,6 +6,15 @@ Pipeline based on Segmentation_Models project - https://github.com/qubvel/segmen
 <br />
 <br />
 
+# Supported Models
+  - Unet
+  - FPN
+  - Linknet
+  - PSPNet
+
+<br />
+<br />
+
 
 ## Installation
 
