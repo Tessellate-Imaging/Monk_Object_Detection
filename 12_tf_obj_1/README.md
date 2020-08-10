@@ -7,16 +7,16 @@ Pipeline based on SlimYoloV3 project - https://github.com/tensorflow/models/blob
 
 # Supported Models
   - ssd_mobilenet_v1
-	- ssd_mobilenet_v2
-	- ssd_mobilenet_v1_ppn
-	- ssd_mobilenet_v1_fpn
-	- ssd_resnet50_v1_fpn
-	- ssd_mobilenet_v1_0.75_depth
-	- ssd_mobilenet_v1_quantized
-	- ssd_mobilenet_v1_0.75_depth_quantized
-	- ssd_mobilenet_v2_quantized
-	- ssdlite_mobilenet_v2
-	- ssd_inception_v2
+  - ssd_mobilenet_v2
+  - ssd_mobilenet_v1_ppn
+  - ssd_mobilenet_v1_fpn
+  - ssd_resnet50_v1_fpn
+  - ssd_mobilenet_v1_0.75_depth
+  - ssd_mobilenet_v1_quantized
+  - ssd_mobilenet_v1_0.75_depth_quantized
+  - ssd_mobilenet_v2_quantized
+  - ssdlite_mobilenet_v2
+  - ssd_inception_v2
   - faster_rcnn_inception_v2
   - faster_rcnn_resnet50
   - faster_rcnn_resnet50_lowproposals
@@ -39,6 +39,7 @@ Pipeline based on SlimYoloV3 project - https://github.com/tensorflow/models/blob
 Supports 
 - Python 3.6
 - Cuda 10.0 (Other cuda version support is experimental)
+- Tensorflow 1.15
     
 `cd installation`
 
