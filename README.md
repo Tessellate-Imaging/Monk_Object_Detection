@@ -1,14 +1,57 @@
-# Monk_Object_Detection[![Tweet](https://img.shields.io/twitter/url/https/github.com/tterb/hyde.svg?style=social)](http://twitter.com/share?text=Check%20out%20Monk%20Object%20Detection:%20A%20repository%20for%20object%20detection%20pipelines%20in%20computer%20vision&url=https://github.com/Tessellate-Imaging/Monk_Object_Detection&hashtags=MonkAI,OpenSource,Notebooks,DeepLearning,Tutorial,ObjectDetection,Python,AI) [![](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection.svg)](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection?category=files) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+# Monk - A computer vision toolkit for everyone[![Tweet](https://img.shields.io/twitter/url/https/github.com/tterb/hyde.svg?style=social)](http://twitter.com/share?text=Check%20out%20Monk%20Object%20Detection:%20A%20repository%20for%20object%20detection%20pipelines%20in%20computer%20vision&url=https://github.com/Tessellate-Imaging/Monk_Object_Detection&hashtags=MonkAI,OpenSource,Notebooks,DeepLearning,Tutorial,ObjectDetection,Python,AI) [![](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection.svg)](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection?category=files) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
-A one-stop repository for low-code easily-installable object detection pipelines.
+A repository of complex computer vision algorithms
+  - Single line installation
+  - Ingest custom datasets for training and inference
+  - Low code syntax
+  - Easy deployment
+  
 <br />
 <br />
 <br />
 
-![Alt Text](Demo.gif)
+## Create real-world Object Detection applications 
+<table>
+  <tr>
+    <td>Wheat detection in field</td>
+    <td>Detection in underwater imagery</td>
+    <td>Trash Detection</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/wheat-detection-demo.gif" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/sea_tutrle_demo.gif" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/trash.gif" width=320 height=240></td>
+  </tr>
+  <tr>
+    <td>Object detection in bad lighting</td>
+    <td>Tiger detection in wild</td>
+    <td>Person detection in infrared imagery</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/obj-det-in-bad-light.gif" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/tiger.gif" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/ir-person-det.gif" width=320 height=240></td>
+  </tr>
+</table>
+  
 
 <br />
 <br />
+
+## Create real-world Image Segmentation applications 
+<table>
+  <tr>
+    <td>Road Segmentation in satellite imagery</td>
+    <td>Ultrasound nerve segmentation</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/satellite-road-segmentation.gif" width=640 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/ultrasound-nerve-image-segmentat.gif" width=320 height=240></td>
+  </tr>
+</table>
+
+
+
 
 ### Documentation
 - [LINK](https://li8bot.github.io/monkai/#/home)
