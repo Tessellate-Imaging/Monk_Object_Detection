@@ -1,5 +1,5 @@
 ## Project Details
-Pipeline based on SlimYoloV3 project - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1.md
+Pipeline based on - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1.md
 
 <br />
 <br />
