@@ -5,6 +5,19 @@ Pipeline based on Yet-Another-EfficientDet project - https://github.com/zylo117/
 <br />
 <br />
 
+# Supported Models
+  - efficientdet-d0.pth
+  - efficientdet-d1.pth
+  - efficientdet-d2.pth
+  - efficientdet-d3.pth
+  - efficientdet-d4.pth
+  - efficientdet-d5.pth
+  - efficientdet-d6.pth
+  - efficientdet-d7.pth
+
+<br />
+<br />
+
 ## Installation
 
 Supports 
