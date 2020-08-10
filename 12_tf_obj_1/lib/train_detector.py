@@ -1147,9 +1147,11 @@ class Detector():
            self.system_dict["model_name"] == "ssdlite_mobilenet_v2_coco_2018_05_09" or
            self.system_dict["model_name"] == "ssd_inception_v2_coco_2018_01_28"):
             self.system_dict["input_shape"] = "-1, 300, 300, 3";
+            self.system_dict["input_shape_flops"] = "1, 300, 300, 3";
         elif(self.system_dict["model_name"] == "ssd_mobilenet_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03" or
             self.system_dict["model_name"] == "ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03"):
             self.system_dict["input_shape"] = "-1, 640, 640, 3";
+            self.system_dict["input_shape_flops"] = "1, 640, 640, 3";
         elif(self.system_dict["model_name"] == "faster_rcnn_inception_v2_coco_2018_01_28" or
             self.system_dict["model_name"] == "faster_rcnn_resnet50_coco_2018_01_28" or
             self.system_dict["model_name"] == "faster_rcnn_resnet50_lowproposals_coco_2018_01_28" or
@@ -1161,6 +1163,7 @@ class Detector():
             self.system_dict["model_name"] == "faster_rcnn_nas_coco_2018_01_28" or
             self.system_dict["model_name"] == "faster_rcnn_nas_lowproposals_coco_2018_01_28"):
             self.system_dict["input_shape"] = None; 
+            self.system_dict["input_shape_flops"] = "1, 640, 640, 3";
             
         
         
@@ -1178,9 +1181,27 @@ class Detector():
         with open('system_dict.json', 'w') as json_file:
             json.dump(self.system_dict, json_file)
     
-        
-        
-        
+    
+    def load_pb(self, pb_model):
+        with tf.gfile.GFile(pb_model, "rb") as f:
+            graph_def = tf.GraphDef()
+            graph_def.ParseFromString(f.read())
+        with tf.Graph().as_default() as graph:
+            tf.import_graph_def(graph_def, name='')
+            return graph
+
+    def estimate_flops(self, pb_model):
+        graph = self.load_pb(pb_model)
+        with graph.as_default():
+            # placeholder input would result in incomplete shape. So replace it with constant during model frozen.
+            flops = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.float_operation())
+            print('Model {} needs {} FLOPS after freezing'.format(pb_model, flops.total_float_ops))
+    
+    
+    def calculate_flops(self, inference_graph=None):
+        if(not inference_graph):
+            inference_graph = self.system_dict["output_directory"] + "_flops/frozen_inference_graph.pb";
+        self.estimate_flops(inference_graph)
         
         
         
