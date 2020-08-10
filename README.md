@@ -54,6 +54,9 @@ A repository of complex computer vision algorithms
 
 ### For more such tutorials visit [Application Model Zoo](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/application_model_zoo)
 
+<br />
+<br />
+
 ## Important Elements
 
 - A) Training Engine
