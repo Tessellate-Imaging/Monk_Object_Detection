@@ -6,6 +6,12 @@ Base Yolov3 code from - https://github.com/erikguo/yolov3
 <br />
 <br />
 
+# Supported Models
+  - YoloV3-SPP3
+
+<br />
+<br />
+
 
 ## Installation
 
