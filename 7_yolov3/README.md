@@ -6,6 +6,19 @@ Pipeline based on YoloV3 project - https://github.com/ultralytics/yolov3
 <br />
 
 
+# Supported Models
+  - yolov3
+  - yolov3s
+  - yolov3-spp
+  - yolov3-spp3
+  - yolov3-tiny
+  - yolov3-spp-matrix
+  - csresnext50-panet-spp
+
+<br />
+<br />
+
+
 ## Installation
 
 Supports 
