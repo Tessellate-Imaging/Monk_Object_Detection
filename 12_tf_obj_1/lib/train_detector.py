@@ -147,6 +147,12 @@ class Detector():
                 os.system("wget  http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v3_large_coco_2020_01_14.tar.gz");
                 os.system("tar -xvzf ssd_mobilenet_v3_large_coco_2020_01_14.tar.gz");
             return model_name;
+        elif(model_name == "ssd_mobilenet_v3_small"):
+            model_name = "ssd_mobilenet_v3_small_coco_2020_01_14";
+            if(not os.path.isdir(model_name)):
+                os.system("wget  http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v3_small_coco_2020_01_14.tar.gz");
+                os.system("tar -xvzf ssd_mobilenet_v3_small_coco_2020_01_14.tar.gz");
+            return model_name;
     
     
    
@@ -1112,6 +1118,38 @@ class Detector():
             f.write(data);
             f.close();
             
+        elif(model_name == "ssd_mobilenet_v3_small_coco_2020_01_14"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("learning_rate_base: 0.4", 
+                                "learning_rate_base: " + str(lr));
+            
+            data = data.replace("warmup_learning_rate: 0.13333", 
+                                "warmup_learning_rate: " + str(lr/3));
+            
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record-?????-of-00100\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record-?????-of-00010\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 512", 
+                                "batch_size: " + str(batch_size));
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close();
+            
          
     
     
@@ -1127,7 +1165,7 @@ class Detector():
                                           "faster_rcnn_resnet101_lowproposals", "faster_rcnn_inception_resnet_v2_atrous",
                                           "faster_rcnn_inception_resnet_v2_atrous_lowproposals", "faster_rcnn_nas",
                                           "faster_rcnn_nas_lowproposals", "ssd_mobilenet_v2_mnasfpn",
-                                          "ssd_mobilenet_v3_large"
+                                          "ssd_mobilenet_v3_large", "ssd_mobilenet_v3_small"
                                          ];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
@@ -1241,7 +1279,8 @@ class Detector():
             self.system_dict["input_shape"] = None; 
             self.system_dict["input_shape_flops"] = "1, 640, 640, 3";
         elif(self.system_dict["model_name"] == "ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18" or
-            self.system_dict["model_name"] == "ssd_mobilenet_v3_large_coco_2020_01_14"):
+            self.system_dict["model_name"] == "ssd_mobilenet_v3_large_coco_2020_01_14" or
+            self.system_dict["model_name"] == "ssd_mobilenet_v3_small_coco_2020_01_14"):
             self.system_dict["input_shape"] = "-1, 320, 320, 3"; 
             self.system_dict["input_shape_flops"] = "1, 320, 320, 3";
         
