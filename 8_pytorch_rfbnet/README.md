@@ -6,6 +6,14 @@ Pipeline based on RFBNet project - https://github.com/ruinmessi/RFBNet
 <br />
 <br />
 
+# Supported Models
+  - VGG16
+  - E_VGG16
+  - MobileNet
+
+<br />
+<br />
+
 
 ## Installation
 
