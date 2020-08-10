@@ -1,4 +1,4 @@
-# Monk - A computer vision toolkit for everyone[![Tweet](https://img.shields.io/twitter/url/https/github.com/tterb/hyde.svg?style=social)](http://twitter.com/share?text=Check%20out%20Monk%20Object%20Detection:%20A%20repository%20for%20object%20detection%20pipelines%20in%20computer%20vision&url=https://github.com/Tessellate-Imaging/Monk_Object_Detection&hashtags=MonkAI,OpenSource,Notebooks,DeepLearning,Tutorial,ObjectDetection,Python,AI) [![](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection.svg)](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection?category=files) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+# [Monk - A computer vision toolkit for everyone](https://li8bot.github.io/monkai/#/home) [![Tweet](https://img.shields.io/twitter/url/https/github.com/tterb/hyde.svg?style=social)](http://twitter.com/share?text=Check%20out%20Monk%20Object%20Detection:%20A%20repository%20for%20object%20detection%20pipelines%20in%20computer%20vision&url=https://github.com/Tessellate-Imaging/Monk_Object_Detection&hashtags=MonkAI,OpenSource,Notebooks,DeepLearning,Tutorial,ObjectDetection,Python,AI) [![](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection.svg)](http://hits.dwyl.io/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection) ![](https://tokei.rs/b1/github/Tessellate-Imaging/Monk_Object_Detection?category=files) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 A repository of complex computer vision algorithms
   - Single line installation
@@ -51,15 +51,6 @@ A repository of complex computer vision algorithms
 </table>
 
 
-
-
-### Documentation
-- [LINK](https://li8bot.github.io/monkai/#/home)
-
-<br />
-<br />
-<br />
-
 ## Important Elements
 
 - A) Training Engine
@@ -78,177 +69,42 @@ A repository of complex computer vision algorithms
 <br />
 
 
-## Training engine - Pipelines presented as jupyter notebooks - see example_notebooks
-(See the licenses for each pipeline and use accordingly)
 
+## Training Engine Algorithms
+    - Train models on custom dataset witjh low code syntax
+    - Pretrained examples on variety of datasets
+    - Useful to train your own detector
 
-- A) GluonCV Finetune
-    - [Original Implementation](https://gluon-cv.mxnet.io/build/examples_detection/index.html)
-    - [Functional Documentation](https://abhi-kumar.github.io/1_gluoncv_finetune_docs/)
-        - SSD with Vgg16
-        - SSD with Resnet50
-        - SSD with Resnet101
-        - SSD with MobileNet1.0
-        - YoloV3 with Darknet53
-        - YoloV3 with MobileNet1.0
-    
-- B) TorchVision Finetune: Original
-    - [Original Implementation](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html)
-    - [Functional Documentation](https://abhi-kumar.github.io/2_pytorch_finetune_docs/)
-        - Faster-RCNN with MobileNet2.0
-    
-- C) MX-RCNN: Original
-    - [Original Implementation](https://github.com/ijkguo/mx-rcnn)
-    - [Functional Documentation](https://abhi-kumar.github.io/3_mxrcnn_docs/)
-        - Faster-RCNN with VGG16
-        - Faster-RCNN with Resnet50
-        - Faster-RCNN with Resnet101
-    
-- D) Efficient-Det: Original
-    - [Original Implementation](https://github.com/signatrix/efficientdet)
-    - [Functional Documentation](https://abhi-kumar.github.io/4_efficientdet_docs/)
-
-- E) Pytorch-Retinanet: Original
-    - [Original Implementation](https://github.com/yhenon/pytorch-retinanet)
-    - [Functional Documentation](https://abhi-kumar.github.io/5_pytorch_retinanet_docs/)
-        - Resnet18
-        - Resnet34
-        - Resnet50
-        - Resnet101
-        - Resnet152
-    
-- F) CornerNet-Lite: Original
-    - [Original Implementation](https://github.com/princeton-vl/CornerNet-Lite)
-    - [Functional Documentation](https://abhi-kumar.github.io/6_cornernet_lite_docs/)
-        - CornerNet-Saccade
-        - CornerNet-Squeeze
-    
-- G) YOLOV3: Original
-    - [Original Implementation](https://github.com/ultralytics/yolov3)
-    - [Functional Documentation](https://abhi-kumar.github.io/7_yolov3_docs/)
-        - yolov3
-        - yolov3s
-        - yolov3-spp
-        - yolov3-spp3
-        - yolov3-tiny
-        - yolov3-spp-matrix
-        - csresnext50-panet-spp
-
-- H) RFBNet:
-    - [Original Implementation](https://github.com/ruinmessi/RFBNet)
-    - [Functional Documentation](https://abhi-kumar.github.io/8_pytorch_rfbnet_docs/)
-        - VGG16
-        - E_VGG16
-        - MobileNet
-    
-- I) Segmentation_Models:
-    - [Original Implementation](https://github.com/qubvel/segmentation_models)
-    - [Functional Documentation]
-        - Unet
-        - FPN
-        - Linknet
-        - PSPNet
-        
-- J) Pytorch_Efficientdet:
-    - [Original Implementation](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
-    - [Functional Documentation]
-        - efficientdet-d0.pth
-        - efficientdet-d1.pth
-        - efficientdet-d2.pth
-        - efficientdet-d3.pth
-        - efficientdet-d4.pth
-        - efficientdet-d5.pth
-        - efficientdet-d6.pth
-        - efficientdet-d7.pth
-        
-- K) Slim-Yolo-V3:
-    - [Original Implementation 1](https://github.com/PengyiZhang/SlimYOLOv3)
-    - [Original Implementation 2](https://github.com/erikguo/yolov3)
-    - [Functional Documentation]
-        
-      
-<br />
-<br />
-<br />
-
-
-
-## Inference Engine
-(See the licenses for each pipeline and use accordingly)
-
-- A) GluonCV Finetune
-     - [Original Implementation](https://gluon-cv.mxnet.io/build/examples_detection/index.html)
-     - Pretrained models on 
-          - COCO Dataset
-          - Pascal VOC Dataset
-     - Models using
-          - SSD
-          - faster-rcnn
-          - Yolo-V3
-          - CenterNet
-          
- - B) EfficientDet Pytorch
-     - [Original Implementation](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)
-     - Pretrained models on 
-          - COCO Dataset
-     - Models using efficient network variants
-     
- - C) DetectoRS: Detecting Objects with Recursive Feature Pyramid and Switchable Atrous Convolution.
-    - [Original Implementation](https://github.com/joe-siyuan-qiao/DetectoRS)
-    - Pretrained models on 
-        - COCO Dataset
-    - Models using
-        - Resnet-50
-        - RexNext-101
-
+| S.No. |   Algorithm Type   |            Algorithm            | Model variations |                                                                                                  Installation                                                                                                  |                                                     Example Notebooks                                                     |                                                   Code                                                  |                                             Credits                                             |                         Functional Docs                        |
+|:-----:|:------------------:|:-------------------------------:|:----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:--------------------------------------------------------------:|
+|   1   |  Object Detection  |         GluonCV Finetune        |         5        |                                                 [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)                                                |    [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/1_gluoncv_finetune)   |    [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune)   |              [LINK](https://gluon-cv.mxnet.io/build/examples_detection/index.html)              |  [LINK](https://abhi-kumar.github.io/1_gluoncv_finetune_docs/) |
+|   2   |  Object Detection  | Tensorflow Object Detection 1.0 |        22        |       [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/12_tf_obj_1https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)       |       [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/12_tf_obj_1)       |       [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/12_tf_obj_1)       | [LINK](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1.md) |                         In Development                         |
+|   3   |  Object Detection  |     Pytorch Efficient-Det 1     |         1        |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/4_efficientdethttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)     |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/4_efficientdet)     |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/4_efficientdet)     |                        [LINK](https://github.com/signatrix/efficientdet)                        |    [LINK](https://abhi-kumar.github.io/4_efficientdet_docs/)   |
+|   4   |  Object Detection  |     Pytorch Efficient-Det 2     |         8        | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/10_pytorch_efficientdethttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/10_pytorch_efficientdet) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/10_pytorch_efficientdet) |               [LINK](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)               |                         In Development                         |
+|   5   |  Object Detection  |       TorchVision Finetune      |         1        |    [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/2_pytorch_finetunehttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)   |    [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/2_pytorch_finetune)   |    [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/2_pytorch_finetune)   |           [LINK](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html)          |  [LINK](https://abhi-kumar.github.io/2_pytorch_finetune_docs/) |
+|   6   |  Object Detection  |             Mx-RCNN             |         3        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/3_mxrcnnhttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/3_mxrcnn)        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/3_mxrcnn)        |                            [LINK](https://github.com/ijkguo/mx-rcnn)                            |       [LINK](https://abhi-kumar.github.io/3_mxrcnn_docs/)      |
+|   7   |  Object Detection  |        Pytorch-Retinanet        |         5        |   [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/5_pytorch_retinanethttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)   |   [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/5_pytorch_retinanet)   |   [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/5_pytorch_retinanet)   |                       [LINK](https://github.com/yhenon/pytorch-retinanet)                       | [LINK](https://abhi-kumar.github.io/5_pytorch_retinanet_docs/) |
+|   8   |  Object Detection  |          CornerNet Lite         |         2        |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/6_cornernet_litehttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)    |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/6_cornernet_lite)    |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/6_cornernet_lite)    |                      [LINK](https://github.com/princeton-vl/CornerNet-Lite)                     |   [LINK](https://abhi-kumar.github.io/6_cornernet_lite_docs/)  |
+|   9   |  Object Detection  |              YoloV3             |         7        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/7_yolov3https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/7_yolov3)        |         [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/7_yolov3)        |                          [LINK](https://github.com/ultralytics/yolov3)                          |       [LINK](https://abhi-kumar.github.io/7_yolov3_docs/)      |
+|   10  |  Object Detection  |              RFBNet             |         3        |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/8_pytorch_rfbnethttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)    |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/8_pytorch_rfbnet)    |     [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/8_pytorch_rfbnet)    |                           [LINK](https://github.com/ruinmessi/RFBNet)                           |   [LINK](https://abhi-kumar.github.io/8_pytorch_rfbnet_docs/)  |
+|   11  |  Object Detection  |           Slim-Yolo-V3          |         1        |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/11_slimyolov3https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)      |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/11_slimyolov3)      |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/11_slimyolov3)      |                        [LINK](https://github.com/PengyiZhang/SlimYOLOv3)                        |                         In Development                         |
+|   12  | Image Segmentation |       Segmentation Models       |         4        |  [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/9_segmentation_modelshttps://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/1_gluoncv_finetune/installation)  |  [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/example_notebooks/9_segmentation_models)  |  [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/9_segmentation_models)  |                      [LINK](https://github.com/qubvel/segmentation_models)                      |                         In Development                         |
 
 <br />
 <br />
 <br />
 
-## Installation - Inference engine
- - Check - Monk_Object_Detection/inference_engine/
+## Inference Engine Algorithms
+    - Original pretrained models (from original authors and implementations) for inferencing and analysing
+    - Pretrained models on coco, voc, cityscpaes, type datasets
+    - Useful to analyse which algoeithm works best for you
+    - Useful to generate semi-accurate annotations (coco, pascal-voc, yolo formats) on a new dataset
 
-
-
-
-<br />
-<br />
-<br />
-
-## Installation - Training engine
-- A) GluonCV Finetune
-    - Check - Monk_Object_Detection/1_gluoncv_finetune/
-
-- B) TorchVision Finetune
-    - Check - Monk_Object_Detection/2_pytorch_finetune/
-    
-- C) MX-RCNN
-    - Check - Monk_Object_Detection/3_mxrcnn/
-      
-- D) Efficient-Det
-    - Check - Monk_Object_Detection/4_efficientdet/
-    
-- E) Pytorch-Retinanet
-    - Check - Monk_Object_Detection/5_pytorch_retinanet/
-    
-- F) CornerNet-Lite
-    - Check - Monk_Object_Detection/6_cornernet_lite/
-    
-- G) YoloV3
-    - Check - Monk_Object_Detection/7_yolov3/
-    
-- H) RFBNet
-    - Check - Monk_Object_Detection/8_pytorch_rfbnet
-    
-- I) Segmentation_Models
-    - Check - Monk_Object_Detection/9_segmentation_models
-    
-- J) Pytorch EfficientDet
-    - Check - Monk_Object_Detection/10_pytorch_efficientdet
-   
-- K) SlimYoloV3
-    - Check - Monk_Object_Detection/11_slimyolov3
+| S.No. |  Algorithm Type  |       Algorithm      | Model Valriations | Model Trained On |                                           Installation                                           |                                                                             Example Notebook                                                                             |                                                          Code                                                         |                                Credits                                | Functional Docs |
+|:-----:|:----------------:|:--------------------:|:-----------------:|:----------------:|:------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------:|
+|   1   | Object Detection |   GluonCV Finetune   |         4         | COCO; Pascal VOC | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine) |   [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20GluonCV%20Finetune.ipynb)   |   [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/gluoncv_finetune)   | [LINK](https://gluon-cv.mxnet.io/build/examples_detection/index.html) |  In Development |
+|   2   | Object Detection | Pytorch EfficientDet |         8         |       COCO       | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20EfficientDet%20Pytorch.ipynb) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/efficientdet_pytorch) |  [LINK](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)  |  In Development |
+|   3   | Object Detection |      Detecto-RS      |         2         |       COCO       | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine) |       [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20Detecto_RS.ipynb)       |      [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/detecto_rs)      |          [LINK](https://github.com/joe-siyuan-qiao/DetectoRS)         |  In Development |
 
 <br />
 <br />
