@@ -5,6 +5,13 @@ Pipeline based on EfficientDet project - https://github.com/signatrix/efficientd
 <br />
 <br />
 
+# Supported Models
+  - EfficientDet
+
+<br />
+<br />
+
+
 ## Installation
 
 Supports 
