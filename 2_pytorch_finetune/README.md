@@ -5,6 +5,13 @@ Pipeline based on TorchVision Fintuning project - https://pytorch.org/tutorials/
 <br />
 <br />
 
+
+## Supported Models
+  - Faster-RCNN with MobileNet2.0
+
+<br />
+<br />
+
 ## Installation
 
 Supports 
