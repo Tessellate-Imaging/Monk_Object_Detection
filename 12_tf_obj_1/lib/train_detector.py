@@ -135,7 +135,12 @@ class Detector():
                 os.system("wget  http://download.tensorflow.org/models/object_detection/faster_rcnn_nas_lowproposals_coco_2018_01_28.tar.gz");
                 os.system("tar -xvzf faster_rcnn_nas_lowproposals_coco_2018_01_28.tar.gz");
             return model_name;
-    
+        elif(model_name == "ssd_mobilenet_v2_mnasfpn"):
+            model_name = "ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18";
+            if(not os.path.isdir(model_name)):
+                os.system("wget  http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18.tar.gz");
+                os.system("tar -xvzf ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18.tar.gz");
+            return model_name;
     
     
    
@@ -1036,6 +1041,38 @@ class Detector():
 
             with open(model_name + "/pipeline_updated.config", 'w') as file_handler:
                 file_handler.writelines(lines)
+                           
+        elif(model_name == "ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            data = data.replace("learning_rate_base: 4.", 
+                                "learning_rate_base: " + str(lr));
+            
+            data = data.replace("warmup_learning_rate: .026666", 
+                                "warmup_learning_rate: " + str(lr/3));
+            
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED/model.ckpt\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/model.ckpt\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_train.record-?????-of-00100\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/mscoco_val.record-?????-of-00010\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            data = data.replace("batch_size: 1024", 
+                                "batch_size: " + str(batch_size));
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close();
             
          
     
@@ -1051,7 +1088,7 @@ class Detector():
                                           "rfcn_resnet101", "faster_rcnn_resnet101",
                                           "faster_rcnn_resnet101_lowproposals", "faster_rcnn_inception_resnet_v2_atrous",
                                           "faster_rcnn_inception_resnet_v2_atrous_lowproposals", "faster_rcnn_nas",
-                                          "faster_rcnn_nas_lowproposals"
+                                          "faster_rcnn_nas_lowproposals", "ssd_mobilenet_v2_mnasfpn"
                                          ];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
@@ -1164,7 +1201,9 @@ class Detector():
             self.system_dict["model_name"] == "faster_rcnn_nas_lowproposals_coco_2018_01_28"):
             self.system_dict["input_shape"] = None; 
             self.system_dict["input_shape_flops"] = "1, 640, 640, 3";
-            
+        elif(self.system_dict["model_name"] == "ssd_mobilenet_v2_mnasfpn_shared_box_predictor_320x320_coco_sync_2020_05_18"):
+            self.system_dict["input_shape"] = "-1, 320, 320, 3"; 
+            self.system_dict["input_shape_flops"] = "1, 320, 320, 3";
         
         
         self.system_dict["trained_checkpoint_prefix"] = self.system_dict["model_dir"] + "/model.ckpt-" + str(self.system_dict["num_train_steps"]);

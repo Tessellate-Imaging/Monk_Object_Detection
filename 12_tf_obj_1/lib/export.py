@@ -72,11 +72,12 @@ def main(_):
                 side_input_names=side_input_names,
                 side_input_types=side_input_types)
     
+    '''
     exporter_flops.export_inference_graph(
                 args["input_type"], 
                 pipeline_config, 
                 args["trained_checkpoint_prefix"],
-                args["output_directory" + "_flops"], 
+                args["output_directory"] + "_flops/", 
                 input_shape=input_shape_flops,
                 write_inference_graph=args["write_inference_graph"],
                 additional_output_tensor_names=additional_output_tensor_names,
@@ -84,7 +85,7 @@ def main(_):
                 side_input_shapes=side_input_shapes,
                 side_input_names=side_input_names,
                 side_input_types=side_input_types)
-    
+    '''
     
 tf.app.run(main=main)
     
