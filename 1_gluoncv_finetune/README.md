@@ -5,6 +5,17 @@ Pipeline based on GluonCV Fintuning project - https://gluon-cv.mxnet.io/build/ex
 <br />
 <br />
 
+## Supported Models
+  - SSD with Vgg16
+  - SSD with Resnet50
+  - SSD with Resnet101
+  - SSD with MobileNet1.0
+  - YoloV3 with Darknet53
+  - YoloV3 with MobileNet1.0
+
+<br />
+<br />
+
 ## Installation
 
 Supports 
