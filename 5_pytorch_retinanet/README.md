@@ -5,6 +5,17 @@ Pipeline based on EfficientDet project - https://github.com/yhenon/pytorch-retin
 <br />
 <br />
 
+# Supported Models
+  - Resnet18
+  - Resnet34
+  - Resnet50
+  - Resnet101
+  - Resnet152
+    
+
+<br />
+<br />
+
 ## Installation
 
 Supports 
