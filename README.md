@@ -34,6 +34,8 @@ A repository of complex computer vision algorithms
   </tr>
 </table>
   
+### For more such tutorials visit [Application Model Zoo](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/application_model_zoo)  
+  
 
 <br />
 <br />
@@ -50,6 +52,7 @@ A repository of complex computer vision algorithms
   </tr>
 </table>
 
+### For more such tutorials visit [Application Model Zoo](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/application_model_zoo)
 
 ## Important Elements
 
