@@ -5,6 +5,14 @@ Pipeline based on MX-RCNN project - https://github.com/ijkguo/mx-rcnn
 <br />
 <br />
 
+## Supported Models
+  - Faster-RCNN with VGG16
+  - Faster-RCNN with Resnet50
+  - Faster-RCNN with Resnet101
+
+<br />
+<br />
+
 ## Installation
 
 Supports 
