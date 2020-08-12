@@ -12,7 +12,7 @@ class Detector():
         if(model_name == "ssd_mobilenet_v2"):
             model_name = "ssd_mobilenet_v2_320x320_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
-                os.system("http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz")
+                os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz")
             return model_name;
         
