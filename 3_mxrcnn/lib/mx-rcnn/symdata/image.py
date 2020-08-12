@@ -35,7 +35,7 @@ def get_image(roi_rec, short, max_size, mean, std):
 def imdecode(image_path):
     """Return BGR image read by opencv"""
     import os
-    assert os.path.exists(image_path), image_path + ' not found'
+    #assert os.path.exists(image_path), image_path + ' not found'
     im = cv2.imread(image_path)
     return im
 
