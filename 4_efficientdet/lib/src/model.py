@@ -173,9 +173,9 @@ class Classifier(nn.Module):
 
 
 class EfficientNet(nn.Module):
-    def __init__(self, ):
+    def __init__(self, model_name):
         super(EfficientNet, self).__init__()
-        model = EffNet.from_pretrained('efficientnet-b0')
+        model = EffNet.from_pretrained(model_name)
         del model._conv_head
         del model._bn1
         del model._avg_pooling
@@ -198,7 +198,7 @@ class EfficientNet(nn.Module):
 
 
 class EfficientDet(nn.Module):
-    def __init__(self, num_anchors=9, num_classes=20, compound_coef=0):
+    def __init__(self, num_anchors=9, num_classes=20, compound_coef=0, model_name="efficientnet-b0"):
         super(EfficientDet, self).__init__()
         self.compound_coef = compound_coef
 
@@ -240,7 +240,7 @@ class EfficientDet(nn.Module):
         self.regressor.header.weight.data.fill_(0)
         self.regressor.header.bias.data.fill_(0)
 
-        self.backbone_net = EfficientNet()
+        self.backbone_net = EfficientNet(model_name)
 
     def freeze_bn(self):
         for m in self.modules():

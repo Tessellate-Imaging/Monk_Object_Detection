@@ -201,8 +201,17 @@ class Detector():
         self.system_dict["local"]["test_generator"] = DataLoader(self.system_dict["local"]["val_set"], 
                                                                 **self.system_dict["local"]["val_params"])
 
-
-    def Model(self,gpu_devices=[0]):
+    
+    #efficientnet-b0;
+    #efficientnet-b1;
+    #efficientnet-b2;
+    #efficientnet-b3;
+    #efficientnet-b4;
+    #efficientnet-b5;
+    #efficientnet-b6;
+    #efficientnet-b7;
+    #efficientnet-b8;
+    def Model(self, model_name="efficientnet-b0", gpu_devices=[0], load_pretrained_model_from=None):
         '''
         User function: Set Model parameters
 
@@ -212,21 +221,38 @@ class Detector():
         Returns:
             None
         '''
-        num_classes = self.system_dict["local"]["training_set"].num_classes();
-        efficientdet = EfficientDet(num_classes=num_classes)
+        if(not load_pretrained_model_from):
+            num_classes = self.system_dict["local"]["training_set"].num_classes();
+            coeff = int(model_name[-1])
+            efficientdet = EfficientDet(num_classes=num_classes, compound_coef=coeff, model_name=model_name);
 
-        if self.system_dict["params"]["use_gpu"]:
-            self.system_dict["params"]["gpu_devices"] = gpu_devices
-            if len(self.system_dict["params"]["gpu_devices"])==1:
-                os.environ["CUDA_VISIBLE_DEVICES"] = str(self.system_dict["params"]["gpu_devices"][0])
-            else:
-                os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(id) for id in self.system_dict["params"]["gpu_devices"]])
-            self.system_dict["local"]["device"] = 'cuda' if torch.cuda.is_available() else 'cpu'
-            efficientdet = efficientdet.to(self.system_dict["local"]["device"])
-            efficientdet= torch.nn.DataParallel(efficientdet).to(self.system_dict["local"]["device"])
+            if self.system_dict["params"]["use_gpu"]:
+                self.system_dict["params"]["gpu_devices"] = gpu_devices
+                if len(self.system_dict["params"]["gpu_devices"])==1:
+                    os.environ["CUDA_VISIBLE_DEVICES"] = str(self.system_dict["params"]["gpu_devices"][0])
+                else:
+                    os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(id) for id in self.system_dict["params"]["gpu_devices"]])
+                self.system_dict["local"]["device"] = 'cuda' if torch.cuda.is_available() else 'cpu'
+                efficientdet = efficientdet.to(self.system_dict["local"]["device"])
+                efficientdet= torch.nn.DataParallel(efficientdet).to(self.system_dict["local"]["device"])
 
-        self.system_dict["local"]["model"] = efficientdet;
-        self.system_dict["local"]["model"].train();
+            self.system_dict["local"]["model"] = efficientdet;
+            self.system_dict["local"]["model"].train();
+        else:
+            efficientdet = torch.load(load_pretrained_model_from).module
+            if self.system_dict["params"]["use_gpu"]:
+                self.system_dict["params"]["gpu_devices"] = gpu_devices
+                if len(self.system_dict["params"]["gpu_devices"])==1:
+                    os.environ["CUDA_VISIBLE_DEVICES"] = str(self.system_dict["params"]["gpu_devices"][0])
+                else:
+                    os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(id) for id in self.system_dict["params"]["gpu_devices"]])
+                self.system_dict["local"]["device"] = 'cuda' if torch.cuda.is_available() else 'cpu'
+                efficientdet = efficientdet.to(self.system_dict["local"]["device"])
+                efficientdet= torch.nn.DataParallel(efficientdet).to(self.system_dict["local"]["device"])
+            
+            self.system_dict["local"]["model"] = efficientdet;
+            self.system_dict["local"]["model"].train();
+       
 
 
     def Set_Hyperparams(self, lr=0.0001, val_interval=1, es_min_delta=0.0, es_patience=0):
