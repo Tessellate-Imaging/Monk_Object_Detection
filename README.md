@@ -9,10 +9,10 @@
  - Issue: Installaing different deep learning pipelines is an error-prone task
    - <b> Solution: Single line installations with monk </b>
  
- - Issue: Setting up different algorithms for your custom data requires a lot of changes in the existing codes
+ - Issue: Setting up different algorithms for your custom data requires a lot of effort in changing the existing codes
    - <b> Solution: Easily ingest your custom data for training in COCO, VOC, or Yolo formats </b>
  
- - Issue: Every pipeline is written in different libraries and hence different code sturctures
+ - Issue: Difficulty to trace out which hyperparameters to change for tuning the algorithm
    - <b> Solution: Set your hyper-parameters with a common structure for every algorithm </b>
  
  - Issue: Deployment requires knowledge of base libraries and codes
