@@ -6,7 +6,16 @@ Pipeline based on EfficientDet project - https://github.com/signatrix/efficientd
 <br />
 
 # Supported Models
-  - EfficientDet
+  - EfficientDet-D0
+  - EfficientDet-D1
+  - EfficientDet-D2
+  - EfficientDet-D3
+  - EfficientDet-D4
+  - EfficientDet-D5
+  - EfficientDet-D6
+  - EfficientDet-D7
+  - EfficientDet-D8
+   
 
 <br />
 <br />
@@ -39,7 +48,7 @@ Supports
 
 - Load Model
 
-`gtf.Model();`
+`gtf.Model(model_name="efficientdet-d0");`
 
 - Set Hyper Parameters
 
