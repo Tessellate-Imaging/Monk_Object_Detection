@@ -8,6 +8,24 @@ A repository of complex computer vision algorithms
   
 <br />
 <br />
+
+### Why use Monk
+ - Issue: Abudance of algorithms and diculty to find a working code
+   - <b> Solution: All your state-of-the-art as well as old algorithms in one place </b>
+ 
+ - Issue: Installaing different deep learning pipelines is an error-prone task
+   - <b> Solution: Single line installations with monk </b>
+ 
+ - Issue: Setting up different algorithms for your custom data requires a lot of changes in the existing codes
+   - <b> Solution: Easily ingest your custom data for training in COCO, VOC, or Yolo formats </b>
+ 
+ - Issue: Every pipeline is written in different libraries and hence different code sturctures
+   - <b> Solution: Set your hyper-parameters with a common structure for every algorithm </b>
+ 
+ - Issue: Deployment requires knowledge of base libraries and codes
+   - <b> Solution: Easily deploy your models using Monk's low code-syntax </b>
+   
+<br />
 <br />
 
 ## Create real-world Object Detection applications 
