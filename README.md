@@ -3,7 +3,7 @@
 <br />
 
 ### Why use Monk
- - Issue: Abudance of algorithms and diculty to find a working code
+ - Issue: Abudance of algorithms and difficult to find a working code
    - <b> Solution: All your state-of-the-art as well as old algorithms in one place </b>
  
  - Issue: Installaing different deep learning pipelines is an error-prone task
@@ -17,6 +17,9 @@
  
  - Issue: Deployment requires knowledge of base libraries and codes
    - <b> Solution: Easily deploy your models using Monk's low code-syntax </b>
+   
+ - Issue: Looking for hands-on tutorials for computer vision
+   - <b> Solution: Use monk's application building tutorial set</b>
    
 <br />
 <br />
