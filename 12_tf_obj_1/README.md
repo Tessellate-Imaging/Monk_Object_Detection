@@ -43,7 +43,7 @@ Supports
     
 `cd installation`
 
-`chmod +x install.sh && ./install.sh`
+`chmod +x install_cuda10.sh && ./install_cuda10.sh`
 
 
 <br />
