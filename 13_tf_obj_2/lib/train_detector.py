@@ -9,72 +9,78 @@ class Detector():
         self.system_dict = {};
         
     def download_model(self, model_name):
-        if(model_name == "ssd_mobilenet_v2"):
+        if(model_name == "ssd_mobilenet_v2_320"):
             model_name = "ssd_mobilenet_v2_320x320_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_mobilenet_v1_fpn"):
+        elif(model_name == "ssd_mobilenet_v1_fpn_640"):
             model_name = "ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_mobilenet_v2_fpnlite"):
+        elif(model_name == "ssd_mobilenet_v2_fpnlite_320"):
             model_name = "ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_mobilenet_v2_fpnlite_v2"):
+        elif(model_name == "ssd_mobilenet_v2_fpnlite_640"):
             model_name = "ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet50_v1_fpn"):
+        elif(model_name == "ssd_resnet50_v1_fpn_640"):
             model_name = "ssd_resnet50_v1_fpn_640x640_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet50_v1_fpn_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet50_v1_fpn_640x640_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet50_v1_fpn_v2"):
+        elif(model_name == "ssd_resnet50_v1_fpn_1024"):
             model_name = "ssd_resnet50_v1_fpn_1024x1024_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet50_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet50_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet101_v1_fpn"):
+        elif(model_name == "ssd_resnet101_v1_fpn_640"):
             model_name = "ssd_resnet101_v1_fpn_640x640_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet101_v1_fpn_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet101_v1_fpn_640x640_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet101_v1_fpn_v2"):
+        elif(model_name == "ssd_resnet101_v1_fpn_1024"):
             model_name = "ssd_resnet101_v1_fpn_1024x1024_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet101_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet101_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet152_v1_fpn"):
+        elif(model_name == "ssd_resnet152_v1_fpn_640"):
             model_name = "ssd_resnet152_v1_fpn_640x640_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet152_v1_fpn_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet152_v1_fpn_640x640_coco17_tpu-8.tar.gz")
             return model_name;
-        elif(model_name == "ssd_resnet152_v1_fpn_v2"):
+        elif(model_name == "ssd_resnet152_v1_fpn_v2_1024"):
             model_name = "ssd_resnet152_v1_fpn_1024x1024_coco17_tpu-8";
             if(not os.path.isdir(model_name)):
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_resnet152_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf ssd_resnet152_v1_fpn_1024x1024_coco17_tpu-8.tar.gz")
+            return model_name;
+        elif(model_name == "faster_rcnn_resnet50_v1_640"):
+            model_name = "faster_rcnn_resnet50_v1_640x640_coco17_tpu-8";
+            if(not os.path.isdir(model_name)):
+                os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_resnet50_v1_640x640_coco17_tpu-8.tar.gz")
+                os.system("tar -xvzf faster_rcnn_resnet50_v1_640x640_coco17_tpu-8.tar.gz")
             return model_name;
         
         
         
         
         
-     
+      
     
     def update_config(self, model_name, num_classes, lr, decay, label_map, output_path, batch_size, num_steps):
         if(model_name == "ssd_mobilenet_v2_320x320_coco17_tpu-8"):
@@ -467,18 +473,58 @@ class Detector():
             f = open(model_name + "/pipeline_updated.config", 'w');
             f.write(data);
             f.close();
+        elif(model_name == "faster_rcnn_resnet50_v1_640x640_coco17_tpu-8"):
+            f = open(model_name + "/pipeline.config");
+            data = f.read();
+            f.close();
+
+            data = data.replace("num_classes: 90", 
+                                "num_classes: " + str(num_classes));
+            
+            data = data.replace("batch_size: 64", 
+                                "batch_size: " + str(batch_size));
+            
+            
+            data = data.replace("learning_rate_base: .04", 
+                                "learning_rate_base: " + str(lr));
+            
+            data = data.replace("warmup_learning_rate: .013333", 
+                                "warmup_learning_rate: " + str(lr/3));
+            
+            data = data.replace("fine_tune_checkpoint_type: \"classification\"", 
+                                "fine_tune_checkpoint_type: \"detection\"");
+            
+            
+            
+            data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED\"", 
+                                "fine_tune_checkpoint: \"" + model_name + "/checkpoint/ckpt-0\"");
+
+            data = data.replace("label_map_path: \"PATH_TO_BE_CONFIGURED/label_map.txt\"", 
+                                "label_map_path: \"" + label_map + "\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/train2017-?????-of-00256.tfrecord\"", 
+                                "input_path: \"" + output_path + "/train.record\"");
+
+            data = data.replace("input_path: \"PATH_TO_BE_CONFIGURED/val2017-?????-of-00032.tfrecord\"", 
+                                "input_path: \"" + output_path + "/val.record\"");
+
+            
+            f = open(model_name + "/pipeline_updated.config", 'w');
+            f.write(data);
+            f.close();
             
         
         
           
-            
+           
     
     def list_models(self):
-        self.system_dict["model_list"] = ["ssd_mobilenet_v2", "ssd_mobilenet_v1_fpn",
-                                          "ssd_mobilenet_v2_fpnlite", "ssd_mobilenet_v2_fpnlite_v2",
-                                          "ssd_resnet50_v1_fpn", "ssd_resnet50_v1_fpn_v2",
-                                          "ssd_resnet101_v1_fpn", "ssd_resnet101_v1_fpn_v2",
-                                          "ssd_resnet152_v1_fpn", "ssd_resnet152_v1_fpn_v2"
+        self.system_dict["model_list"] = ["ssd_mobilenet_v2_320", "ssd_mobilenet_v1_fpn_640",
+                                          "ssd_mobilenet_v2_fpnlite_320", "ssd_mobilenet_v2_fpnlite_640",
+                                          "ssd_resnet50_v1_fpn_320", "ssd_resnet50_v1_fpn_640",
+                                          "ssd_resnet101_v1_fpn_320", "ssd_resnet101_v1_fpn_640",
+                                          "ssd_resnet152_v1_fpn_320", "ssd_resnet152_v1_fpn_640",
+                                          "faster_rcnn_resnet50_v1_640"
                                          ];
         for i in range(len(self.system_dict["model_list"])):
             print("{}. Model Name: {}".format(i+1, self.system_dict["model_list"][i]));
@@ -577,7 +623,8 @@ class Detector():
         elif(self.system_dict["model_name"] == "ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8" or
              self.system_dict["model_name"] == "ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8" or
              self.system_dict["model_name"] == "ssd_resnet50_v1_fpn_640x640_coco17_tpu-8" or
-             self.system_dict["model_name"] == "ssd_resnet101_v1_fpn_640x640_coco17_tpu-8"
+             self.system_dict["model_name"] == "ssd_resnet101_v1_fpn_640x640_coco17_tpu-8" or 
+             self.system_dict["model_name"] == "faster_rcnn_resnet50_v1_640x640_coco17_tpu-8"
             ):
             self.system_dict["input_shape"] = "-1, 640, 640, 3";
             self.system_dict["input_shape_flops"] = "1, 640, 640, 3";
