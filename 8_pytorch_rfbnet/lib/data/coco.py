@@ -84,8 +84,8 @@ class COCODetection(data.Dataset):
         file_name = im_ann['file_name'];
         image_path = os.path.join(self.root, self.coco_dir, self.set_dir,
                               file_name)
-        assert os.path.exists(image_path), \
-                'Path does not exist: {}'.format(image_path)
+        #assert os.path.exists(image_path), \
+        #        'Path does not exist: {}'.format(image_path)
         return image_path
 
 
