@@ -26,6 +26,9 @@ Interns
   
 5) Swapnil Ahlawat [Linkedin](https://www.linkedin.com/in/swapnilahlawat/), [Github](https://github.com/swapnil-ahlawat)
   - July 2020 - Present
+  
+6) Kushagra Awasthi [Linkedin](https://www.linkedin.com/in/kushagra-awasthi-68b22714b/), [Github](https://github.com/Kushagra-awasthi)
+  - July 2020 - Present
  
  
 Contributors
