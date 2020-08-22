@@ -1,0 +1,13 @@
+numpy
+scipy
+addict
+matplotlib
+termcolor
+cython
+pycocotools
+torch==1.0.0
+torchvision==0.2.0
+jupyter
+notebook
+opencv-python
+tqdm
