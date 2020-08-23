@@ -64,3 +64,6 @@ Contributors
 
 11) Shubham Gupta [Linkedin](https://www.linkedin.com/in/shubham-gupta-gim/), [Github]() 
   - Mar 2020 - Present
+  
+12) Omkar Tupe [Linkedin](https://www.linkedin.com/in/omkar-tupe/), [Github](https://github.com/OMKARTT) 
+  - July 2020 - Present
