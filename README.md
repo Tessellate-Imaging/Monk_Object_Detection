@@ -137,6 +137,26 @@
 <br />
 
 
+## Aknowledgements
+  - Contributors' information can be found here: https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/Contributors.md
+  - Majority of the code is obtained from these pipelines (Monk is a low code wrapper to utilize these pipelines)
+    - https://gluon-cv.mxnet.io/build/examples_detection/index.html
+    - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1.md
+    - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2.md
+    - https://github.com/signatrix/efficientdet
+    - https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch
+    - https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
+    - https://github.com/ijkguo/mx-rcnn
+    - https://github.com/yhenon/pytorch-retinanet
+    - https://github.com/princeton-vl/CornerNet-Lite
+    - https://github.com/ultralytics/yolov3
+    - https://github.com/ruinmessi/RFBNet
+    - https://github.com/PengyiZhang/SlimYOLOv3
+    - https://github.com/qfgaohao/pytorch-ssd
+    - https://github.com/open-mmlab/mmdetection
+    - https://github.com/qubvel/segmentation_models
+
+
 ## Author
 Tessellate Imaging - https://www.tessellateimaging.com/
    
