@@ -9,6 +9,38 @@ Pipeline based on Open-MMLAB MM-Detection project - https://github.com/open-mmla
   - faster_rcnn_fpn101
   - faster_rcnn_x101_32x4d_fpn
   - faster_rcnn_x101_64x4d_fpn
+  - cascade_rcnn_fpn50
+  - cascade_rcnn_fpn101
+  - cascade_rcnn_x101_32x4d_fpn
+  - cascade_rcnn_x101_64x4d_fpn
+  - retinanet_r50_fpn
+  - retinanet_r101_fpn
+  - retinanet_x101_32x4d_fpn
+  - retinanet_x101_64x4d_fpn
+  - retinanet_ghm_r50_fpn
+  - retinanet_ghm_r101_fpn
+  - retinanet_ghm_x101_32x4d_fpn
+  - retinanet_ghm_x101_64x4d_fpn
+  - dh_faster_rcnn_fpn50
+  - libra_faster_rcnn_fpn50
+  - libra_faster_rcnn_fpn101
+  - libra_faster_rcnn_x101_64x4d_fpn
+  - libra_retinanet_r50_fpn
+  - ga_faster_rcnn_x101_32x4d_fpn
+  - ga_faster_rcnn_x101_64x4d_fpn
+  - ga_retinanet_x101_32x4d_fpn
+  - ga_retinanet_x101_64x4d_fpn
+  - fovea_r50_fpn_4x4
+  - fovea_r101_fpn_4x4
+  - fovea_align_r50_fpn_gn-head_mstrain_640-800_4x4
+  - fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4
+  - free_anchor_retinanet_r50_fpn
+  - free_anchor_retinanet_r101_fpn
+  - free_anchor_retinanet_x101_32x4d_fpn
+  - atss_r50_fpn
+  - pafpn_faster_rcnn_r50
+  - faster_rcnn_r50_fpn_mdpool
+  - faster_rcnn_r50_fpn_dpool
    
 
 <br />
