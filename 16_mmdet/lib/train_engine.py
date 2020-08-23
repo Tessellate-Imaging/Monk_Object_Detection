@@ -74,7 +74,9 @@ class Detector():
                                                     "ga_faster_rcnn_x101_64x4d_fpn", "ga_retinanet_x101_32x4d_fpn",
                                                     "ga_retinanet_x101_64x4d_fpn", "fovea_r50_fpn_4x4",
                                                     "fovea_r101_fpn_4x4", "fovea_align_r50_fpn_gn-head_mstrain_640-800_4x4",
-                                                    "fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4"]
+                                                    "fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4", 
+                                                    "free_anchor_retinanet_r50_fpn", "free_anchor_retinanet_r101_fpn",
+                                                    "retinanet_free_anchor_x101_32x4d_fpn"]
         
         for i in range(len(self.system_dict["params"]["model_list"])):
             print("{}. Model - {}".format(i+1, self.system_dict["params"]["model_list"][i]));
@@ -171,9 +173,18 @@ class Detector():
         elif(model_name == "fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4"):
             self.system_dict["local"]["model_name"] = "fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4_coco";
             self.system_dict["params"]["load_from"] = "https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/v2.0/foveabox/fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4_2x_coco/fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4_2x_coco_20200208-649c5eb6.pth";
+        elif(model_name == "free_anchor_retinanet_r50_fpn"):
+            self.system_dict["local"]["model_name"] = "free_anchor_retinanet_r50_fpn_coco";
+            self.system_dict["params"]["load_from"] = "https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/v2.0/free_anchor/retinanet_free_anchor_r50_fpn_1x_coco/retinanet_free_anchor_r50_fpn_1x_coco_20200130-0f67375f.pth";
+        elif(model_name == "free_anchor_retinanet_r101_fpn"):
+            self.system_dict["local"]["model_name"] = "free_anchor_retinanet_r101_fpn_coco";
+            self.system_dict["params"]["load_from"] = "https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/v2.0/free_anchor/retinanet_free_anchor_r101_fpn_1x_coco/retinanet_free_anchor_r101_fpn_1x_coco_20200130-358324e6.pth";
+        elif(model_name == "retinanet_free_anchor_x101_32x4d_fpn"):
+            self.system_dict["local"]["model_name"] = "retinanet_free_anchor_x101_32x4d_fpn_coco";
+            self.system_dict["params"]["load_from"] = "https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/v2.0/free_anchor/retinanet_free_anchor_r50_fpn_1x_coco/retinanet_free_anchor_r50_fpn_1x_coco_20200130-0f67375f.pth";
         
     
-    
+     
     
     def Hyper_Params(self, lr=0.02, momentum=0.9, weight_decay=0.0001):
         self.system_dict["params"]["lr"] = lr;
@@ -1538,7 +1549,7 @@ class Detector():
             f.write(lines);
             f.close();
         elif(self.system_dict["local"]["model_name"] == "fovea_align_r50_fpn_gn-head_mstrain_640-800_4x4_coco"):
-            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/fovea_r101_fpn_4x4_coco.py");
+            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/fovea_align_r50_fpn_gn-head_mstrain_640-800_4x4_coco.py");
             lines = f.read();
             f.close();
             
@@ -1588,7 +1599,157 @@ class Detector():
             f.write(lines);
             f.close();
         elif(self.system_dict["local"]["model_name"] == "fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4_coco"):
-            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/fovea_r101_fpn_4x4_coco.py");
+            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/fovea_align_r101_fpn_gn-head_mstrain_640-800_4x4_coco.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("evaluation = dict(interval=",
+                                  "evaluation = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=,",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]) + ",");
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("load_from =",
+                                  "load_from = '" + str(self.system_dict["params"]["load_from"]) + "'");
+            lines = lines.replace("classes=,",
+                                  "classes=" + str(self.system_dict["params"]["classes"]) + ",");
+            lines = lines.replace("num_classes=80",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "free_anchor_retinanet_r50_fpn_coco"):
+            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/free_anchor_retinanet_r50_fpn_coco.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("evaluation = dict(interval=",
+                                  "evaluation = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=,",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]) + ",");
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("load_from =",
+                                  "load_from = '" + str(self.system_dict["params"]["load_from"]) + "'");
+            lines = lines.replace("classes=,",
+                                  "classes=" + str(self.system_dict["params"]["classes"]) + ",");
+            lines = lines.replace("num_classes=80",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "free_anchor_retinanet_r101_fpn_coco"):
+            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/free_anchor_retinanet_r101_fpn_coco.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("evaluation = dict(interval=",
+                                  "evaluation = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["val_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=,",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]) + ",");
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("load_from =",
+                                  "load_from = '" + str(self.system_dict["params"]["load_from"]) + "'");
+            lines = lines.replace("classes=,",
+                                  "classes=" + str(self.system_dict["params"]["classes"]) + ",");
+            lines = lines.replace("num_classes=80",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "retinanet_free_anchor_x101_32x4d_fpn_coco"):
+            f = open("Monk_Object_Detection/16_mmdet/lib/cfgs/retinanet_free_anchor_x101_32x4d_fpn_coco.py");
             lines = f.read();
             f.close();
             
