@@ -249,8 +249,8 @@ class EfficientDet(nn.Module):
         elif(self.compound_coef == 7):
           self.conv3 = nn.Conv2d(80, self.num_channels, kernel_size=1, stride=1, padding=0)
           self.conv4 = nn.Conv2d(160, self.num_channels, kernel_size=1, stride=1, padding=0)
-          self.conv5 = nn.Conv2d(344, self.num_channels, kernel_size=1, stride=1, padding=0)
-          self.conv6 = nn.Conv2d(344, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv5 = nn.Conv2d(384, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(384, self.num_channels, kernel_size=3, stride=2, padding=1)
           self.conv7 = nn.Sequential(nn.ReLU(),
                                     nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
         
