@@ -203,13 +203,59 @@ class EfficientDet(nn.Module):
         self.compound_coef = compound_coef
 
         self.num_channels = [64, 88, 112, 160, 224, 288, 384, 384][self.compound_coef]
+        
+        if(self.compound_coef == 0 or self.compound_coef==1):
+          self.conv3 = nn.Conv2d(40, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(80, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(192, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(192, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 2):
+          self.conv3 = nn.Conv2d(48, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(88, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(208, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(208, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 3):
+          self.conv3 = nn.Conv2d(48, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(96, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(232, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(232, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 4):
+          self.conv3 = nn.Conv2d(56, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(112, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(272, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(272, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 5):
+          self.conv3 = nn.Conv2d(64, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(128, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(304, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(304, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 6):
+          self.conv3 = nn.Conv2d(72, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(144, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(344, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(344, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        elif(self.compound_coef == 7):
+          self.conv3 = nn.Conv2d(80, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv4 = nn.Conv2d(160, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv5 = nn.Conv2d(344, self.num_channels, kernel_size=1, stride=1, padding=0)
+          self.conv6 = nn.Conv2d(344, self.num_channels, kernel_size=3, stride=2, padding=1)
+          self.conv7 = nn.Sequential(nn.ReLU(),
+                                    nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+        
 
-        self.conv3 = nn.Conv2d(40, self.num_channels, kernel_size=1, stride=1, padding=0)
-        self.conv4 = nn.Conv2d(80, self.num_channels, kernel_size=1, stride=1, padding=0)
-        self.conv5 = nn.Conv2d(192, self.num_channels, kernel_size=1, stride=1, padding=0)
-        self.conv6 = nn.Conv2d(192, self.num_channels, kernel_size=3, stride=2, padding=1)
-        self.conv7 = nn.Sequential(nn.ReLU(),
-                                   nn.Conv2d(self.num_channels, self.num_channels, kernel_size=3, stride=2, padding=1))
+
 
         self.bifpn = nn.Sequential(*[BiFPN(self.num_channels) for _ in range(min(2 + self.compound_coef, 8))])
 

@@ -129,7 +129,8 @@ class Detector():
         self.system_dict["local"]["training_set"] = CocoDataset(root_dir=self.system_dict["dataset"]["train"]["root_dir"] + "/" + self.system_dict["dataset"]["train"]["coco_dir"],
                                                             img_dir = self.system_dict["dataset"]["train"]["img_dir"],
                                                             set_dir = self.system_dict["dataset"]["train"]["set_dir"],
-                                                            transform = transforms.Compose([Normalizer(), Augmenter(), Resizer()]))
+                                                            transform = transforms.Compose([Normalizer(), Augmenter(), Resizer(common_size = self.system_dict["params"]["image_size"])])
+                                                            )
         
         self.system_dict["local"]["training_generator"] = DataLoader(self.system_dict["local"]["training_set"], 
                                                                     **self.system_dict["local"]["training_params"]);
@@ -196,7 +197,7 @@ class Detector():
         self.system_dict["local"]["val_set"] = CocoDataset(root_dir=self.system_dict["dataset"]["val"]["root_dir"] + "/" + self.system_dict["dataset"]["val"]["coco_dir"], 
                                                     img_dir = self.system_dict["dataset"]["val"]["img_dir"],
                                                     set_dir = self.system_dict["dataset"]["val"]["set_dir"],
-                                                    transform=transforms.Compose([Normalizer(), Resizer()]))
+                                                    transform=transforms.Compose([Normalizer(), Resizer(common_size = self.system_dict["params"]["image_size"])]))
         
         self.system_dict["local"]["test_generator"] = DataLoader(self.system_dict["local"]["val_set"], 
                                                                 **self.system_dict["local"]["val_params"])
