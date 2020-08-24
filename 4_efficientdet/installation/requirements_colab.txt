@@ -7,3 +7,6 @@ git+https://github.com/abhi-kumar/cocoapi.git#egg=pycocotools&subdirectory=Pytho
 
 dicttoxml
 xmltodict
+
+torchvision==0.5
+torch==1.4
