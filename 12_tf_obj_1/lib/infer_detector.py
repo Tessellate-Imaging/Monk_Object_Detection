@@ -26,8 +26,12 @@ class Infer():
         tf.import_graph_def(self.system_dict["graph_def"], name='')
         
         f = open(class_list_file, 'r');
-        self.system_dict["classes"] = f.readlines();
+        self.system_dict["classes"] = [];
+        lines = f.readlines();
         f.close();
+        for i in range(len(lines)):
+            if(lines[i] != ""):
+                self.system_dict["classes"].append(lines[i][:len(lines[i])-1])
         
         
     def infer_on_image(self, img_path, img_size=300, thresh=0.5, bbox_thickness=3, text_size=2, text_thickness=4):
