@@ -9,7 +9,7 @@ pycocotools@git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotoo
 albumentations>=0.3.2
 cityscapesscripts
 imagecorruptions
-mmcv-ful==1.0.5
+mmcv-full==1.0.5
 numpy
 # need older pillow until torchvision is fixed
 Pillow<=6.2.2
