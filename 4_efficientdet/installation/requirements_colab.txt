@@ -1,4 +1,4 @@
-efficientnet_pytorch
+efficientnet_pytorch==0.6.3
 
 
 tensorboardX
