@@ -1,0 +1,10 @@
+numpy
+scipy
+opencv-python
+pillow
+matplotlib
+torch==1.4
+torchvision==0.5
+jupyter
+notebook
+pandas
