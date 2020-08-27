@@ -140,6 +140,7 @@
     - https://github.com/qfgaohao/pytorch-ssd
     - https://github.com/open-mmlab/mmdetection
     - https://github.com/qubvel/segmentation_models
+    - https://github.com/biubug6/Pytorch_Retinaface
 
 
 ## Author
