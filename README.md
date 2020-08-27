@@ -73,6 +73,33 @@
 <br />
 <br />
 
+## Other applications 
+<table>
+  <tr>
+    <td>Face Detection</td>
+    <td>Pose Estimatioon</td>
+    <td>Activity Recognition</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/face.gif" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
+  </tr>
+  <tr>
+    <td>Person Re-identification</td>
+    <td>Object Tracking</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
+  </tr>
+</table>
+
+### For more such tutorials visit [Application Model Zoo](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/application_model_zoo)
+
+<br />
+<br />
+
 ## Important Elements
 
 - A) Training Engine
