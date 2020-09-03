@@ -83,7 +83,7 @@
   <tr>
     <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/face.gif" width=320 height=240></td>
     <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
-    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/ucf-demo.gif" width=320 height=240></td>
   </tr>
   <tr>
     <td>Person Re-identification</td>
