@@ -7,7 +7,8 @@ from create_tfrecord import *
 class Detector():
     def __init__(self, verbose=1):
         self.system_dict = {};
-        
+    
+    
     def download_model(self, model_name):
         if(model_name == "ssd_mobilenet_v2_320"):
             model_name = "ssd_mobilenet_v2_320x320_coco17_tpu-8";
@@ -111,6 +112,8 @@ class Detector():
                 os.system("wget http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8.tar.gz")
                 os.system("tar -xvzf faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8.tar.gz")
             return model_name;
+        
+        
         elif(model_name == "efficientdet_d0"):
             model_name = "efficientdet_d0_coco17_tpu-32";
             if(not os.path.isdir(model_name)):
@@ -735,7 +738,6 @@ class Detector():
                                 "fine_tune_checkpoint_type: \"detection\"");
             
             
-            
             data = data.replace("fine_tune_checkpoint: \"PATH_TO_BE_CONFIGURED\"", 
                                 "fine_tune_checkpoint: \"" + model_name + "/checkpoint/ckpt-0\"");
 
@@ -1356,6 +1358,20 @@ class Detector():
         with open('system_dict.json', 'w') as json_file:
             json.dump(self.system_dict, json_file)
             
+    def TensorRT_Optimization_Params(self, conversion_type="INT8", trt_dir="trt_dir"):
+        if not os.path.isdir(trt_dir):
+            os.mkdir(trt_dir);
+        
+        self.system_dict["conversion_type"] = conversion_type;
+        self.system_dict["trt_dir"] = trt_dir;
+        
+        with open('system_dict.json', 'w') as json_file:
+            json.dump(self.system_dict, json_file)
+    
+    
+        
+        
+
     
             
             
