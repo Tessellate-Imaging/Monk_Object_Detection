@@ -87,8 +87,8 @@ class Infer():
 
 
     def benchmark_for_speed(self, image_path):
-    	graph_func = self.system_dict["saved_model_loaded"].signatures[self.system_dict["signature_keys"][0]]
-    	img_processing_time = 0.0;
+        graph_func = self.system_dict["saved_model_loaded"].signatures[self.system_dict["signature_keys"][0]]
+        img_processing_time = 0.0;
         inference_time = 0.0;
         iter_times = [];
                
@@ -99,11 +99,11 @@ class Infer():
         detections = graph_func(input_tensor)
 
         for i in range(100):
-        	start = time.time();
-        	image_np = self.load_image_into_numpy_array(image_path)
-	        input_tensor = tf.convert_to_tensor(image_np)
-	        input_tensor = input_tensor[tf.newaxis, ...]
-	        end = time.time();
+            start = time.time();
+            image_np = self.load_image_into_numpy_array(image_path)
+            input_tensor = tf.convert_to_tensor(image_np)
+            input_tensor = input_tensor[tf.newaxis, ...]
+            end = time.time();
             img_processing_time += end-start;
 
             start = time.time();
