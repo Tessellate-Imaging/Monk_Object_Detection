@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append("Monk_Object_Detection/12_tf_obj_1/lib/")
 
-from infer_detector_nano import Infer
+from infer_detector import Infer
 
 gtf = Infer();
 
