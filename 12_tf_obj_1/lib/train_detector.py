@@ -1322,6 +1322,17 @@ class Detector():
         self.estimate_flops(inference_graph)
         
         
+    def TensorRT_Optimization_Params(self, conversion_type="INT8", trt_dir="trt_dir"):
+        if not os.path.isdir(trt_dir):
+            os.mkdir(trt_dir);
+        
+        self.system_dict["conversion_type"] = conversion_type;
+        self.system_dict["trt_dir"] = trt_dir;
+        
+        with open('system_dict.json', 'w') as json_file:
+            json.dump(self.system_dict, json_file)
+        
+        
         
         
         

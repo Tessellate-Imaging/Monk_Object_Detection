@@ -1,0 +1,1 @@
+cat requirements_cuda10_tensorrt6.txt | xargs -n 1 -L 1 pip install

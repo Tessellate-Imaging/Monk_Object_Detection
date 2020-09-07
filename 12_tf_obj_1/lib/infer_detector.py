@@ -90,6 +90,124 @@ class Infer():
         print("Inference printed on image in {} sec".format(end-start));
         
         return scores, bboxes, labels;
+    
+    
+    
+    
+    def benchmark_for_speed(self, img_path, img_size=300, thresh=0.5, bbox_thickness=3, text_size=2, text_thickness=4):
+        img = cv.imread(img_path)
+        rows = img.shape[0]
+        cols = img.shape[1]
+        if(img_size):
+            inp = cv.resize(img, (img_size, img_size))
+        else:
+            inp = img;
+        inp = inp[:, :, [2, 1, 0]]  # BGR2RGB
+
+        out = self.system_dict["sess"].run([self.system_dict["sess"].graph.get_tensor_by_name('num_detections:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_scores:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_boxes:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_classes:0')],
+                       feed_dict={'image_tensor:0': inp.reshape(1, inp.shape[0], inp.shape[1], 3)})             
+              
+        # Visualize detected bounding boxes.
+        num_detections = int(out[0][0])
+        # Iterate through all detected detections
+
+        scores = [];
+        bboxes = [];
+        labels = [];
+        for i in range(num_detections):
+            classId = int(out[3][0][i])
+
+            score = float(out[1][0][i])
+            bbox = [float(v) for v in out[2][0][i]]
+            label = self.system_dict["classes"][int(out[3][0][i])-1]
+
+            if score > thresh:
+                # Creating a box around the detected number plate
+                x = int(bbox[1] * cols)
+                y = int(bbox[0] * rows)
+                right = int(bbox[3] * cols)
+                bottom = int(bbox[2] * rows)
+                cv.rectangle(img, (x, y), (right, bottom), (0, 0, 255), thickness=bbox_thickness)
+                cv.putText(img, label, (x,y), cv.FONT_HERSHEY_SIMPLEX, text_size, (0, 0, 225), text_thickness)
+                cv.imwrite('output.png', img)
+                scores.append(score);
+                bboxes.append([x, y, right, bottom])
+                labels.append(label);
+       
+        img_processing_time = 0.0;
+        inference_time = 0.0;
+        result_extraction_time = 0.0;
+        iter_times = [];
+        
+         
+        for _ in range(100):
+            start = time.time();
+            img = cv.imread(img_path)
+            rows = img.shape[0]
+            cols = img.shape[1]
+            if(img_size):
+                inp = cv.resize(img, (img_size, img_size))
+            else:
+                inp = img;
+            inp = inp[:, :, [2, 1, 0]]  # BGR2RGB
+            end = time.time();
+            img_processing_time += end - start;
+            
+            start = time.time();
+            out = self.system_dict["sess"].run([self.system_dict["sess"].graph.get_tensor_by_name('num_detections:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_scores:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_boxes:0'),
+                        self.system_dict["sess"].graph.get_tensor_by_name('detection_classes:0')],
+                       feed_dict={'image_tensor:0': inp.reshape(1, inp.shape[0], inp.shape[1], 3)})
+            end = time.time();
+            inference_time += end - start;
+            iter_times.append(end-start);
+            
+            start = time.time();
+            num_detections = int(out[0][0])
+            scores = [];
+            bboxes = [];
+            labels = [];
+            for i in range(num_detections):
+                classId = int(out[3][0][i])
+
+                score = float(out[1][0][i])
+                bbox = [float(v) for v in out[2][0][i]]
+                label = self.system_dict["classes"][int(out[3][0][i])-1]
+
+                if score > thresh:
+                    # Creating a box around the detected number plate
+                    x = int(bbox[1] * cols)
+                    y = int(bbox[0] * rows)
+                    right = int(bbox[3] * cols)
+                    bottom = int(bbox[2] * rows)
+                    cv.rectangle(img, (x, y), (right, bottom), (0, 0, 255), thickness=bbox_thickness)
+                    cv.putText(img, label, (x,y), cv.FONT_HERSHEY_SIMPLEX, text_size, (0, 0, 225), text_thickness)
+                    cv.imwrite('output.png', img)
+                    scores.append(score);
+                    bboxes.append([x, y, right, bottom])
+                    labels.append(label);
+            end = time.time();
+            result_extraction_time += end - start;
+            
+            
+        print("Average Image loading time: {}".format(img_processing_time/100));
+        print("Average Inference time: {}".format(inference_time/100));
+        print("Result extraction time: {}".format(result_extraction_time/100));
+        
+        iter_times = np.array(iter_times)
+        print('total_time = {}'.format(np.sum(iter_times)))
+        print('images_per_sec = {}'.format(int(np.mean(1 / iter_times))))
+        print('99th_percentile = {}'.format(np.percentile(iter_times, q=99, interpolation='lower') * 1000))
+        print('latency_mean  = {}'.format(np.mean(iter_times) * 1000))
+        print('latency_median = {}'.format(np.median(iter_times) * 1000))
+        print('latency_min = {}'.format(np.min(iter_times) * 1000))
+            
+            
+            
         
         
         

@@ -1,0 +1,12 @@
+numpy
+scipy
+scikit-learn
+scikit-image
+opencv-python
+pillow
+pandas
+tqdm
+jupyter 
+notebook
+pycocotools
+numpy==1.16.0
