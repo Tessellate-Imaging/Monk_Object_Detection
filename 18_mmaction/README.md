@@ -6,6 +6,7 @@ Pipeline based on Open-MMLAB MM-Action-2 project - https://github.com/open-mmlab
 
 # Supported Models
   - tsn50 (Temporal segment networks)
+  - tsm50 (Temporal Shift Module for Efficient Video Understanding)
    
 
 <br />
