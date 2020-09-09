@@ -57,7 +57,7 @@ class Detector_Videos():
     def List_Models(self):
         self.system_dict["params"]["model_list"] = ["tsn_r50", "tsm_r50", 
                                                     "r2plus1d_r34", "i3d_r50",
-                                                    "slowonly_r50"];
+                                                    "slowonly_r50", "slowfast_r50"];
         
         for i in range(len(self.system_dict["params"]["model_list"])):
             model_name = self.system_dict["params"]["model_list"][i];
@@ -100,6 +100,15 @@ class Detector_Videos():
             self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/slowonly/slowonly_r50_video_4x16x1_256e_kinetics400_rgb.py";
             self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/slowonly/slowonly_r50_video_inference_4x16x1_256e_kinetics400_rgb.py";
             self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/slowonly/slowonly_r50_video_4x16x1_256e_kinetics400_rgb/slowonly_r50_video_4x16x1_256e_kinetics400_rgb_20200826-f39b8cd8.pth";
+            
+        elif(model_name == "slowfast_r50"):
+            self.system_dict["params"]["model_name"] = "slowfast_r50_video_4x16x1_256e_kinetics400_rgb";
+            self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/slowfast/slowfast_r50_video_4x16x1_256e_kinetics400_rgb.py";
+            self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/slowfast/slowfast_r50_video_inference_4x16x1_256e_kinetics400_rgb.py";
+            self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/slowfast/slowfast_r50_video_4x16x1_256e_kinetics400_rgb/slowfast_r50_video_4x16x1_256e_kinetics400_rgb_20200826-f85b90c5.pth";    
+            
+            
+            
             
     def Hyper_Params(self, lr=0.02, momentum=0.9, weight_decay=0.0001):
         self.system_dict["params"]["lr"] = lr;
@@ -154,6 +163,7 @@ class Detector_Videos():
         
         if(self.system_dict["params"]["model_name"] != "r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb"
           and self.system_dict["params"]["model_name"] != "slowonly_r50_video_4x16x1_256e_kinetics400_rgb"
+          and self.system_dict["params"]["model_name"] != "slowfast_r50_video_4x16x1_256e_kinetics400_rgb"
           ):
             if(self.system_dict["params"]["num_epochs"] > 2):
                 cfg.lr_config.step = [self.system_dict["params"]["num_epochs"]//3,
