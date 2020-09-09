@@ -8,6 +8,8 @@ Pipeline based on Open-MMLAB MM-Action-2 project - https://github.com/open-mmlab
   - tsn50 (Temporal segment networks)
   - tsm50 (Temporal Shift Module for Efficient Video Understanding)
   - r2plus1d_r34 (A closer look at spatiotemporal convolutions for action recognition)
+  - i3d_r50 (Non-local Neural Networks)
+  
   
    
 
