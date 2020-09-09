@@ -55,7 +55,8 @@ class Detector_Videos():
         self.system_dict["params"]["num_workers"] = num_workers;
         
     def List_Models(self):
-        self.system_dict["params"]["model_list"] = ["tsn_r50", "tsm_r50"];
+        self.system_dict["params"]["model_list"] = ["tsn_r50", "tsm_r50", 
+                                                    "r2plus1d_r34"];
         
         for i in range(len(self.system_dict["params"]["model_list"])):
             model_name = self.system_dict["params"]["model_list"][i];
@@ -80,6 +81,12 @@ class Detector_Videos():
             self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsm/tsm_r50_video_1x1x8_50e_kinetics400_rgb.py";
             self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsm/tsm_r50_video_inference_1x1x8_100e_kinetics400_rgb.py";
             self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/tsm/tsm_r50_video_1x1x8_100e_kinetics400_rgb/tsm_r50_video_1x1x8_100e_kinetics400_rgb_20200702-a77f4328.pth";
+            
+        elif(model_name == "r2plus1d_r34"):
+            self.system_dict["params"]["model_name"] = "r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb";
+            self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/r2plus1d/r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb.py";
+            self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/r2plus1d/r2plus1d_r34_video_inference_8x8x1_180e_kinetics400_rgb.py";
+            self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/r2plus1d/r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb/r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb_20200826-ab35a529.pth";
             
     def Hyper_Params(self, lr=0.02, momentum=0.9, weight_decay=0.0001):
         self.system_dict["params"]["lr"] = lr;
@@ -131,11 +138,13 @@ class Detector_Videos():
         cfg.optimizer.momentum = self.system_dict["params"]["momentum"];
         cfg.optimizer.weight_decay = self.system_dict["params"]["weight_decay"];
         cfg.total_epochs = self.system_dict["params"]["num_epochs"]
-        if(self.system_dict["params"]["num_epochs"] > 2):
-            cfg.lr_config.step = [self.system_dict["params"]["num_epochs"]//3,
-                                  2*self.system_dict["params"]["num_epochs"]//3];
-        else:
-            cfg.lr_config.step = [1];
+        
+        if(self.system_dict["params"]["model_name"] != "r2plus1d_r34_video_8x8x1_180e_kinetics400_rgb"):
+            if(self.system_dict["params"]["num_epochs"] > 2):
+                cfg.lr_config.step = [self.system_dict["params"]["num_epochs"]//3,
+                                      2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                cfg.lr_config.step = [1];
         
 
         # We can set the checkpoint saving interval to reduce the storage cost
