@@ -10,6 +10,7 @@ Pipeline based on Open-MMLAB MM-Action-2 project - https://github.com/open-mmlab
   - r2plus1d_r34 (A closer look at spatiotemporal convolutions for action recognition)
   - i3d_r50 (Non-local Neural Networks)
   - slowonly_r50 (Slowfast networks for video recognition)
+  - slowfast_r50 (Slowfast networks for video recognition)
   
   
    
