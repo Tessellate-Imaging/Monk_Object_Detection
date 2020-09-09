@@ -55,7 +55,7 @@ class Detector_Videos():
         self.system_dict["params"]["num_workers"] = num_workers;
         
     def List_Models(self):
-        self.system_dict["params"]["model_list"] = ["tsn_r50"];
+        self.system_dict["params"]["model_list"] = ["tsn_r50", "tsm_r50"];
         
         for i in range(len(self.system_dict["params"]["model_list"])):
             model_name = self.system_dict["params"]["model_list"][i];
@@ -74,6 +74,12 @@ class Detector_Videos():
             self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsn/tsn_r50_video_1x1x8_100e_kinetics400_rgb.py";
             self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsn/tsn_r50_video_inference_1x1x3_100e_kinetics400_rgb.py";
             self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/tsn/tsn_r50_video_1x1x8_100e_kinetics400_rgb/tsn_r50_video_1x1x8_100e_kinetics400_rgb_20200702-568cde33.pth";
+                                                    
+        elif(model_name == "tsm_r50"):
+            self.system_dict["params"]["model_name"] = "tsm_r50_video_1x1x8_50e_kinetics400_rgb";
+            self.system_dict["params"]["config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsm/tsm_r50_video_1x1x8_50e_kinetics400_rgb.py";
+            self.system_dict["params"]["inference_config_file"] = "Monk_Object_Detection/18_mmaction/lib/configs/recognition/tsm/tsm_r50_video_inference_1x1x8_100e_kinetics400_rgb.py";
+            self.system_dict["params"]["load_from"] = "https://openmmlab.oss-accelerate.aliyuncs.com/mmaction/recognition/tsm/tsm_r50_video_1x1x8_100e_kinetics400_rgb/tsm_r50_video_1x1x8_100e_kinetics400_rgb_20200702-a77f4328.pth";
             
     def Hyper_Params(self, lr=0.02, momentum=0.9, weight_decay=0.0001):
         self.system_dict["params"]["lr"] = lr;
