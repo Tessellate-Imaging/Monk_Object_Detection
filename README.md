@@ -86,7 +86,7 @@
     <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/ucf-demo.gif" width=320 height=240></td>
   </tr>
   <tr>
-    <td>Person Re-identification</td>
+    <td>Object Re-identification</td>
     <td>Object Tracking</td>
     <td>Text Detection and Recognition</td>
   </tr>
