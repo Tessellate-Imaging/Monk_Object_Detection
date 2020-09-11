@@ -77,7 +77,7 @@
 <table>
   <tr>
     <td>Face Detection</td>
-    <td>Pose Estimatioon</td>
+    <td>Pose Estimation</td>
     <td>Activity Recognition</td>
   </tr>
   <tr>
