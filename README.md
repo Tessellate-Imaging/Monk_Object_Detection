@@ -88,8 +88,10 @@
   <tr>
     <td>Person Re-identification</td>
     <td>Object Tracking</td>
+    <td>Text Detection and Recognition</td>
   </tr>
   <tr>
+    <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
     <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
     <td><img src="https://github.com/abhi-kumar/monk_det_demos/blob/master/coming_soon.jpg" width=320 height=240></td>
   </tr>
