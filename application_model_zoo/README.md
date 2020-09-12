@@ -12,6 +12,7 @@
 # Zoo contents
 
 
+
 | S.No. | Application                                             | Dataset                                                                              | Pipeline                           | Trained Model | How to use/create                                                                                                                                                                                   |
 |-------|---------------------------------------------------------|--------------------------------------------------------------------------------------|------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1     | Traffic Sign Recognition                                | [LINK](http://cvrr.ucsd.edu/LISA/lisa-traffic-sign-dataset.html)                     | EfficientDet                       | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_zoo/Example%20-%20LISA%20Traffic%20Sign%20Recognition%20(Multi-GPU).ipynb)                                   |
@@ -47,6 +48,6 @@
 | 31    | Underwater Trash Detection                              | [LINK](https://conservancy.umn.edu/handle/11299/214366)                              | Mmdet - Retinanet_rpn50            | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Underwater%20Trash%20Detection.ipynb)                                            |
 | 32    | UCF101 Action Recognition                               | [LINK](https://www.crcv.ucf.edu/data/UCF101.php)                                     | Mmaction - tsn50                   | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20UCF101%20Action%20Recognition.ipynb)                                             |
 | 33    | BDD100K ADAS Dataset                                    | [LINK](https://www.kaggle.com/solesensei/solesensei_bdd100k)                         | Tf_Obj_2 - ssd_resnet50_v1_fpn_640 | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20BDD100K%20dataset%20with%20TensorRT%20optimization.ipynb)                        |
-
+| 34    | Graphical object dection in documents                   | [LINK](http://cvit.iiit.ac.in/usodi/iiitar13k.php)                                   | Tf_Obj_1 - ssd_mobilenet_v2        | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Graphical%20figures%20detection%20in%20documents.ipynb)                          |
 
 
