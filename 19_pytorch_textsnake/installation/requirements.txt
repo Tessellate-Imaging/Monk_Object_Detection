@@ -1,0 +1,10 @@
+easydict==1.8
+opencv-python>=4.0.0.21
+scikit_image==0.14.0
+numpy==1.15.1
+scipy
+Pillow==5.3.0
+torch==1.0.0
+torchvision==0.2.0
+tensorboard
+shapely
