@@ -217,7 +217,13 @@ class Detector():
             self.convert_mat_to_txt(input_name, output_name)
             
             
-    def Convert_Json_To_Txt(json_anno_file=None, output_anno_folder=None):
+    def Convert_Json_To_Txt(self, json_anno_file=None, output_anno_folder=None):
+        if(not os.path.isdir(output_anno_folder)):
+            os.mkdir(output_anno_folder);
+        else:
+            os.system("rm -r " + output_anno_folder);
+            os.mkdir(output_anno_folder);
+            
         with open(json_anno_file) as json_file:
             data = json.load(json_file)
             
