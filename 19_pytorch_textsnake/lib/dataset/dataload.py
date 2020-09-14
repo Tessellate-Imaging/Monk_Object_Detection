@@ -143,8 +143,10 @@ class TextDataset(data.Dataset):
             self.fill_polygon(cos_map, polygon, value=cos_theta)
 
     def get_training_data(self, image, polygons, image_id, image_path):
-
-        H, W, _ = image.shape
+        try:
+            H, W, _ = image.shape
+        except:
+            H, W = image.shape
 
         for i, polygon in enumerate(polygons):
             if polygon.text != '#':
