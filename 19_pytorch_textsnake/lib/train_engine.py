@@ -4,6 +4,7 @@ from datetime import datetime
 import scipy.io as io
 import numpy as np
 from tqdm import tqdm
+import cv2
 
 import json
 import torch
@@ -271,7 +272,13 @@ class Detector():
             img_name = complete_img_name_list[i];
 
             if(len(anno) > 0):
-                os.system("cp " + img_folder + "/" + img_name + " " + output_img_folder + "/");
+                img = cv2.imread(img_folder + "/" + img_name);
+                try:
+                    h, w, c = img.shape
+                except:
+                    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB);
+                cv2.imwrite(output_img_folder + "/" + img_name, img);
+                
                 anno_file = output_anno_folder + "/" + img_name.split(".")[0] + ".txt";
                 f = open(anno_file, 'w');
                 #print(anno, os.path.isfile("train2014/" + img_name))
