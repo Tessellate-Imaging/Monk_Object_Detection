@@ -112,7 +112,7 @@
 - B) Inference Engine
     - Original pretrained models (from original authors and implementations) for inferencing and analysing
     - Pretrained models on coco, voc, cityscpaes, type datasets
-    - Useful to analyse which algoeithm works best for you
+    - Useful to analyse which algorithm works best for you
     - Useful to generate semi-accurate annotations (coco, pascal-voc, yolo formats) on a new dataset
 
 <br />
