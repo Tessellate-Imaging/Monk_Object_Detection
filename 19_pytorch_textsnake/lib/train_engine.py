@@ -5,6 +5,7 @@ import scipy.io as io
 import numpy as np
 from tqdm import tqdm
 
+import json
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
@@ -214,7 +215,51 @@ class Detector():
             output_name = output_anno_folder + "/" + gt_list[i].split(".")[0] + ".txt";
 
             self.convert_mat_to_txt(input_name, output_name)
+            
+            
+    def Convert_Json_To_Txt(json_anno_file=None, output_anno_folder=None):
+        with open(json_anno_file) as json_file:
+            data = json.load(json_file)
+            
+        anno_key_list = list(data["anns"].keys())
+        img_key_list = list(data["imgs"].keys())
+        complete_img_id_list = [];
+        complete_img_name_list = [];
+        complete_anno_list = [];
+        for i in tqdm(range(len(img_key_list))):
+            imgs = data["imgs"][img_key_list[i]];
+            complete_img_id_list.append(imgs['id']);
+            complete_img_name_list.append(imgs['file_name'])
+            complete_anno_list.append([])
         
+        for i in tqdm(range(len(anno_key_list))):
+            anno = data["anns"][anno_key_list[i]];
+            image_id = anno["image_id"];
+            mask = anno["mask"];
+            utf8_string = anno["utf8_string"];
+            class_name = anno["class"];
+            language = anno["language"];
+
+            index = complete_img_id_list.index(image_id)
+            complete_anno_list[index].append(mask)
+            
+        for i in tqdm(range(len(complete_anno_list))):
+            anno = complete_anno_list[i];
+            img_name = complete_img_name_list[i];
+
+            if(len(anno) > 0):
+                anno_file = "annos/" + img_name.split(".")[0] + ".txt";
+                f = open(anno_file, 'w');
+                #print(anno, os.path.isfile("train2014/" + img_name))
+                for j in range(len(anno)):
+                    tmp = anno[j];
+                    wr = "";
+                    for k in range(len(tmp)//2):
+                        wr += str(int(tmp[k*2])) + " " + str(int(tmp[k*2+1])) + " ";
+
+                    wr += "# # \n";
+                    f.write(wr);
+                f.close();
         
     
             
