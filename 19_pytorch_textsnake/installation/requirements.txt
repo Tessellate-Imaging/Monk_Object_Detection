@@ -8,3 +8,6 @@ torch==1.0.0
 torchvision==0.2.0
 tensorboard
 shapely
+tqdm
+jupyter
+notebook
