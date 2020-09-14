@@ -108,19 +108,30 @@ class Detector():
                 #print(sin_loss.item())
                 #print(cos_loss.item())
                 #print(radii_loss.item())
-                print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f} - tcl_loss: {:.4f} - sin_loss: {:.4f} - cos_loss: {:.4f} - radii_loss: {:.4f}'.format(
-                    i, len(train_loader), loss.item(), tr_loss.item(), tcl_loss.item(), sin_loss.item(), cos_loss.item(), radii_loss.item())
-                )
+                try:
+                    print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f} - tcl_loss: {:.4f} - sin_loss: {:.4f} - cos_loss: {:.4f} - radii_loss: {:.4f}'.format(
+                        i, len(train_loader), loss.item(), tr_loss.item(), tcl_loss.item(), sin_loss.item(), cos_loss.item(), radii_loss.item())
+                    )
+                except:
+                    print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f}'.format(
+                        i, len(train_loader), loss.item(), tr_loss.item())
+                    )
 
             if i % cfg.log_freq == 0:
-                logger.write_scalars({
-                    'loss': loss.item(),
-                    'tr_loss': tr_loss.item(),
-                    'tcl_loss': tcl_loss.item(),
-                    'sin_loss': sin_loss.item(),
-                    'cos_loss': cos_loss.item(),
-                    'radii_loss': radii_loss.item()
-                }, tag='train', n_iter=train_step)
+                try:
+                    logger.write_scalars({
+                        'loss': loss.item(),
+                        'tr_loss': tr_loss.item(),
+                        'tcl_loss': tcl_loss.item(),
+                        'sin_loss': sin_loss.item(),
+                        'cos_loss': cos_loss.item(),
+                        'radii_loss': radii_loss.item()
+                    }, tag='train', n_iter=train_step)
+                except:
+                    logger.write_scalars({
+                        'loss': loss.item(),
+                        'tr_loss': tr_loss.item()
+                    }, tag='train', n_iter=train_step)
 
         if epoch % cfg.save_freq == 0:
             self.save_model(model, epoch, scheduler.get_lr(), optimizer)
@@ -217,12 +228,18 @@ class Detector():
             self.convert_mat_to_txt(input_name, output_name)
             
             
-    def Convert_Json_To_Txt(self, json_anno_file=None, output_anno_folder=None):
+    def Convert_Json_To_Txt(self, img_folder=None, json_anno_file=None, output_anno_folder=None, output_img_folder=None):
         if(not os.path.isdir(output_anno_folder)):
             os.mkdir(output_anno_folder);
         else:
             os.system("rm -r " + output_anno_folder);
             os.mkdir(output_anno_folder);
+            
+        if(not os.path.isdir(output_img_folder)):
+            os.mkdir(output_img_folder);
+        else:
+            os.system("rm -r " + output_img_folder);
+            os.mkdir(output_img_folder);
             
         with open(json_anno_file) as json_file:
             data = json.load(json_file)
@@ -254,7 +271,8 @@ class Detector():
             img_name = complete_img_name_list[i];
 
             if(len(anno) > 0):
-                anno_file = "annos/" + img_name.split(".")[0] + ".txt";
+                os.system("cp " + img_folder + "/" + img_name + " " + output_img_folder + "/");
+                anno_file = output_anno_folder + "/" + img_name.split(".")[0] + ".txt";
                 f = open(anno_file, 'w');
                 #print(anno, os.path.isfile("train2014/" + img_name))
                 for j in range(len(anno)):
@@ -446,6 +464,8 @@ class Detector():
                                 transform=BaseTransform(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
                             )
                 val_loader = data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False, num_workers=cfg.num_workers)
+            else:
+                valset=None;
                 
         elif(self.system_dict["params"]["annotation_type"] == "mat"):
             trainset = TotalText_mat(
@@ -466,6 +486,8 @@ class Detector():
                                 transform=BaseTransform(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
                             )
                 val_loader = data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False, num_workers=cfg.num_workers)
+            else:
+                valset=None;
                 
         log_dir = os.path.join(cfg.log_dir, datetime.now().strftime('%b%d_%H-%M-%S_') + cfg.exp_name)
         logger = LogSummary(log_dir)
