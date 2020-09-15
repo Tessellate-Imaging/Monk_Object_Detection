@@ -156,8 +156,11 @@ class Padding(object):
     def __call__(self, image, polygons=None):
         if np.random.randint(2):
             return image, polygons
-
-        height, width, depth = image.shape
+        try:
+            height, width, depth = image.shape
+        except:
+            height, width = image.shape
+            depth = 1;
         ratio = np.random.uniform(1, 2)
         left = np.random.uniform(0, width * ratio - width)
         top = np.random.uniform(0, height * ratio - height)

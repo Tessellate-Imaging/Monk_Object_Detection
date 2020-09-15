@@ -4,7 +4,9 @@ from datetime import datetime
 import scipy.io as io
 import numpy as np
 from tqdm import tqdm
+import cv2
 
+import json
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
@@ -107,19 +109,30 @@ class Detector():
                 #print(sin_loss.item())
                 #print(cos_loss.item())
                 #print(radii_loss.item())
-                print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f} - tcl_loss: {:.4f} - sin_loss: {:.4f} - cos_loss: {:.4f} - radii_loss: {:.4f}'.format(
-                    i, len(train_loader), loss.item(), tr_loss.item(), tcl_loss.item(), sin_loss.item(), cos_loss.item(), radii_loss.item())
-                )
+                try:
+                    print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f} - tcl_loss: {:.4f} - sin_loss: {:.4f} - cos_loss: {:.4f} - radii_loss: {:.4f}'.format(
+                        i, len(train_loader), loss.item(), tr_loss.item(), tcl_loss.item(), sin_loss.item(), cos_loss.item(), radii_loss.item())
+                    )
+                except:
+                    print('({:d} / {:d}) - Loss: {:.4f} - tr_loss: {:.4f}'.format(
+                        i, len(train_loader), loss.item(), tr_loss.item())
+                    )
 
             if i % cfg.log_freq == 0:
-                logger.write_scalars({
-                    'loss': loss.item(),
-                    'tr_loss': tr_loss.item(),
-                    'tcl_loss': tcl_loss.item(),
-                    'sin_loss': sin_loss.item(),
-                    'cos_loss': cos_loss.item(),
-                    'radii_loss': radii_loss.item()
-                }, tag='train', n_iter=train_step)
+                try:
+                    logger.write_scalars({
+                        'loss': loss.item(),
+                        'tr_loss': tr_loss.item(),
+                        'tcl_loss': tcl_loss.item(),
+                        'sin_loss': sin_loss.item(),
+                        'cos_loss': cos_loss.item(),
+                        'radii_loss': radii_loss.item()
+                    }, tag='train', n_iter=train_step)
+                except:
+                    logger.write_scalars({
+                        'loss': loss.item(),
+                        'tr_loss': tr_loss.item()
+                    }, tag='train', n_iter=train_step)
 
         if epoch % cfg.save_freq == 0:
             self.save_model(model, epoch, scheduler.get_lr(), optimizer)
@@ -214,7 +227,70 @@ class Detector():
             output_name = output_anno_folder + "/" + gt_list[i].split(".")[0] + ".txt";
 
             self.convert_mat_to_txt(input_name, output_name)
+            
+            
+    def Convert_Json_To_Txt(self, img_folder=None, json_anno_file=None, output_anno_folder=None, output_img_folder=None):
+        if(not os.path.isdir(output_anno_folder)):
+            os.mkdir(output_anno_folder);
+        else:
+            os.system("rm -r " + output_anno_folder);
+            os.mkdir(output_anno_folder);
+            
+        if(not os.path.isdir(output_img_folder)):
+            os.mkdir(output_img_folder);
+        else:
+            os.system("rm -r " + output_img_folder);
+            os.mkdir(output_img_folder);
+            
+        with open(json_anno_file) as json_file:
+            data = json.load(json_file)
+            
+        anno_key_list = list(data["anns"].keys())
+        img_key_list = list(data["imgs"].keys())
+        complete_img_id_list = [];
+        complete_img_name_list = [];
+        complete_anno_list = [];
+        for i in tqdm(range(len(img_key_list))):
+            imgs = data["imgs"][img_key_list[i]];
+            complete_img_id_list.append(imgs['id']);
+            complete_img_name_list.append(imgs['file_name'])
+            complete_anno_list.append([])
         
+        for i in tqdm(range(len(anno_key_list))):
+            anno = data["anns"][anno_key_list[i]];
+            image_id = anno["image_id"];
+            mask = anno["mask"];
+            utf8_string = anno["utf8_string"];
+            class_name = anno["class"];
+            language = anno["language"];
+
+            index = complete_img_id_list.index(image_id)
+            complete_anno_list[index].append(mask)
+            
+        for i in tqdm(range(len(complete_anno_list))):
+            anno = complete_anno_list[i];
+            img_name = complete_img_name_list[i];
+
+            if(len(anno) > 0):
+                img = cv2.imread(img_folder + "/" + img_name);
+                try:
+                    h, w, c = img.shape
+                except:
+                    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB);
+                cv2.imwrite(output_img_folder + "/" + img_name, img);
+                
+                anno_file = output_anno_folder + "/" + img_name.split(".")[0] + ".txt";
+                f = open(anno_file, 'w');
+                #print(anno, os.path.isfile("train2014/" + img_name))
+                for j in range(len(anno)):
+                    tmp = anno[j];
+                    wr = "";
+                    for k in range(len(tmp)//2):
+                        wr += str(int(tmp[k*2])) + " " + str(int(tmp[k*2+1])) + " ";
+
+                    wr += "# # \n";
+                    f.write(wr);
+                f.close();
         
     
             
@@ -395,6 +471,8 @@ class Detector():
                                 transform=BaseTransform(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
                             )
                 val_loader = data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False, num_workers=cfg.num_workers)
+            else:
+                valset=None;
                 
         elif(self.system_dict["params"]["annotation_type"] == "mat"):
             trainset = TotalText_mat(
@@ -415,6 +493,8 @@ class Detector():
                                 transform=BaseTransform(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
                             )
                 val_loader = data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False, num_workers=cfg.num_workers)
+            else:
+                valset=None;
                 
         log_dir = os.path.join(cfg.log_dir, datetime.now().strftime('%b%d_%H-%M-%S_') + cfg.exp_name)
         logger = LogSummary(log_dir)
