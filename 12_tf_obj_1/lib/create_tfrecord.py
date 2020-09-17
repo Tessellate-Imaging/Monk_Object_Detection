@@ -46,7 +46,10 @@ def dict_to_tf(image_folder,
     
     if 'object' in data:
         for obj in data['object']:
-            difficult = bool(int(obj['difficult']))
+            if("difficult" in obj.keys()):
+                difficult = bool(int(obj['difficult']))
+            else:
+                difficult = 0;
             if ignore_difficult_instances and difficult:
                 continue
 
