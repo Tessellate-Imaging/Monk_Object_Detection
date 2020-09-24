@@ -29,6 +29,9 @@ Interns
   
 6) Kushagra Awasthi [Linkedin](https://www.linkedin.com/in/kushagra-awasthi-68b22714b/), [Github](https://github.com/Kushagra-awasthi)
   - July 2020 - Present
+  
+7) Aanisha Bhattacharyya [Linkedin](https://www.linkedin.com/in/aanisha-bhattacharyya/), [Github](https://github.com/Aanisha)
+  - Aug 2020 - Present
  
  
 Contributors
