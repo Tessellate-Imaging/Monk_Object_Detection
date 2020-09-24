@@ -11,7 +11,6 @@
 
 # Zoo contents
 
-
 | S.No. | Application                                             | Dataset                                                                              | Pipeline                           | Trained Model | How to use/create                                                                                                                                                                                   |
 |-------|---------------------------------------------------------|--------------------------------------------------------------------------------------|------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1     | Traffic Sign Recognition                                | [LINK](http://cvrr.ucsd.edu/LISA/lisa-traffic-sign-dataset.html)                     | EfficientDet                       | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_zoo/Example%20-%20LISA%20Traffic%20Sign%20Recognition%20(Multi-GPU).ipynb)                                   |
@@ -52,7 +51,7 @@
 | 36    | Monkey detection in the wild                            | [LINK](https://storage.googleapis.com/openimages/web/index.html)                     | Tf_Obj_1 - ssd_mobilenet_v1        | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Monkey%20detection%20in%20the%20wild.ipynb)                                      |
 | 37    | Text Localization over Total-Text Dataset               | [LINK](https://github.com/cs-chan/Total-Text-Dataset)                                | Pytorch_TextSnake                  | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Text%20Localization%20over%20Total-Text%20Dataset.ipynb)                         |
 | 38    | Lara Traffic Lights Detection Dataset                   | [LINK](http://www.lara.prd.fr/benchmarks/trafficlightsrecognition)                   | Mmdet - faster_rcnn_fpn50          | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Lara%20Traffic%20Lights%20Detection%20Dataset.ipynb)                             |
-
-
+| 39    | Brackish underwater creatures Detection                 | [Link](https://www.kaggle.com/aalgoruniversity/brackish-dataset/data)                | Mmdet - faster_rcnn_x101           | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Brackish%20Water%20Creatures%20Identification.ipynb)                             |
+| 40    | Soccer player detection in Thermal Imagery              | [LINK](https://www.kaggle.com/aalborguniversity/thermal-soccer-dataset)              | Mmdet - faster_rcnn_fpn50          | Available     | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Thermal%20Soccer%20-%20(Player%20Detection).ipynb)                               |
 
 
