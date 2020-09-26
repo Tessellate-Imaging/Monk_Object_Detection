@@ -1,4 +1,4 @@
-# List of all the pipeline available
+# List of all the pipelines available
 
 ### Note - Please see the individual pipeline license files before using them
 
