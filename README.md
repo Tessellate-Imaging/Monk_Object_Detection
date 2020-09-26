@@ -122,9 +122,11 @@
 
 
 ## Training Engine Algorithms
-    - Train models on custom dataset witjh low code syntax
+    - Train models on custom dataset with low code syntax
     - Pretrained examples on variety of datasets
     - Useful to train your own detector
+    
+### NOTE - See the licence file mentioned in the pipelines before using them
 
 | S.No. | Algorithm Type     | Algorithm                       | Model variations | Installation                                                                                            | Example Notebooks                                                                                                         | Code                                                                                                    | Credits                                                                                         | Functional Docs                                                |
 |-------|--------------------|---------------------------------|------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
@@ -175,6 +177,7 @@
     - https://github.com/qubvel/segmentation_models
     - https://github.com/biubug6/Pytorch_Retinaface
     - https://github.com/open-mmlab/mmaction2
+    - https://github.com/WXinlong/SOLO
 
 
 ## Author
