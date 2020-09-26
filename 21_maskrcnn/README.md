@@ -6,6 +6,13 @@ Pipeline based on Open-MMLAB MM-Detection project - https://github.com/open-mmla
 
 # Supported Models
   - mask_rcnn_r50_fpn
+  - mask_rcnn_r101_fpn
+  - mask_rcnn_x101_32x4d_fpn
+  - mask_rcnn_x101_32x4d_fpn
+  - cascade_mask_rcnn_r50_fpn
+  - cascade_mask_rcnn_r101_fpn
+  - cascade_mask_rcnn_r101_32x4d_fpn_coco
+  - cascade_mask_rcnn_r101_64x4d_fpn_coco
    
 
 <br />
