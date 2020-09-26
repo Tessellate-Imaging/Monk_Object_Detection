@@ -57,7 +57,9 @@ class Detector():
                                                     "decoupled_solo_resnet50", "decoupled_solo_resnet101",
                                                     "decoupled_solo_lite_resnet50", "decoupled_solo_lite_resnet50_dcn",
                                                     "solov2_resnet50", "solov2_resnet101",
-                                                    "solov2_resnet101_dcn", "solov2_rexnext101_dcn"]
+                                                    "solov2_resnet101_dcn", "solov2_rexnext101_dcn",
+                                                    "solov2_lite_resnet18", "solov2_lite_resnet34",
+                                                    "solov2_lite_resnet50"]
         
         for i in range(len(self.system_dict["params"]["model_list"])):
             print("{}. Model - {}".format(i+1, self.system_dict["params"]["model_list"][i]));  
@@ -118,6 +120,21 @@ class Detector():
             if(not os.path.isfile("solov2_rexnext101_dcn_pretrained.pth")):
                 print("Downloading Model (Takes around 20 mins) ...");
                 os.system("wget https://cloudstor.aarnet.edu.au/plus/s/KV9PevGeV8r4Tzj/download -O solov2_rexnext101_dcn_pretrained.pth")
+                print("Done...");
+        elif(model_name == "solov2_lite_resnet18"):
+            if(not os.path.isfile("solov2_lite_resnet18_pretrained.pth")):
+                print("Downloading Model (Takes around 20 mins) ...");
+                os.system("wget https://cloudstor.aarnet.edu.au/plus/s/HwHys05haPvNyAY/download -O solov2_lite_resnet18_pretrained.pth")
+                print("Done...");
+        elif(model_name == "solov2_lite_resnet34"):
+            if(not os.path.isfile("solov2_lite_resnet34_pretrained.pth")):
+                print("Downloading Model (Takes around 20 mins) ...");
+                os.system("wget https://cloudstor.aarnet.edu.au/plus/s/QLQpXg9ny7sNA6X/download -O solov2_lite_resnet34_pretrained.pth")
+                print("Done...");
+        elif(model_name == "solov2_lite_resnet50"):
+            if(not os.path.isfile("solov2_lite_resnet50_pretrained.pth")):
+                print("Downloading Model (Takes around 20 mins) ...");
+                os.system("wget https://cloudstor.aarnet.edu.au/plus/s/cn1jABtVJwsbb2G/download -O solov2_lite_resnet50_pretrained.pth")
                 print("Done...");
                 
         
@@ -537,6 +554,138 @@ class Detector():
             f.close();
         elif(self.system_dict["local"]["model_name"] == "solov2_rexnext101_dcn"):
             f = open("Monk_Object_Detection/20_solo/lib/configs_base/solov2_rexnext101_dcn.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["save_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]));
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("num_classes=81",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "solov2_lite_resnet18"):
+            f = open("Monk_Object_Detection/20_solo/lib/configs_base/solov2_lite_resnet18.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["save_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]));
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("num_classes=81",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "solov2_lite_resnet34"):
+            f = open("Monk_Object_Detection/20_solo/lib/configs_base/solov2_lite_resnet34.py");
+            lines = f.read();
+            f.close();
+            
+            lines = lines.replace("samples_per_gpu=",
+                                  "samples_per_gpu=" + str(self.system_dict["params"]["batch_size"]));
+            lines = lines.replace("workers_per_gpu=",
+                                  "workers_per_gpu=" + str(self.system_dict["params"]["num_workers"]));
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["train_anno_file"]) + "',", 1);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 2);
+            lines = lines.replace("ann_file=,",
+                                  "ann_file='" + str(self.system_dict["params"]["val_anno_file"]) + "',", 3);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["train_img_folder"]) + "/',", 1);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 2);
+            lines = lines.replace("img_prefix=,",
+                                  "img_prefix='" + str(self.system_dict["params"]["val_img_folder"]) + "/',", 3);
+            lines = lines.replace("checkpoint_config = dict(interval=",
+                                  "checkpoint_config = dict(interval=" + str(self.system_dict["params"]["save_interval"]));
+            lines = lines.replace("lr=",
+                                  "lr=" + str(self.system_dict["params"]["lr"]));
+            lines = lines.replace("momentum=",
+                                  "momentum=" + str(self.system_dict["params"]["momentum"]));
+            lines = lines.replace("weight_decay=",
+                                  "weight_decay=" + str(self.system_dict["params"]["weight_decay"]));
+            lines = lines.replace("total_epochs =",
+                                  "total_epochs =" + str(self.system_dict["params"]["num_epochs"]));
+            lines = lines.replace("num_classes=81",
+                                  "num_classes=" + str(len(self.system_dict["params"]["classes"])));
+
+            if(self.system_dict["params"]["num_epochs"] >= 3):
+                steps = [self.system_dict["params"]["num_epochs"]//3, 2*self.system_dict["params"]["num_epochs"]//3];
+            else:
+                steps = [1];
+            lines = lines.replace("step=",
+                                  "step=" + str(steps));
+
+            f = open("config_updated.py", 'w');
+            f.write(lines);
+            f.close();
+        elif(self.system_dict["local"]["model_name"] == "solov2_lite_resnet50"):
+            f = open("Monk_Object_Detection/20_solo/lib/configs_base/solov2_lite_resnet50.py");
             lines = f.read();
             f.close();
             
