@@ -124,6 +124,6 @@ device_ids = range(8)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/decoupled_solo_light_resnet50'
-load_from = 'decoupled_solo_lite_resnet50_pretrained'
+load_from = 'decoupled_solo_lite_resnet50_pretrained.pth'
 resume_from = None
 workflow = [('train', 1)]
