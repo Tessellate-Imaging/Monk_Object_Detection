@@ -6,6 +6,19 @@ Pipeline based on SOLO Image Segmentation Project - https://github.com/WXinlong/
 
 # Supported Models
   - solo_resnet50
+  - solo_resnet101
+  - decoupled_solo_resnet50
+  - decoupled_solo_resnet101
+  - decoupled_solo_lite_resnet50
+  - decoupled_solo_lite_resnet50_dc
+  - solov2_resnet50
+  - solov2_resnet101
+  - solov2_resnet101_dcn
+  - solov2_rexnext101_dcn
+  - solov2_lite_resnet18
+  - solov2_lite_resnet34
+  - solov2_lite_resnet50
+  - solov2_lite_resnet50_dcn
    
 
 <br />
