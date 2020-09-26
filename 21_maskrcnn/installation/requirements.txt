@@ -1,0 +1,32 @@
+numpy
+scipy
+scikit-learn
+opencv-python
+torch==1.4.0
+torchvision==0.5.0
+cython
+pycocotools@git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools
+albumentations>=0.3.2
+cityscapesscripts
+imagecorruptions
+mmcv-full==1.0.5
+numpy
+# need older pillow until torchvision is fixed
+Pillow<=6.2.2
+six
+terminaltables
+matplotlib
+asynctest
+codecov
+flake8
+isort
+# Note: used for kwarray.group_items, this may be ported to mmcv in the future.
+kwarray
+pytest
+pytest-cov
+pytest-runner
+ubelt
+xdoctest >= 0.10.0
+yapf
+jupyter
+notebook
