@@ -7,6 +7,9 @@
 
 ### Monk org developed the tutorials only for research purposes, helping developers learn the field of AI and DL
 
+<br />
+<br />
+
 
 ## Training and Inference examples with Pretrained Models
 
@@ -66,6 +69,7 @@
 | 51    | PanNuke Cell Type instance segmentation                 | [LINK](https://www.kaggle.com/andrewmvd/cancer-inst-segmentation-and-classification)  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20PanNuke%20Dataset%20CellType%20Instance%20Segmentation.ipynb)                    |
 
 
-
+<br />
+<br />
 
 ## Training and Inference examples without Pretrained Models 
