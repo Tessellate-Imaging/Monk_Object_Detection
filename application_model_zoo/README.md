@@ -67,6 +67,7 @@
 | 50    | Ship Recognition Dataset                                | [LINK](http://www.lmars.whu.edu.cn/prof_web/shaozhenfeng/datasets/SeaShips(7000).zip) | Tf_Obj_1 - ssd_mobilenet_v3_large  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Ship%20Detection%20Dataset.ipynb)                                                |
 | 51    | PanNuke Cell Type instance segmentation                 | [LINK](https://www.kaggle.com/andrewmvd/cancer-inst-segmentation-and-classification)  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20PanNuke%20Dataset%20CellType%20Instance%20Segmentation.ipynb)                    |
 | 52    | CitySeg Dataset Road and Houses Segmentation            | [LINK](https://www.kaggle.com/cceekkigg/berlin-aoi-dataset)                           | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20CitySeg%20Dataset%20Road%20and%20Houses%20Segmentation.ipynb)                    |
+| 53    | Water Body Segmentation Dataset                         | [LINK](https://www.kaggle.com/franciscoescobar/satellite-images-of-water-bodies)      | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Water%20Body%20Segmentation.ipynb)                                               |
 
 
 <br />
