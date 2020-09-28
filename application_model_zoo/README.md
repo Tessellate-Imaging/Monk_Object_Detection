@@ -68,6 +68,8 @@
 | 51    | PanNuke Cell Type instance segmentation                 | [LINK](https://www.kaggle.com/andrewmvd/cancer-inst-segmentation-and-classification)  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20PanNuke%20Dataset%20CellType%20Instance%20Segmentation.ipynb)                    |
 | 52    | CitySeg Dataset Road and Houses Segmentation            | [LINK](https://www.kaggle.com/cceekkigg/berlin-aoi-dataset)                           | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20CitySeg%20Dataset%20Road%20and%20Houses%20Segmentation.ipynb)                    |
 | 53    | Water Body Segmentation Dataset                         | [LINK](https://www.kaggle.com/franciscoescobar/satellite-images-of-water-bodies)      | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Water%20Body%20Segmentation.ipynb)                                               |
+| 54    | Road Segmentation in satellite images                   | [LINK](https://www.kaggle.com/srikaranand/road-segmentation-dataset)                  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Road%20Segmentation%20in%20Satellite%20Images%20-%202.ipynb)                     |
+
 
 
 <br />
