@@ -8,7 +8,7 @@
 ### Monk org developed the tutorials only for research purposes, helping developers learn the field of AI and DL
 
 
-# Training and Inference examples with Pretrained Models
+## Training and Inference examples with Pretrained Models
 
 
 | S.No. | Application                                             | Dataset                                                                               | Pipeline                           | How to use/create                                                                                                                                                                                   |
@@ -63,9 +63,9 @@
 | 48    | Linkpings Traffic Sign Recognition Dataset              | [LINK](http://www.cvl.isy.liu.se/research/datasets/traffic-signs-dataset/)            | Mmdet - cascade_rcnn_fpn101        | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Linkopings%20Traffic%20Sign%20Dataset.ipynb)                                     |
 | 49    | MIO-TCD Vehicle Recognition Dataset                     | [LINK](http://podoce.dinf.usherbrooke.ca/challenge/dataset/)                          | Mmdet - retinanet_r50_fpn          | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20MIO-TCD%20Vehicle%20Localization%20Dataset.ipynb)                                |
 | 50    | Ship Recognition Dataset                                | [LINK](http://www.lmars.whu.edu.cn/prof_web/shaozhenfeng/datasets/SeaShips(7000).zip) | Tf_Obj_1 - ssd_mobilenet_v3_large  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Ship%20Detection%20Dataset.ipynb)                                                |
+| 51    | PanNuke Cell Type instance segmentation                 | [LINK](https://www.kaggle.com/andrewmvd/cancer-inst-segmentation-and-classification)  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20PanNuke%20Dataset%20CellType%20Instance%20Segmentation.ipynb)                    |
 
 
 
 
-
-# Training and Inference examples without Pretrained Models 
+## Training and Inference examples without Pretrained Models 
