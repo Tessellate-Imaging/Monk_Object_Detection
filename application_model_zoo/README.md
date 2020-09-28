@@ -70,7 +70,7 @@
 | 53    | Water Body Segmentation Dataset                         | [LINK](https://www.kaggle.com/franciscoescobar/satellite-images-of-water-bodies)      | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Water%20Body%20Segmentation.ipynb)                                               |
 | 54    | Road Segmentation in satellite images                   | [LINK](https://www.kaggle.com/srikaranand/road-segmentation-dataset)                  | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Road%20Segmentation%20in%20Satellite%20Images%20-%202.ipynb)                     |
 | 55    | Oil tanks detection in satellite images                 | [LINK](https://www.kaggle.com/towardsentropy/oil-storage-tanks)                       | Pytorch_RetinaNet                  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Oil%20Tanks%20Detection%20in%20Satellite%20Imagery.ipynb)                        |
-
+| 56    | OCR over yymist dataset                                 | [LINK](https://github.com/YunYang1994/yymnist)                                        | Pytorch_RetinaNet                  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20OCR%20over%20YYMnist%20Dataset.ipynb)                                            |
 
 <br />
 
