@@ -78,3 +78,9 @@
 <br />
 
 ## Training and Inference examples without Pretrained Models 
+
+| S.No. | Application                  | Dataset                                                   | Pipeline            | How to use/create                                                                                                                                          |
+|-------|------------------------------|-----------------------------------------------------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Underwater Fish Segmentation | [LINK](http://groups.inf.ed.ac.uk/f4k/GROUNDTRUTH/RECOG/) | Segmentation_Models | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Underwater%20Fish%20Segmentation.ipynb) |
+
+
