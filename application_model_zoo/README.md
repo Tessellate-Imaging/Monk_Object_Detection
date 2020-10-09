@@ -72,6 +72,7 @@
 | 55    | Oil tanks detection in satellite images                 | [LINK](https://www.kaggle.com/towardsentropy/oil-storage-tanks)                       | Pytorch_RetinaNet                  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Oil%20Tanks%20Detection%20in%20Satellite%20Imagery.ipynb)                        |
 | 56    | OCR over yymist dataset                                 | [LINK](https://github.com/YunYang1994/yymnist)                                        | Pytorch_RetinaNet                  | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20OCR%20over%20YYMnist%20Dataset.ipynb)                                            |
 | 57    | SUIM Dataset Underwater Image Segmentation              | [LINK](http://irvlab.cs.umn.edu/resources/suim-dataset)                               | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20SUIM%20Dataset%20Underwater%20Object%20Segmentation.ipynb)                       |
+| 58    | Underwater Trash Segmentation                           | [LINK](https://conservancy.umn.edu/handle/11299/214865)                               | Segmentation_Models                | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/application_model_zoo/Example%20-%20Underwater%20Trash%20Segmentation.ipynb)                                         |
 
 
 <br />
