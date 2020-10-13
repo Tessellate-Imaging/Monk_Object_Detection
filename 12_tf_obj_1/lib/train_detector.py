@@ -1180,7 +1180,7 @@ class Detector():
         self.system_dict["batch_size"] = batch_size;
         self.system_dict["trainval_split"] = trainval_split;
         self.system_dict["class_list_file"] = class_list_file;
-        
+        self.system_dict["only_eval"] = False;
         
     def set_val_dataset(self, img_dir, label_dir):
         self.system_dict["val_img_dir"] = img_dir;

@@ -126,81 +126,196 @@ def create():
         
     
     label_map_dict = label_map_util.get_label_map_dict(args["label_map"])
+
+
+    if(not args["only_eval"]):
     
-    if(not args["val_anno_dir"]):
-        anno_list = os.listdir(args["train_anno_dir"]);
-        num_train = int(len(anno_list)*args["trainval_split"])
-        random.shuffle(anno_list)
-        train_list = anno_list[:num_train];
-        val_list = anno_list[num_train:];
-        args["val_img_dir"] = args["train_img_dir"]
-        args["val_anno_dir"] = args["train_anno_dir"]
+        if(not args["val_anno_dir"]):
+            anno_list = os.listdir(args["train_anno_dir"]);
+            num_train = int(len(anno_list)*args["trainval_split"])
+            random.shuffle(anno_list)
+            train_list = anno_list[:num_train];
+            val_list = anno_list[num_train:];
+            args["val_img_dir"] = args["train_img_dir"]
+            args["val_anno_dir"] = args["train_anno_dir"]
+        else:
+            train_list = os.listdir(args["train_anno_dir"]);
+            val_list = os.listdir(args["val_anno_dir"]);
+            
+        
+        if(not os.path.isfile(args["output_path"] + "/train.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/train.record")
+            print('Reading training dataset.')
+            for i in tqdm(range(len(train_list))):
+
+                path = args["train_anno_dir"] + "/" + train_list[i]
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+
+                tf_record = dict_to_tf(args["train_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
+
+                #break;
+            writer.close();
+        else:
+            print('Training tfrecord already present at {}.'.format(args["output_path"] + "/train.record"))
+        
+        if(not os.path.isfile(args["output_path"] + "/val.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/val.record")
+            print('Reading validation dataset.')
+            for i in tqdm(range(len(val_list))):
+                
+                path = args["val_anno_dir"] + "/" + val_list[i]
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+
+                tf_record = dict_to_tf(args["val_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
+
+                #break;
+            writer.close();
+        else:
+            print('Validation tfrecord already present at {}.'.format(args["output_path"] + "/val.record"))
+        
+        with open('system_dict.json', 'w') as json_file:
+            json.dump(args, json_file)  
     else:
-        train_list = os.listdir(args["train_anno_dir"]);
-        val_list = os.listdir(args["val_anno_dir"]);
+        if(not os.path.isfile(args["output_path"] + "/external_val.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/external_val.record")
+            print('Reading validation dataset.')
+            for i in tqdm(range(len(val_list))):
+                
+                path = args["val_anno_dir"] + "/" + val_list[i]
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+
+                tf_record = dict_to_tf(args["val_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
+
+                #break;
+            writer.close();
+        else:
+            print('Validation tfrecord already present at {}.'.format(args["output_path"] + "/val.record"))
+        
+        with open('system_dict.json', 'w') as json_file:
+            json.dump(args, json_file)
+    
+
+def create_val():
+    with open('system_dict_val.json') as json_file:
+        args = json.load(json_file)
+        
+    f = open(args["class_list_file"], 'r');
+    lines = f.readlines();
+    f.close();
+             
+    
+    args["label_map"], args["num_classes"] = list_to_pbtxt(lines);
+    
+    
+    
+    if(not os.path.isdir(args["output_path"])):
+        os.mkdir(args["output_path"]);
         
     
-    if(not os.path.isfile(args["output_path"] + "/train.record")):
-        writer = tf.python_io.TFRecordWriter(args["output_path"] + "/train.record")
-        print('Reading training dataset.')
-        for i in tqdm(range(len(train_list))):
+    label_map_dict = label_map_util.get_label_map_dict(args["label_map"])
 
-            path = args["train_anno_dir"] + "/" + train_list[i]
-            with tf.gfile.GFile(path, 'r') as fid:
-                xml_str = fid.read()
-            xml = etree.fromstring(xml_str)
-            data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
 
-            tf_record = dict_to_tf(args["train_img_dir"],
-                                               data,
-                                               label_map_dict)
-            writer.write(tf_record.SerializeToString())
-
-            #break;
-        writer.close();
-    else:
-        print('Training tfrecord already present at {}.'.format(args["output_path"] + "/train.record"))
+    if(not args["only_eval"]):
     
-    if(not os.path.isfile(args["output_path"] + "/val.record")):
-        writer = tf.python_io.TFRecordWriter(args["output_path"] + "/val.record")
-        print('Reading validation dataset.')
-        for i in tqdm(range(len(val_list))):
+        if(not args["val_anno_dir"]):
+            anno_list = os.listdir(args["train_anno_dir"]);
+            num_train = int(len(anno_list)*args["trainval_split"])
+            random.shuffle(anno_list)
+            train_list = anno_list[:num_train];
+            val_list = anno_list[num_train:];
+            args["val_img_dir"] = args["train_img_dir"]
+            args["val_anno_dir"] = args["train_anno_dir"]
+        else:
+            train_list = os.listdir(args["train_anno_dir"]);
+            val_list = os.listdir(args["val_anno_dir"]);
             
-            path = args["val_anno_dir"] + "/" + val_list[i]
-            with tf.gfile.GFile(path, 'r') as fid:
-                xml_str = fid.read()
-            xml = etree.fromstring(xml_str)
-            data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+        
+        if(not os.path.isfile(args["output_path"] + "/train.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/train.record")
+            print('Reading training dataset.')
+            for i in tqdm(range(len(train_list))):
 
-            tf_record = dict_to_tf(args["val_img_dir"],
-                                               data,
-                                               label_map_dict)
-            writer.write(tf_record.SerializeToString())
+                path = args["train_anno_dir"] + "/" + train_list[i]
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
 
-            #break;
-        writer.close();
+                tf_record = dict_to_tf(args["train_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
+
+                #break;
+            writer.close();
+        else:
+            print('Training tfrecord already present at {}.'.format(args["output_path"] + "/train.record"))
+        
+        if(not os.path.isfile(args["output_path"] + "/val.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/val.record")
+            print('Reading validation dataset.')
+            for i in tqdm(range(len(val_list))):
+                
+                path = args["val_anno_dir"] + "/" + val_list[i]
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+
+                tf_record = dict_to_tf(args["val_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
+
+                #break;
+            writer.close();
+        else:
+            print('Validation tfrecord already present at {}.'.format(args["output_path"] + "/val.record"))
+        
+        with open('system_dict_val.json', 'w') as json_file:
+            json.dump(args, json_file)  
     else:
-        print('Validation tfrecord already present at {}.'.format(args["output_path"] + "/val.record"))
-    
-    with open('system_dict.json', 'w') as json_file:
-        json.dump(args, json_file)  
-    
-    
+        val_list = os.listdir(args["val_anno_dir"]);
+        if(not os.path.isfile(args["output_path"] + "/external_val.record")):
+            writer = tf.python_io.TFRecordWriter(args["output_path"] + "/external_val.record")
+            print('Reading validation dataset.')
+            for i in tqdm(range(len(val_list))):
+                
+                path = args["val_anno_dir"] + "/" + val_list[i]
+                #print(path)
+                with tf.gfile.GFile(path, 'r') as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
 
+                tf_record = dict_to_tf(args["val_img_dir"],
+                                                   data,
+                                                   label_map_dict)
+                writer.write(tf_record.SerializeToString())
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                #break;
+            writer.close();
+        else:
+            print('Validation tfrecord already present at {}.'.format(args["output_path"] + "/val.record"))
+        
+        with open('system_dict_val.json', 'w') as json_file:
+            json.dump(args, json_file)
     
