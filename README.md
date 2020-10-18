@@ -159,6 +159,23 @@
 <br />
 
 
+
+## Inference Engine Algorithms
+    - Infer already trained models on COCO/VOC/Open-Images on your custom data
+    - Useful to analyse computation time metrics
+
+| S.No. | Algorithm Type   | Algorithm            | Model Valriations | Model Trained On | Installation                                                                                     | Example Notebook                                                                                                                                                         | Code                                                                                                                                                                 | Credits                                                                                                           | Functional Docs                                                       |
+|-------|------------------|----------------------|-------------------|------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| 1     | Object Detection | GluonCV Finetune     | 4                 | COCO             | Pascal VOC                                                                                       | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine)                                                                         | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20GluonCV%20Finetune.ipynb) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/gluoncv_finetune) | [LINK](https://gluon-cv.mxnet.io/build/examples_detection/index.html) |
+| 2     | Object Detection | Pytorch EfficientDet | 8                 | COCO             | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20EfficientDet%20Pytorch.ipynb) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/efficientdet_pytorch)                                                | [LINK](https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch)                                               | In Development                                                        |
+| 3     | Object Detection | Detecto-RS           | 2                 | COCO             | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine) | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/example_notebooks/inference_engine/Object%20Detection%20-%20Detecto_RS.ipynb)             | [LINK](https://github.com/Tessellate-Imaging/Monk_Object_Detection/tree/master/inference_engine/detecto_rs)                                                          | [LINK](https://github.com/joe-siyuan-qiao/DetectoRS)                                                              | In Development                                                        |
+
+
+<br />
+<br />
+<br />
+
+
 ## Aknowledgements
   - Contributors' information can be found here: https://github.com/Tessellate-Imaging/Monk_Object_Detection/blob/master/Contributors.md
   - Majority of the code is obtained from these pipelines (Monk is a low code wrapper to utilize these pipelines)
