@@ -198,6 +198,7 @@
     - https://github.com/open-mmlab/mmaction2
     - https://github.com/WXinlong/SOLO
     - https://gluon-cv.mxnet.io/build/examples_pose/dive_deep_simple_pose.html
+    - https://github.com/Cartucho/mAP
 
 
 ## Author
