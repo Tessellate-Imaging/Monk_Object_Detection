@@ -42,7 +42,7 @@ def exif_size(img):
 
 
 class LoadImages:  # for inference
-    def __init__(self, path, img_size=416, half=False):
+    def __init__(self, path, img_size=416, half=False, verbose=True):
         path = str(Path(path))  # os-agnostic
         files = []
         if os.path.isdir(path):
@@ -54,6 +54,7 @@ class LoadImages:  # for inference
         videos = [x for x in files if os.path.splitext(x)[-1].lower() in vid_formats]
         nI, nV = len(images), len(videos)
 
+        self.verbose = verbose
         self.img_size = img_size
         self.files = images + videos
         self.nF = nI + nV  # number of files
@@ -90,14 +91,16 @@ class LoadImages:  # for inference
                     ret_val, img0 = self.cap.read()
 
             self.frame += 1
-            print('video %g/%g (%g/%g) %s: ' % (self.count + 1, self.nF, self.frame, self.nframes, path), end='')
+            if(self.verbose):
+                print('video %g/%g (%g/%g) %s: ' % (self.count + 1, self.nF, self.frame, self.nframes, path), end='')
 
         else:
             # Read image
             self.count += 1
             img0 = cv2.imread(path)  # BGR
             assert img0 is not None, 'Image Not Found ' + path
-            print('image %g/%g %s: ' % (self.count, self.nF, path), end='')
+            if(self.verbose):
+                print('image %g/%g %s: ' % (self.count, self.nF, path), end='')
 
         # Padded resize
         img = letterbox(img0, new_shape=self.img_size)[0]
