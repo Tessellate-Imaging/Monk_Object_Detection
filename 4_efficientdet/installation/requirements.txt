@@ -6,7 +6,7 @@ pandas
 cython
 tqdm
 
-pillow==6.0.0
+pillow==8.3.2
 opencv-python
 
 torchvision==0.5
