@@ -8,7 +8,7 @@ pandas
 boto3
 pycocotools
 
-pillow==6.0.0
+pillow==9.0.1
 opencv-python
 
 jupyter 
