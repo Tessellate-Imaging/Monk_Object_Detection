@@ -96,9 +96,10 @@ class Infer():
                 for box_id in range(boxes.shape[0]):
                     pred_prob = float(scores[box_id])
                     if pred_prob < vis_threshold:
-                        break
+                        continue
                     pred_label = int(labels[box_id])
                     xmin, ymin, xmax, ymax = boxes[box_id, :]
+                    xmin, ymin, xmax, ymax  = int(xmin), int(ymin), int(xmax), int(ymax) 
                     color = colors[pred_label]
                     cv2.rectangle(output_image, (xmin, ymin), (xmax, ymax), color, 2)
                     text_size = cv2.getTextSize(class_list[pred_label] + ' : %.2f' % pred_prob, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
