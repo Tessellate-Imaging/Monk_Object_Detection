@@ -6,7 +6,7 @@ opencv-python
 pillow
 pandas
 tqdm
-tensorflow-gpu==2.3.0
+tensorflow-gpu==2.9.3
 jupyter 
 notebook
 pycocotools
